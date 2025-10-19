@@ -65,61 +65,76 @@
 @import "tailwindcss";
 
 :root {
-  /* 메인 컬러 - 더 모던하고 트렌디한 팔레트 */
-  --primary-green: #00C896;
-  --primary-green-dark: #00A67A;
-  --primary-green-light: #E6F7F2;
-  --primary-blue: #2563EB;
-  --primary-blue-dark: #1D4ED8;
-  --primary-blue-light: #EFF6FF;
-  --accent-lime: #FDE047;
-  --accent-lime-dark: #FACC15;
+  /* PRD 기준 컬러 토큰 (라이트/다크 동등 설계) */
+  --primary-green: #0BA360;
+  --primary-green-dark: #19C37D;
+  --primary-blue: #2364AA;
+  --primary-blue-dark: #3D8BFF;
+  --accent-lime: #C7F000;
   
-  /* 중성 컬러 - 더 세련된 그레이 스케일 */
+  /* 중성 컬러 (PRD 기준) */
   --neutral-ink: #0F172A;
-  --neutral-900: #1E293B;
-  --neutral-800: #334155;
-  --neutral-700: #475569;
-  --neutral-600: #64748B;
-  --neutral-500: #94A3B8;
-  --neutral-400: #CBD5E1;
-  --neutral-300: #E2E8F0;
-  --neutral-200: #F1F5F9;
-  --neutral-100: #F8FAFC;
-  --neutral-50: #FEFEFE;
+  --neutral-sub: #334155;
+  --neutral-border: #E2E8F0;
+  --neutral-surface: #F8FAFC;
   
   /* 상태 컬러 */
   --status-success: #10B981;
-  --status-success-light: #D1FAE5;
   --status-warning: #F59E0B;
-  --status-warning-light: #FEF3C7;
   --status-danger: #EF4444;
-  --status-danger-light: #FEE2E2;
   --status-info: #3B82F6;
-  --status-info-light: #DBEAFE;
   
-  /* 그라데이션 */
-  --gradient-primary: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  /* 다크 모드 컬러 */
+  --dark-primary-green: #19C37D;
+  --dark-primary-blue: #3D8BFF;
+  --dark-accent-lime: #B8E600; /* 채도·밝기 하향 */
+  --dark-neutral-ink: #F8FAFC;
+  --dark-neutral-sub: #E2E8F0;
+  --dark-neutral-border: #334155;
+  --dark-neutral-surface: #0F172A;
   
-  /* 그림자 */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* 타이포그래피 스케일 (모바일 기준, px) */
+  --text-display: 2.25rem;  /* 36px */
+  --text-h1: 1.75rem;       /* 28px */
+  --text-h2: 1.375rem;      /* 22px */
+  --text-h3: 1.125rem;      /* 18px */
+  --text-body: 1rem;        /* 16px */
+  --text-sub: 0.875rem;     /* 14px */
+  --text-cap: 0.75rem;      /* 12px */
   
-  /* 타이포그래피 스케일 */
-  --text-xs: 0.75rem;    /* 12px */
-  --text-sm: 0.875rem;   /* 14px */
-  --text-base: 1rem;     /* 16px */
-  --text-lg: 1.125rem;   /* 18px */
-  --text-xl: 1.25rem;    /* 20px */
-  --text-2xl: 1.5rem;    /* 24px */
-  --text-3xl: 1.875rem;  /* 30px */
-  --text-4xl: 2.25rem;   /* 36px */
-  --text-5xl: 3rem;      /* 48px */
-  --text-6xl: 3.75rem;   /* 60px */
+  /* 행간 */
+  --line-height-head: 1.2;
+  --line-height-body: 1.6;
+  --line-height-caption: 1.4;
+  
+  /* 간격 (4/8/12/16/24/32/48/64) */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  
+  /* 라운드 */
+  --radius-card: 1rem;    /* 16px */
+  --radius-button: 0.75rem; /* 12px */
+  --radius-input: 0.75rem;  /* 12px */
+  
+  /* 그림자 (최소 사용) */
+  --shadow-subtle: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  
+  /* 모션 */
+  --motion-fast: 160ms;
+  --motion-normal: 240ms;
+  --motion-ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  
+  /* 컨테이너 */
+  --container-mobile: 100%;
+  --container-max: 42.5rem;  /* 680px */
+  --container-lg-max: 75rem; /* 1200px */
 }
 
 @layer base {

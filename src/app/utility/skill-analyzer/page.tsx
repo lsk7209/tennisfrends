@@ -287,7 +287,7 @@ export default function SkillAnalyzer() {
               </div>
               <div className="card-body">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {result.nextSteps.map((step: any, index: number) => (
+                  {result.nextSteps.map((step: { title: string; href: string }, index: number) => (
                     <Link
                       key={index}
                       href={step.href}
