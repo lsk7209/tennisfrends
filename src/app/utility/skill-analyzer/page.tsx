@@ -335,7 +335,7 @@ export default function SkillAnalyzer() {
               나의 테니스 실력은 몇 점?
             </h1>
             <p className="text-xl max-w-3xl mx-auto mb-8" style={{color: 'var(--neutral-sub)'}}>
-              전 세계에서 쓰는 테니스 등급 시스템 'NTRP'로 당신의 실력을 진단해보세요.
+              전 세계에서 쓰는 테니스 등급 시스템 &apos;NTRP&apos;로 당신의 실력을 진단해보세요.
             </p>
             
             {/* 정보 박스 */}

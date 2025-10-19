@@ -74,7 +74,7 @@ export default function FeatureCards() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {features.map((feature, index) => {
+          {features.map((feature) => {
             const colors = getColorStyles(feature.color);
             return (
               <div key={feature.title} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">

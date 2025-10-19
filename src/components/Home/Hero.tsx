@@ -3,13 +3,6 @@
 import Link from 'next/link';
 
 export default function Hero() {
-  const getTimeBasedGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 6) return '새벽 테니스는 어떠세요? 🌙';
-    if (hour < 12) return '좋은 아침입니다! ☀️';
-    if (hour < 18) return '오후 테니스 준비되셨나요? 🎾';
-    return '저녁 테니스 어떠세요? 🌅';
-  };
 
   return (
     <section className="relative py-20 md:py-32" style={{background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)'}}>
