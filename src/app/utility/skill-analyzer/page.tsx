@@ -323,17 +323,36 @@ export default function SkillAnalyzer() {
   }
 
   return (
-    <div className="py-20">
+    <div className="py-20 bg-white">
       <div className="container-custom">
-        <div className="max-w-2xl mx-auto">
-          {/* 헤더 */}
-          <div className="text-center mb-8">
-            <h1 className="text-h1 font-bold text-neutral-ink mb-4">
-              NTRP 실력 분석
+        <div className="max-w-4xl mx-auto">
+          {/* 헤더 섹션 */}
+          <div className="text-center mb-16">
+            <div className="inline-block px-4 py-2 rounded-full text-sm font-medium mb-6" style={{backgroundColor: '#DBEAFE', color: '#1E40AF'}}>
+              NTRP 테스트
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{color: 'var(--neutral-ink)'}}>
+              나의 테니스 실력은 몇 점?
             </h1>
-            <p className="text-body text-neutral-sub">
-              3단계 질문으로 정확한 실력 레벨을 파악하고 개선점을 찾아보세요
+            <p className="text-xl max-w-3xl mx-auto mb-8" style={{color: 'var(--neutral-sub)'}}>
+              전 세계에서 쓰는 테니스 등급 시스템 'NTRP'로 당신의 실력을 진단해보세요.
             </p>
+            
+            {/* 정보 박스 */}
+            <div className="bg-gray-100 rounded-2xl p-6 max-w-2xl mx-auto mb-12">
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{backgroundColor: 'var(--primary-green)'}}>
+                  i
+                </div>
+                <div className="text-left">
+                  <h3 className="text-lg font-bold mb-2" style={{color: 'var(--neutral-ink)'}}>NTRP란?</h3>
+                  <p className="text-base leading-relaxed" style={{color: 'var(--neutral-sub)'}}>
+                    National Tennis Rating Program의 약자로, 미국테니스협회(USTA)에서 개발한 테니스 실력 등급 시스템입니다. 
+                    1.5부터 7.0까지의 척도로 테니스 선수의 기술 수준을 평가합니다.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* 스테퍼 */}
@@ -359,37 +378,46 @@ export default function SkillAnalyzer() {
           </div>
 
           {/* 질문 */}
-          <div className="card">
-            <div className="card-header">
-              <h2 className="text-h2 font-bold text-neutral-ink mb-2">
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold mb-4" style={{color: 'var(--neutral-ink)'}}>
                 {questions[currentStep - 1].question}
               </h2>
             </div>
-            <div className="card-body">
-              <div className="space-y-4">
-                {questions[currentStep - 1].options.map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => handleAnswer(questions[currentStep - 1].id, option.value)}
-                    className="w-full p-4 text-left border border-neutral-border rounded-lg hover:border-primary-blue hover:bg-primary-blue/5 transition-colors"
-                  >
-                    <div className="font-medium text-neutral-ink mb-1">
-                      {option.label}
-                    </div>
-                    <div className="text-sub text-neutral-sub">
-                      {option.description}
-                    </div>
-                  </button>
-                ))}
-              </div>
+            <div className="space-y-4 mb-8">
+              {questions[currentStep - 1].options.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handleAnswer(questions[currentStep - 1].id, option.value)}
+                  className="w-full p-6 text-left border-2 border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
+                >
+                  <div className="text-lg font-semibold mb-2" style={{color: 'var(--neutral-ink)'}}>
+                    {option.label}
+                  </div>
+                  <div className="text-base" style={{color: 'var(--neutral-sub)'}}>
+                    {option.description}
+                  </div>
+                </button>
+              ))}
             </div>
-          </div>
-
-          {/* 진행률 */}
-          <div className="mt-8 text-center">
-            <p className="text-sub text-neutral-sub">
-              {currentStep} / {questions.length} 단계
-            </p>
+            
+            {/* 진행률 및 버튼 */}
+            <div className="flex justify-between items-center">
+              <div className="text-sm" style={{color: 'var(--neutral-sub)'}}>
+                {currentStep} / {questions.length} 단계
+              </div>
+              <button
+                onClick={goToNextStep}
+                className="px-8 py-3 rounded-xl font-semibold text-white transition-all duration-200 hover:scale-105"
+                style={{
+                  backgroundColor: answers.some(a => a.question === `question_${currentStep}`) ? 'var(--primary-green)' : '#9CA3AF',
+                  cursor: answers.some(a => a.question === `question_${currentStep}`) ? 'pointer' : 'not-allowed'
+                }}
+                disabled={!answers.some(a => a.question === `question_${currentStep}`)}
+              >
+                {currentStep < questions.length ? '다음 →' : '결과 보기'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
