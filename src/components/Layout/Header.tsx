@@ -14,25 +14,27 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b" style={{borderColor: 'var(--neutral-200)'}}>
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/90 border-b border-white/20 shadow-lg">
       <div className="container-custom">
         <div className="flex items-center justify-between h-20">
           {/* 로고 */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform" style={{background: 'var(--gradient-primary)'}}>
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl group-hover:scale-110 transition-all duration-300 shadow-lg" style={{background: 'var(--gradient-primary)'}}>
               🎾
             </div>
-            <span className="text-xl font-black" style={{color: 'var(--neutral-ink)'}}>테니스프렌즈</span>
+            <span className="text-2xl font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300">
+              테니스프렌즈
+            </span>
           </Link>
 
           {/* 데스크톱 네비게이션 */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-2">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-base font-medium transition-all duration-300 hover:scale-105"
-                style={{color: 'var(--neutral-700)'}}
+                className="px-4 py-2 rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:bg-white/50 backdrop-blur-sm"
+                style={{color: 'var(--neutral-ink)'}}
               >
                 {item.name}
               </Link>
@@ -41,8 +43,11 @@ export default function Header() {
 
           {/* CTA 버튼 */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link href="/utility" className="btn btn-primary btn-sm">
-              실력 분석하기
+            <Link 
+              href="/utility" 
+              className="btn btn-primary text-sm px-6 py-3 shadow-lg hover:shadow-xl"
+            >
+              🚀 실력 분석하기
             </Link>
           </div>
 

@@ -65,33 +65,49 @@
 @import "tailwindcss";
 
 :root {
-  /* PRD 기준 컬러 토큰 (라이트/다크 동등 설계) */
-  --primary-green: #0BA360;
-  --primary-green-dark: #19C37D;
-  --primary-blue: #2364AA;
-  --primary-blue-dark: #3D8BFF;
-  --accent-lime: #C7F000;
+  /* 모던 컬러 팔레트 */
+  --primary-green: #00D4AA;
+  --primary-green-dark: #00B894;
+  --primary-blue: #6C5CE7;
+  --primary-blue-dark: #5F3DC4;
+  --accent-lime: #FDCB6E;
+  --accent-purple: #A29BFE;
+  --accent-pink: #FD79A8;
   
-  /* 중성 컬러 (PRD 기준) */
-  --neutral-ink: #0F172A;
-  --neutral-sub: #334155;
-  --neutral-border: #E2E8F0;
-  --neutral-surface: #F8FAFC;
+  /* 중성 컬러 - 더 세련된 톤 */
+  --neutral-ink: #2D3436;
+  --neutral-sub: #636E72;
+  --neutral-border: #DDD6FE;
+  --neutral-surface: #FFFFFF;
+  --neutral-50: #F8F9FA;
+  --neutral-100: #E9ECEF;
+  --neutral-200: #DEE2E6;
   
-  /* 상태 컬러 */
-  --status-success: #10B981;
-  --status-warning: #F59E0B;
-  --status-danger: #EF4444;
-  --status-info: #3B82F6;
+  /* 상태 컬러 - 모던한 톤 */
+  --status-success: #00B894;
+  --status-warning: #FDCB6E;
+  --status-danger: #E17055;
+  --status-info: #74B9FF;
   
   /* 다크 모드 컬러 */
-  --dark-primary-green: #19C37D;
-  --dark-primary-blue: #3D8BFF;
-  --dark-accent-lime: #B8E600; /* 채도·밝기 하향 */
-  --dark-neutral-ink: #F8FAFC;
-  --dark-neutral-sub: #E2E8F0;
-  --dark-neutral-border: #334155;
-  --dark-neutral-surface: #0F172A;
+  --dark-primary-green: #00D4AA;
+  --dark-primary-blue: #6C5CE7;
+  --dark-accent-lime: #FDCB6E;
+  --dark-neutral-ink: #FFFFFF;
+  --dark-neutral-sub: #B2BEC3;
+  --dark-neutral-border: #2D3436;
+  --dark-neutral-surface: #1A1A1A;
+  
+  /* 모던 그라데이션 */
+  --gradient-primary: linear-gradient(135deg, #00D4AA 0%, #6C5CE7 100%);
+  --gradient-secondary: linear-gradient(135deg, #FDCB6E 0%, #FD79A8 100%);
+  --gradient-accent: linear-gradient(135deg, #A29BFE 0%, #74B9FF 100%);
+  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  /* 글래스모피즘 효과 */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-blur: blur(20px);
   
   /* 타이포그래피 스케일 (모바일 기준, px) */
   --text-display: 2.25rem;  /* 36px */
@@ -238,7 +254,7 @@
 }
 
 @layer components {
-  /* 버튼 컴포넌트 - 더 현대적인 디자인 */
+  /* 버튼 컴포넌트 - 모던 글래스모피즘 디자인 */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -246,7 +262,7 @@
     padding: 0.875rem 2rem;
     font-size: var(--text-base);
     font-weight: 600;
-    border-radius: 12px;
+    border-radius: 16px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
     cursor: pointer;
@@ -254,6 +270,8 @@
     overflow: hidden;
     text-decoration: none;
     min-height: 48px;
+    backdrop-filter: var(--glass-blur);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
   
   .btn:focus {
@@ -279,12 +297,14 @@
   .btn-primary {
     background: var(--gradient-primary);
     color: white;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 32px rgba(108, 92, 231, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
   
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(108, 92, 231, 0.4);
+    background: linear-gradient(135deg, #00B894 0%, #5F3DC4 100%);
   }
   
   .btn-secondary {
