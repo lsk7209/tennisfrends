@@ -46,7 +46,7 @@ export default async function BlogPage() {
         id: post.id,
         title: post.title,
         slug: post.slug,
-        excerpt: post.summary || '',
+        excerpt: (post as any).excerpt || (post as any).summary || '',
         author: '테니스프렌즈',
         published: post.is_published || true,
         featured: true,
