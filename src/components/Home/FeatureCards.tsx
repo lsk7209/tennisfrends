@@ -33,41 +33,56 @@ const features = [
 
 export default function FeatureCards() {
   return (
-    <section className="py-20 bg-neutral-surface">
+    <section className="py-24 md:py-32" style={{backgroundColor: 'var(--neutral-50)'}}>
       <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-h1 font-bold text-neutral-ink mb-4">
+        <div className="text-center mb-20">
+          <h2 className="text-responsive-lg font-black mb-6" style={{color: 'var(--neutral-ink)'}}>
             테니스프렌즈의 핵심 기능
           </h2>
-          <p className="text-body text-neutral-sub max-w-2xl mx-auto">
+          <p className="text-responsive max-w-3xl mx-auto" style={{color: 'var(--neutral-600)'}}>
             각 유틸리티는 3단계 입력으로 간단하게 시작하고, 
             구체적인 결과와 다음 행동 3가지를 제시합니다
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <Link
               key={feature.title}
               href={feature.href}
-              className="card hover:shadow-lg transition-all duration-300 group"
+              className="card card-interactive group animate-fade-up"
+              style={{animationDelay: `${index * 0.1}s`}}
             >
               <div className="card-header">
-                <div className={`w-16 h-16 ${feature.color} rounded-full flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform`}>
+                <div 
+                  className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform shadow-lg"
+                  style={{
+                    background: feature.color.includes('lime') 
+                      ? 'linear-gradient(135deg, var(--accent-lime) 0%, var(--accent-lime-dark) 100%)'
+                      : feature.color.includes('green')
+                      ? 'linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-dark) 100%)'
+                      : feature.color.includes('blue')
+                      ? 'linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%)'
+                      : 'linear-gradient(135deg, var(--status-info) 0%, var(--primary-blue) 100%)'
+                  }}
+                >
                   {feature.icon}
                 </div>
-                <h3 className="text-h3 font-bold text-neutral-ink mb-2">
+                <h3 className="text-xl font-bold mb-3" style={{color: 'var(--neutral-ink)'}}>
                   {feature.title}
                 </h3>
               </div>
               <div className="card-body">
-                <p className="text-sub text-neutral-sub">
+                <p className="text-base leading-relaxed" style={{color: 'var(--neutral-600)'}}>
                   {feature.description}
                 </p>
               </div>
               <div className="card-footer">
-                <span className="text-sub text-primary-blue font-medium group-hover:text-primary-blue-dark">
-                  시작하기 →
+                <span className="inline-flex items-center text-base font-semibold group-hover:translate-x-2 transition-transform" style={{color: 'var(--primary-blue)'}}>
+                  시작하기 
+                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </span>
               </div>
             </Link>
@@ -75,26 +90,27 @@ export default function FeatureCards() {
         </div>
 
         {/* 추가 기능들 */}
-        <div className="mt-12 text-center">
-          <p className="text-sub text-neutral-sub mb-6">
+        <div className="mt-20 text-center">
+          <p className="text-lg mb-8" style={{color: 'var(--neutral-600)'}}>
             더 많은 유틸리티가 준비되어 있어요
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
             {[
               '스트링 텐션 계산',
               '규칙 퀴즈',
               '부상 리스크 체크',
               '코트 찾기',
-            ].map((item) => (
+            ].map((item, index) => (
               <span
                 key={item}
-                className="badge-blue"
+                className="badge badge-green hover-lift"
+                style={{animationDelay: `${index * 0.1}s`}}
               >
                 {item}
               </span>
             ))}
           </div>
-          <Link href="/utility" className="btn-secondary mt-6">
+          <Link href="/utility" className="btn btn-secondary btn-lg">
             모든 유틸리티 보기
           </Link>
         </div>

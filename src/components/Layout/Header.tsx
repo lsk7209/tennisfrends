@@ -15,13 +15,15 @@ export default function Header() {
   ];
 
   return (
-    <header className="bg-white sticky top-0 z-50" style={{borderBottom: '1px solid var(--neutral-border)'}}>
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b" style={{borderColor: 'var(--neutral-200)'}}>
       <div className="container-custom">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* 로고 */}
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl">🎾</span>
-            <span className="text-xl font-bold" style={{color: 'var(--neutral-ink)'}}>테니스프렌즈</span>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform" style={{background: 'var(--gradient-primary)'}}>
+              🎾
+            </div>
+            <span className="text-xl font-black" style={{color: 'var(--neutral-ink)'}}>테니스프렌즈</span>
           </Link>
 
           {/* 데스크톱 네비게이션 */}
@@ -30,8 +32,8 @@ export default function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm transition-colors"
-                style={{color: 'var(--neutral-sub)'}}
+                className="text-base font-medium transition-all duration-300 hover:scale-105"
+                style={{color: 'var(--neutral-700)'}}
               >
                 {item.name}
               </Link>
@@ -40,7 +42,7 @@ export default function Header() {
 
           {/* CTA 버튼 */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link href="/utility" className="btn-primary">
+            <Link href="/utility" className="btn btn-primary btn-sm">
               실력 분석하기
             </Link>
           </div>

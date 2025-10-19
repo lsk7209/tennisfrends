@@ -142,7 +142,13 @@ const results = {
 export default function SkillAnalyzer() {
   const [currentStep, setCurrentStep] = useState(1);
   const [answers, setAnswers] = useState<Answer[]>([]);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<{
+    level: string;
+    title: string;
+    summary: string[];
+    actions: string[];
+    nextSteps: { title: string; href: string }[];
+  } | null>(null);
 
   const handleAnswer = (questionId: number, value: string) => {
     const newAnswer = { question: `question_${questionId}`, value };
@@ -209,7 +215,7 @@ export default function SkillAnalyzer() {
     else if (score <= 9) level = '4.0-4.5';
     else level = '5.0+';
 
-    setResult(results[level as keyof typeof results]);
+    setResult(results[level as keyof typeof results] || null);
   };
 
   const reset = () => {

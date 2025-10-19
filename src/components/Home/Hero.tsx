@@ -12,41 +12,53 @@ export default function Hero() {
   };
 
   return (
-    <section className="py-20 text-white" style={{background: 'linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%)'}}>
-      <div className="container-custom text-center">
-        <div className="max-w-4xl mx-auto">
+    <section className="relative py-24 md:py-32 text-white overflow-hidden">
+      {/* 배경 그라데이션 */}
+      <div className="absolute inset-0" style={{background: 'var(--gradient-hero)'}}></div>
+      
+      {/* 배경 패턴 */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-10 w-32 h-32 rounded-full bg-white animate-pulse-slow"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 rounded-full bg-white animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-20 left-1/4 w-16 h-16 rounded-full bg-white animate-pulse-slow" style={{animationDelay: '2s'}}></div>
+      </div>
+      
+      <div className="container-custom text-center relative z-10">
+        <div className="max-w-5xl mx-auto">
           {/* 시간대 인삿말 */}
-          <p className="text-xl mb-4">
+          <p className="text-lg md:text-xl mb-6 animate-fade-up text-white/90">
             {getTimeBasedGreeting()}
           </p>
           
           {/* 메인 헤드라인 */}
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          <h1 className="text-responsive-xl font-black mb-8 animate-fade-up leading-tight">
             5분만에 내 테니스의
             <br />
-            <span style={{color: 'var(--accent-lime)'}}>다음 3가지 행동</span>을 알려드려요
+            <span className="text-gradient bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent">
+              다음 3가지 행동
+            </span>을 알려드려요
           </h1>
           
           {/* 서브헤드라인 */}
-          <p className="text-xl mb-8 text-gray-100">
+          <p className="text-responsive mb-12 text-white/80 max-w-3xl mx-auto animate-fade-up">
             이미지 없이 텍스트·모션·이모지 기반으로<br />
             테니스 데이터를 자동 수집하고 분석하는 스마트 허브
           </p>
           
           {/* CTA 버튼들 */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href="/utility" className="btn bg-white px-8 py-4" style={{color: 'var(--primary-green)'}}>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16 animate-fade-up">
+            <Link href="/utility" className="btn btn-primary btn-lg text-lg px-8 py-4 shadow-xl">
               🎯 실력 분석 시작하기
             </Link>
-            <Link href="/utility/tennis-type" className="btn border-2 border-white text-white px-8 py-4 hover:bg-white" style={{'--hover-color': 'var(--primary-green)'} as any}>
+            <Link href="/utility/tennis-type" className="btn btn-secondary btn-lg text-lg px-8 py-4">
               🧩 테니스 성향 알아보기
             </Link>
           </div>
           
           {/* 미션 설명 */}
-          <div className="mt-12 p-6 rounded-2xl" style={{backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(10px)'}}>
-            <p className="text-base text-gray-100">
-              <strong>테니스프렌즈의 미션:</strong> 초급자부터 상급자까지, 
+          <div className="glass rounded-3xl p-8 md:p-12 animate-fade-up">
+            <p className="text-lg text-white/90 leading-relaxed">
+              <strong className="text-white">테니스프렌즈의 미션:</strong> 초급자부터 상급자까지, 
               누구나 쉽고 정확하게 자신의 테니스 실력과 개선 방향을 파악할 수 있도록 돕습니다.
             </p>
           </div>

@@ -89,8 +89,8 @@ export default function Testimonials() {
               {/* 후기 내용 */}
               <blockquote className="text-h3 text-neutral-ink mb-8 min-h-[120px] flex items-center justify-center">
                 <p className="leading-relaxed">
-                  "{displayText}
-                  <span className="animate-pulse">|</span>"
+                  &ldquo;{displayText}
+                  <span className="animate-pulse">|</span>&rdquo;
                 </p>
               </blockquote>
 
