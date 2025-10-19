@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 const features = [
   {
@@ -59,10 +60,12 @@ export default function FeatureCards() {
               >
                 {/* 상단 이미지 섹션 */}
                 <div className="relative h-48">
-                  <img 
+                  <Image 
                     src={feature.imageUrl} 
                     alt={feature.title} 
-                    className="w-full h-full object-cover rounded-t-2xl group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover rounded-t-2xl group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   {/* 태그 오버레이 */}
                   <div className="absolute top-4 left-4">

@@ -4,10 +4,11 @@ import { utilityService } from '@/lib/content'
 // GET /api/content/utilities/[id] - 특정 유틸리티 가져오기
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const utility = await utilityService.getById(params.id)
+    const { id } = await params
+    const utility = await utilityService.getById(id)
     if (!utility) {
       return NextResponse.json(
         { success: false, error: 'Utility not found' },
@@ -27,11 +28,12 @@ export async function GET(
 // PUT /api/content/utilities/[id] - 유틸리티 업데이트
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
-    const utility = await utilityService.update(params.id, body)
+    const utility = await utilityService.update(id, body)
     return NextResponse.json({ success: true, data: utility })
   } catch (error) {
     console.error('Error updating utility:', error)
@@ -45,10 +47,11 @@ export async function PUT(
 // DELETE /api/content/utilities/[id] - 유틸리티 삭제
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await utilityService.delete(params.id)
+    const { id } = await params
+    await utilityService.delete(id)
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Error deleting utility:', error)

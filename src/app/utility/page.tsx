@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { utilityService } from '@/lib/content';
 
 // 정적 데이터 (fallback용) - 이미지 기반 디자인
@@ -104,10 +105,12 @@ export default async function UtilityPage() {
               <div key={utility.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 {/* 상단 이미지 섹션 */}
                 <div className="relative h-48">
-                  <img 
+                  <Image 
                     src={utility.imageUrl} 
                     alt={utility.title} 
-                    className="w-full h-full object-cover rounded-t-2xl"
+                    fill
+                    className="object-cover rounded-t-2xl"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   {/* 태그 오버레이 */}
                   <div className="absolute top-4 left-4">
