@@ -70,7 +70,7 @@ export default async function GuidesPage() {
         id: guide.id,
         title: guide.title,
         slug: guide.slug,
-        description: (guide as any).description || (guide as any).summary || '',
+        description: ('description' in guide ? guide.description : 'summary' in guide ? guide.summary : '') || '',
         category: guide.category_id || 'training',
         difficulty: guide.difficulty as 'beginner' | 'intermediate' | 'advanced',
         tags: guide.tags || [],
