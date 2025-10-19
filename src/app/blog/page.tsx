@@ -42,21 +42,24 @@ export default async function BlogPage() {
     const fetchedPosts = await blogService.getAll(true);
     if (fetchedPosts && fetchedPosts.length > 0) {
       // Supabase 데이터를 정적 데이터 형식으로 변환
-      blogPosts = fetchedPosts.map(post => ({
-        id: post.id,
-        title: post.title,
-        slug: post.slug,
-        excerpt: (post as unknown as Record<string, unknown>).excerpt as string || (post as unknown as Record<string, unknown>).summary as string || '',
-        author: '테니스프렌즈',
-        published: post.is_published || true,
-        featured: true,
-        tags: post.tags || [],
-        category: post.category_id || 'equipment',
-        reading_time: 8,
-        views: post.view_count || 0,
-        created_at: post.created_at,
-        updated_at: post.updated_at
-      }));
+      blogPosts = fetchedPosts.map(post => {
+        const postData = post as unknown as Record<string, unknown>;
+        return {
+          id: post.id,
+          title: post.title,
+          slug: post.slug,
+          excerpt: (postData.excerpt as string) || (postData.summary as string) || '',
+          author: '테니스프렌즈',
+          published: (postData.is_published as boolean) || (postData.published as boolean) || true,
+          featured: true,
+          tags: (postData.tags as string[]) || [],
+          category: (postData.category_id as string) || (postData.category as string) || 'equipment',
+          reading_time: 8,
+          views: (postData.view_count as number) || (postData.views as number) || 0,
+          created_at: post.created_at,
+          updated_at: post.updated_at
+        };
+      });
     }
   } catch (error) {
     console.error('Failed to fetch blog posts from Supabase:', error);

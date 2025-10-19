@@ -66,19 +66,22 @@ export default async function GuidesPage() {
     const fetchedGuides = await guideService.getAll();
     if (fetchedGuides && fetchedGuides.length > 0) {
       // Supabase 데이터를 정적 데이터 형식으로 변환
-      guides = fetchedGuides.map(guide => ({
-        id: guide.id,
-        title: guide.title,
-        slug: guide.slug,
-        description: (guide as unknown as Record<string, unknown>).description as string || (guide as unknown as Record<string, unknown>).summary as string || '',
-        category: guide.category_id || 'training',
-        difficulty: guide.difficulty as 'beginner' | 'intermediate' | 'advanced',
-        tags: guide.tags || [],
-        featured: true,
-        views: guide.view_count || 0,
-        created_at: guide.created_at,
-        updated_at: guide.updated_at
-      }));
+      guides = fetchedGuides.map(guide => {
+        const guideData = guide as unknown as Record<string, unknown>;
+        return {
+          id: guide.id,
+          title: guide.title,
+          slug: guide.slug,
+          description: (guideData.description as string) || (guideData.summary as string) || '',
+          category: (guideData.category_id as string) || (guideData.category as string) || 'training',
+          difficulty: (guideData.difficulty as 'beginner' | 'intermediate' | 'advanced') || 'beginner',
+          tags: (guideData.tags as string[]) || [],
+          featured: true,
+          views: (guideData.view_count as number) || (guideData.views as number) || 0,
+          created_at: guide.created_at,
+          updated_at: guide.updated_at
+        };
+      });
     }
   } catch (error) {
     console.error('Failed to fetch guides from Supabase:', error);
