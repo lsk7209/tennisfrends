@@ -2,42 +2,40 @@ import Link from 'next/link';
 
 export default function CTA() {
   return (
-    <section className="py-20 bg-gradient-to-r from-primary-green to-primary-blue text-white">
-      <div className="container-custom text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-h1 font-bold mb-6">
-            지금 바로 시작해보세요!
-          </h2>
-          <p className="text-h3 mb-8 text-gray-100">
-            5분만 투자하면 당신의 테니스 실력과 개선 방향을 정확히 파악할 수 있어요
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Link href="/utility" className="btn bg-white text-primary-green hover:bg-gray-100 text-h3 px-8 py-4">
-              🎾 무료로 실력 분석하기
-            </Link>
-            <Link href="/utility/tennis-type" className="btn border-2 border-white text-white hover:bg-white hover:text-primary-green text-h3 px-8 py-4">
-              🧩 테니스 성향 알아보기
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="bg-white/10 backdrop-blur-sm rounded-card p-6">
-              <div className="text-3xl mb-3">⚡</div>
-              <h3 className="text-sub font-bold mb-2">빠른 분석</h3>
-              <p className="text-cap text-gray-200">3단계 질문으로 5분 내 완료</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-card p-6">
-              <div className="text-3xl mb-3">🎯</div>
-              <h3 className="text-sub font-bold mb-2">정확한 결과</h3>
-              <p className="text-cap text-gray-200">구체적인 개선 방향 제시</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-card p-6">
-              <div className="text-3xl mb-3">🆓</div>
-              <h3 className="text-sub font-bold mb-2">완전 무료</h3>
-              <p className="text-cap text-gray-200">회원가입 없이 바로 사용</p>
-            </div>
-          </div>
+    <section 
+      className="text-center py-20 relative overflow-hidden"
+      style={{background: 'linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%)'}}
+    >
+      {/* 배경 아이콘 */}
+      <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
+        <div className="w-16 h-16 border-2 border-white/30 rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-white/50 rounded-full"></div>
+        </div>
+      </div>
+      
+      <div className="container-custom relative z-10">
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          지금 바로 시작해보세요
+        </h2>
+        <p className="text-white text-lg md:text-xl max-w-3xl mx-auto mb-12 leading-relaxed">
+          무료로 제공되는 모든 테스트와 분석 도구를 활용해<br />
+          더 나은 테니스 플레이어가 되어보세요.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <Link 
+            href="/utility" 
+            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 bg-white"
+            style={{color: 'var(--primary-green)'}}
+          >
+            모든 테스트 보기 →
+          </Link>
+          <Link 
+            href="/utility/skill-analyzer" 
+            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-lg border-2 border-white text-white transition-all duration-300 hover:scale-105"
+          >
+            실력 테스트 시작
+          </Link>
         </div>
       </div>
     </section>

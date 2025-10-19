@@ -7,11 +7,9 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigation = [
-    { name: '홈', href: '/' },
-    { name: '유틸리티', href: '/utility' },
-    { name: '장비 백과', href: '/gear' },
+    { name: '테니스 분석', href: '/utility' },
     { name: '블로그', href: '/blog' },
-    { name: '소개', href: '/about' },
+    { name: '장비백과', href: '/gear' },
   ];
 
   return (
