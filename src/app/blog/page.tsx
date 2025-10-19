@@ -46,7 +46,7 @@ export default async function BlogPage() {
         id: post.id,
         title: post.title,
         slug: post.slug,
-        excerpt: ('excerpt' in post ? post.excerpt : 'summary' in post ? post.summary : '') || '',
+        excerpt: (post as Record<string, unknown>).excerpt as string || (post as Record<string, unknown>).summary as string || '',
         author: '테니스프렌즈',
         published: post.is_published || true,
         featured: true,
