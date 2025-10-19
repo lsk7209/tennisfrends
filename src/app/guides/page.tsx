@@ -61,11 +61,24 @@ const getCategoryIcon = (category: string) => {
 
 export default async function GuidesPage() {
   // 슈퍼베이스에서 가이드 데이터 가져오기
-  let guides = staticGuides;
+  let guides: typeof staticGuides = staticGuides;
   try {
     const fetchedGuides = await guideService.getAll();
     if (fetchedGuides && fetchedGuides.length > 0) {
-      guides = fetchedGuides;
+      // Supabase 데이터를 정적 데이터 형식으로 변환
+      guides = fetchedGuides.map(guide => ({
+        id: guide.id,
+        title: guide.title,
+        slug: guide.slug,
+        description: guide.summary || '',
+        category: guide.category_id || 'training',
+        difficulty: guide.difficulty as 'beginner' | 'intermediate' | 'advanced',
+        tags: guide.tags || [],
+        featured: true,
+        views: guide.view_count || 0,
+        created_at: guide.created_at,
+        updated_at: guide.updated_at
+      }));
     }
   } catch (error) {
     console.error('Failed to fetch guides from Supabase:', error);

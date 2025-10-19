@@ -37,11 +37,26 @@ const staticBlogPosts = [
 
 export default async function BlogPage() {
   // 슈퍼베이스에서 블로그 데이터 가져오기
-  let blogPosts = staticBlogPosts;
+  let blogPosts: typeof staticBlogPosts = staticBlogPosts;
   try {
     const fetchedPosts = await blogService.getAll(true);
     if (fetchedPosts && fetchedPosts.length > 0) {
-      blogPosts = fetchedPosts;
+      // Supabase 데이터를 정적 데이터 형식으로 변환
+      blogPosts = fetchedPosts.map(post => ({
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        excerpt: post.summary || '',
+        author: '테니스프렌즈',
+        published: post.is_published || true,
+        featured: true,
+        tags: post.tags || [],
+        category: post.category_id || 'equipment',
+        reading_time: 8,
+        views: post.view_count || 0,
+        created_at: post.created_at,
+        updated_at: post.updated_at
+      }));
     }
   } catch (error) {
     console.error('Failed to fetch blog posts from Supabase:', error);
