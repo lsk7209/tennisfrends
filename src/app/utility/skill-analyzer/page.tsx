@@ -164,6 +164,20 @@ export default function SkillAnalyzer() {
     }
   };
 
+  const goToNextStep = () => {
+    if (currentStep < questions.length) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      calculateResult(answers);
+    }
+  };
+
+  const goToPreviousStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
   const calculateResult = (answers: Answer[]) => {
     // 간단한 점수 계산 로직 (실제로는 더 복잡한 알고리즘 사용)
     let score = 0;
