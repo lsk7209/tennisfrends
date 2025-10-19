@@ -75,14 +75,20 @@ export default async function UtilityPage() {
       // Merge fetched data with static data, prioritizing fetched data
       utilities = staticUtilities.map(staticUtil => {
         const fetchedUtil = fetchedUtilities.find(fu => fu.id === staticUtil.id);
-        return fetchedUtil ? {
-          ...staticUtil,
-          title: fetchedUtil.title || staticUtil.title,
-          description: fetchedUtil.description || staticUtil.description,
-          buttonText: fetchedUtil.buttonText || staticUtil.buttonText,
-          href: fetchedUtil.href || staticUtil.href,
-          imageUrl: fetchedUtil.image_url || staticUtil.imageUrl, // Supabase의 image_url 필드 사용
-        } : staticUtil;
+        if (fetchedUtil) {
+          const fetchedData = fetchedUtil as unknown as Record<string, unknown>;
+          return {
+            ...staticUtil,
+            title: fetchedUtil.title || staticUtil.title,
+            description: fetchedUtil.description || staticUtil.description,
+            buttonText: fetchedUtil.buttonText || staticUtil.buttonText,
+            href: fetchedUtil.href || staticUtil.href,
+            imageUrl: (fetchedData.image_url as string) || (fetchedData.imageUrl as string) || staticUtil.imageUrl,
+            tag: fetchedUtil.tag || staticUtil.tag,
+            time: fetchedUtil.time || staticUtil.time,
+          };
+        }
+        return staticUtil;
       });
     }
   } catch (error) {
