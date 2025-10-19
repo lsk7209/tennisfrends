@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { utilityService } from '@/lib/content';
 
-const utilities = [
+// 정적 데이터 (fallback용)
+const staticUtilities = [
   {
     id: 'skill-analyzer',
     title: 'NTRP 테스트, 내 테니스 실력은 몇 점?',
@@ -123,7 +125,18 @@ const getColorStyles = (color: string) => {
   }
 };
 
-export default function UtilityPage() {
+export default async function UtilityPage() {
+  // 슈퍼베이스에서 유틸리티 데이터 가져오기
+  let utilities = staticUtilities;
+  try {
+    const fetchedUtilities = await utilityService.getAll();
+    if (fetchedUtilities && fetchedUtilities.length > 0) {
+      utilities = fetchedUtilities;
+    }
+  } catch (error) {
+    console.error('Failed to fetch utilities from Supabase:', error);
+    // 에러 발생 시 정적 데이터 사용
+  }
   return (
     <div className="py-20 bg-white">
       <div className="container-custom">

@@ -9,6 +9,7 @@ export default function Header() {
   const navigation = [
     { name: '테니스 분석', href: '/utility' },
     { name: '블로그', href: '/blog' },
+    { name: '가이드', href: '/guides' },
     { name: '장비백과', href: '/gear' },
   ];
 
