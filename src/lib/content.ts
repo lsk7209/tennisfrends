@@ -302,10 +302,36 @@ export const guideService = {
   }
 }
 
+// 카테고리 타입 정의
+interface Category {
+  id: string
+  name: string
+  slug: string
+  description?: string
+  color: string
+  icon: string
+  parent_id?: string
+  sort_order: number
+  created_at: string
+  updated_at: string
+}
+
+// 태그 타입 정의
+interface Tag {
+  id: string
+  name: string
+  slug: string
+  description?: string
+  color: string
+  usage_count: number
+  created_at: string
+  updated_at: string
+}
+
 // 카테고리 관련 함수
 export const categoryService = {
   // 모든 카테고리 가져오기
-  async getAll(): Promise<any[]> {
+  async getAll(): Promise<Category[]> {
     const { data, error } = await supabase
       .from('categories')
       .select('*')
@@ -316,7 +342,7 @@ export const categoryService = {
   },
 
   // 슬러그로 카테고리 가져오기
-  async getBySlug(slug: string): Promise<any | null> {
+  async getBySlug(slug: string): Promise<Category | null> {
     const { data, error } = await supabase
       .from('categories')
       .select('*')
@@ -331,7 +357,7 @@ export const categoryService = {
 // 태그 관련 함수
 export const tagService = {
   // 모든 태그 가져오기
-  async getAll(): Promise<any[]> {
+  async getAll(): Promise<Tag[]> {
     const { data, error } = await supabase
       .from('tags')
       .select('*')
@@ -342,7 +368,7 @@ export const tagService = {
   },
 
   // 슬러그로 태그 가져오기
-  async getBySlug(slug: string): Promise<any | null> {
+  async getBySlug(slug: string): Promise<Tag | null> {
     const { data, error } = await supabase
       .from('tags')
       .select('*')

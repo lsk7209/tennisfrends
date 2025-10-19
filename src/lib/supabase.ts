@@ -16,7 +16,7 @@ export interface Utility {
   href: string
   buttonText: string
   time: string
-  content: any // JSON 형태의 컨텐츠
+  content: Record<string, unknown> // JSON 형태의 컨텐츠
   questions?: Question[]
   results?: Result[]
   created_at: string
