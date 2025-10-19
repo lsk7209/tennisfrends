@@ -61,7 +61,7 @@ const getCategoryIcon = (category: string) => {
 
 export default async function GuidesPage() {
   // 슈퍼베이스에서 가이드 데이터 가져오기
-  let guides: typeof staticGuides = staticGuides;
+  let guides = staticGuides;
   try {
     const fetchedGuides = await guideService.getAll();
     if (fetchedGuides && fetchedGuides.length > 0) {
@@ -81,7 +81,7 @@ export default async function GuidesPage() {
           created_at: guide.created_at,
           updated_at: guide.updated_at
         };
-      });
+      }) as typeof staticGuides;
     }
   } catch (error) {
     console.error('Failed to fetch guides from Supabase:', error);

@@ -37,7 +37,7 @@ const staticBlogPosts = [
 
 export default async function BlogPage() {
   // 슈퍼베이스에서 블로그 데이터 가져오기
-  let blogPosts: typeof staticBlogPosts = staticBlogPosts;
+  let blogPosts = staticBlogPosts;
   try {
     const fetchedPosts = await blogService.getAll(true);
     if (fetchedPosts && fetchedPosts.length > 0) {
@@ -59,7 +59,7 @@ export default async function BlogPage() {
           created_at: post.created_at,
           updated_at: post.updated_at
         };
-      });
+      }) as typeof staticBlogPosts;
     }
   } catch (error) {
     console.error('Failed to fetch blog posts from Supabase:', error);
