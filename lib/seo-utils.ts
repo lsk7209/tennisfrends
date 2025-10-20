@@ -125,7 +125,6 @@ export function generateBlogMetadata(config: SEOConfig): Metadata {
     },
     verification: {
       google: process.env.GOOGLE_SITE_VERIFICATION,
-      naver: process.env.NAVER_SITE_VERIFICATION,
     },
     other: {
       'article:author': author,
