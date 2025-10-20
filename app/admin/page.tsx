@@ -150,129 +150,128 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-        {/* 통계 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <Card key={index}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-[#64748B]">
-                  {stat.title}
-                </CardTitle>
-                <stat.icon className="h-4 w-4 text-[#64748B]" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-[#0F172A]">{stat.value}</div>
-                <p className={`text-xs ${
-                  stat.changeType === "positive" ? "text-green-600" : "text-red-600"
-                }`}>
-                  {stat.change} 지난 주 대비
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+      {/* 통계 카드 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {stats.map((stat, index) => (
+          <Card key={index}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-[#64748B]">
+                {stat.title}
+              </CardTitle>
+              <stat.icon className="h-4 w-4 text-[#64748B]" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-[#0F172A]">{stat.value}</div>
+              <p className={`text-xs ${
+                stat.changeType === "positive" ? "text-green-600" : "text-red-600"
+              }`}>
+                {stat.change} 지난 주 대비
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* 빠른 작업 */}
-          <div className="lg:col-span-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>빠른 작업</CardTitle>
-                <CardDescription>
-                  자주 사용하는 관리 기능에 빠르게 접근하세요
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {quickActions.map((action, index) => (
-                    <Link key={index} href={action.href}>
-                      <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                        <CardContent className="p-6">
-                          <div className="flex items-center gap-4">
-                            <div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center`}>
-                              <action.icon className="w-6 h-6 text-white" />
-                            </div>
-                            <div>
-                              <h3 className="font-semibold text-[#0F172A]">{action.title}</h3>
-                              <p className="text-sm text-[#64748B]">{action.description}</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* 최근 활동 */}
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle>최근 활동</CardTitle>
-                <CardDescription>
-                  시스템에서 발생한 최근 활동을 확인하세요
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentActivities.map((activity) => (
-                    <div key={activity.id} className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-[#0BA360] rounded-full mt-2 flex-shrink-0"></div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-[#0F172A]">{activity.message}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="text-xs text-[#64748B]">{activity.user}</span>
-                          <span className="text-xs text-[#64748B]">•</span>
-                          <span className="text-xs text-[#64748B]">{activity.time}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* 시스템 상태 */}
-        <div className="mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* 빠른 작업 */}
+        <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>시스템 상태</CardTitle>
+              <CardTitle>빠른 작업</CardTitle>
               <CardDescription>
-                현재 시스템의 상태를 모니터링하세요
+                자주 사용하는 관리 기능에 빠르게 접근하세요
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <div>
-                    <p className="font-medium text-[#0F172A]">데이터베이스</p>
-                    <p className="text-sm text-[#64748B]">정상 작동</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <div>
-                    <p className="font-medium text-[#0F172A]">API 서버</p>
-                    <p className="text-sm text-[#64748B]">정상 작동</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <div>
-                    <p className="font-medium text-[#0F172A]">스토리지</p>
-                    <p className="text-sm text-[#64748B]">75% 사용</p>
-                  </div>
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {quickActions.map((action, index) => (
+                  <Link key={index} href={action.href}>
+                    <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center`}>
+                            <action.icon className="w-6 h-6 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-[#0F172A]">{action.title}</h3>
+                            <p className="text-sm text-[#64748B]">{action.description}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
               </div>
             </CardContent>
           </Card>
         </div>
-      </main>
+
+        {/* 최근 활동 */}
+        <div>
+          <Card>
+            <CardHeader>
+              <CardTitle>최근 활동</CardTitle>
+              <CardDescription>
+                시스템에서 발생한 최근 활동을 확인하세요
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {recentActivities.map((activity) => (
+                  <div key={activity.id} className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-[#0BA360] rounded-full mt-2 flex-shrink-0"></div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-[#0F172A]">{activity.message}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-xs text-[#64748B]">{activity.user}</span>
+                        <span className="text-xs text-[#64748B]">•</span>
+                        <span className="text-xs text-[#64748B]">{activity.time}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* 시스템 상태 */}
+      <div className="mt-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>시스템 상태</CardTitle>
+            <CardDescription>
+              현재 시스템의 상태를 모니터링하세요
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <div>
+                  <p className="font-medium text-[#0F172A]">데이터베이스</p>
+                  <p className="text-sm text-[#64748B]">정상 작동</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <div>
+                  <p className="font-medium text-[#0F172A]">API 서버</p>
+                  <p className="text-sm text-[#64748B]">정상 작동</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                <div>
+                  <p className="font-medium text-[#0F172A]">스토리지</p>
+                  <p className="text-sm text-[#64748B]">75% 사용</p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
