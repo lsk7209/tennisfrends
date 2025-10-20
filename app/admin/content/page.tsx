@@ -66,7 +66,7 @@ const sampleBlogPosts = [
 const sampleUtilities = [
   {
     id: 1,
-    name: "NTRP 실력 분석기",
+    name: "NTRP 실력 테스트 분석기",
     slug: "ntrp-analyzer",
     description: "15문항으로 정확한 NTRP 레벨을 측정하고 통계를 확인할 수 있습니다.",
     type: "test",

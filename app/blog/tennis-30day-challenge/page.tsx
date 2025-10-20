@@ -80,7 +80,7 @@ export default function Tennis30DayChallengePost() {
             <div className="bg-[#F8FAFC] p-4 rounded-lg">
               <h4 className="font-semibold text-[#0F172A] mb-2">측정 방법:</h4>
               <ul className="space-y-1 text-[#64748B] text-sm">
-                <li>• NTRP 실력 분석기로 현재 레벨 확인</li>
+                <li>• NTRP 실력 테스트 분석기로 현재 레벨 확인</li>
                 <li>• 기본 스트로크 10개씩 성공률 측정</li>
                 <li>• 서브 성공률 측정 (20개 시도)</li>
                 <li>• 체력 상태 체크 (30분 연속 플레이 가능 여부)</li>

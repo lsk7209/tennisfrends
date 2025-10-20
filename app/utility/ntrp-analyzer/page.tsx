@@ -17,7 +17,7 @@ export default function NTRPAnalyzerPage() {
               </Button>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-[#0F172A]">NTRP 실력 분석기 v2</h1>
+              <h1 className="text-2xl font-bold text-[#0F172A]">NTRP 실력 테스트 분석기</h1>
               <p className="text-[#334155]">15문항으로 정확한 테니스 실력 레벨을 측정하고 통계를 확인하세요</p>
             </div>
           </div>
@@ -30,7 +30,7 @@ export default function NTRPAnalyzerPage() {
           <div className="w-20 h-20 bg-gradient-to-br from-[#0BA360] to-[#19C37D] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
             <span className="text-white text-3xl">🎾</span>
           </div>
-          <h2 className="text-3xl font-bold text-[#0F172A] mb-4">NTRP 실력 분석기 v2</h2>
+          <h2 className="text-3xl font-bold text-[#0F172A] mb-4">NTRP 실력 테스트 분석기</h2>
           <p className="text-xl text-[#334155] max-w-2xl mx-auto leading-relaxed">
             15가지 질문을 통해 당신의 테니스 실력을 정확하게 분석하고 NTRP 레벨을 측정합니다.
             <br />

@@ -146,7 +146,7 @@ export default function NTRPGuidePage() {
                   <h3 className="text-lg font-semibold text-[#0F172A] mb-3">1. 정확한 자가 평가</h3>
                   <p className="text-[#334155] mb-4">
                     자신의 현재 실력을 객관적으로 평가하는 것이 가장 중요합니다. 
-                    테니스프렌즈의 NTRP 분석기를 통해 정확한 레벨을 측정해보세요.
+                    테니스프렌즈의 NTRP 실력 테스트 분석기를 통해 정확한 레벨을 측정해보세요.
                   </p>
                   
                   <h3 className="text-lg font-semibold text-[#0F172A] mb-3">2. 단계별 목표 설정</h3>

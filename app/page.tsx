@@ -40,7 +40,7 @@ export default function LandingPage() {
 
                 <div className="w-full max-w-3xl text-center flex justify-center flex-col text-[rgba(55,50,47,0.85)] text-lg leading-relaxed font-pretendard px-4 font-medium">
                   <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-[rgba(55,50,47,0.1)]">
-                    NTRP 실력 분석부터 라켓 추천까지
+                    NTRP 실력 테스트 분석부터 라켓 추천까지
                     <br className="hidden sm:block" />
                     테니스 데이터를 자동 수집·생성·배포하는 유틸리티 허브
                   </div>
@@ -70,7 +70,7 @@ export default function LandingPage() {
                   <div className="w-12 h-12 bg-[#0BA360] rounded-full flex items-center justify-center mb-4">
                     <span className="text-white text-xl">🎾</span>
                   </div>
-                  <h3 className="text-[#37322F] text-lg font-semibold mb-2">NTRP 실력 분석</h3>
+                  <h3 className="text-[#37322F] text-lg font-semibold mb-2">NTRP 실력 테스트 분석</h3>
                   <p className="text-[#605A57] text-sm leading-relaxed">
                     3단계 질문으로 정확한 테니스 실력 레벨을 측정하고 개선 방향을 제시합니다.
                   </p>
@@ -105,11 +105,16 @@ export default function LandingPage() {
                   지금 바로 테니스 실력을 분석해보세요
                 </h2>
                 <p className="text-[#605A57] text-base mb-6">
-                  3단계 질문만으로 정확한 NTRP 레벨과 개선 방향을 확인할 수 있습니다.
+                  3단계 질문만으로 정확한 NTRP 실력 레벨과 개선 방향을 확인할 수 있습니다.
                 </p>
-                <a href="/utility/ntrp-analyzer" className="inline-block h-12 px-8 py-3 bg-[#0BA360] text-white rounded-full hover:bg-[#19C37D] transition-colors font-medium">
-                  무료로 분석하기
-                </a>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a href="/utility/ntrp-analyzer" className="inline-block h-12 px-8 py-3 bg-[#0BA360] text-white rounded-full hover:bg-[#19C37D] transition-colors font-medium">
+                    무료로 분석하기
+                  </a>
+                  <a href="/injury-risk" className="inline-block h-12 px-8 py-3 bg-[#2364AA] text-white rounded-full hover:bg-[#3D8BFF] transition-colors font-medium">
+                    부상 위험도 체크
+                  </a>
+                </div>
               </div>
             </div>
 

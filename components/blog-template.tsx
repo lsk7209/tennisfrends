@@ -241,7 +241,7 @@ export default function BlogTemplate({
           <CardContent className="p-10 text-center">
             <h3 className="text-2xl md:text-3xl font-bold mb-4">테니스 실력이 궁금하다면?</h3>
             <p className="text-lg md:text-xl mb-8 opacity-90 max-w-2xl mx-auto leading-relaxed">
-              NTRP 실력 분석기로 정확한 레벨을 확인하고 맞춤형 가이드를 받아보세요!
+              NTRP 실력 테스트 분석기로 정확한 레벨을 확인하고 맞춤형 가이드를 받아보세요!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/utility/ntrp-analyzer">

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 const utilities = [
   {
     id: "ntrp-analyzer",
-    title: "NTRP 실력 분석",
+    title: "NTRP 실력 테스트 분석",
     description: "3단계 질문으로 정확한 테니스 실력 레벨을 측정하고 개선 방향을 제시합니다.",
     icon: "🎯",
     color: "bg-[#0BA360]",
