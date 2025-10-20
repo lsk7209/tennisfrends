@@ -107,12 +107,9 @@ export default function LandingPage() {
                 <p className="text-[#605A57] text-base mb-6">
                   3단계 질문만으로 정확한 NTRP 실력 레벨과 개선 방향을 확인할 수 있습니다.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="/utility/ntrp-analyzer" className="inline-block h-12 px-8 py-3 bg-[#0BA360] text-white rounded-full hover:bg-[#19C37D] transition-colors font-medium">
-                    무료로 분석하기
-                  </a>
-                  <a href="/injury-risk" className="inline-block h-12 px-8 py-3 bg-[#2364AA] text-white rounded-full hover:bg-[#3D8BFF] transition-colors font-medium">
-                    부상 위험도 체크
+                <div className="flex justify-center">
+                  <a href="/utility" className="inline-block h-12 px-8 py-3 bg-[#0BA360] text-white rounded-full hover:bg-[#19C37D] transition-colors font-medium">
+                    모든 유틸리티 보기
                   </a>
                 </div>
               </div>

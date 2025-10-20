@@ -1,10 +1,10 @@
 export function getDeviceId() {
   if (typeof window === "undefined") return "";
-  const k = "tf_device_id";
-  let id = localStorage.getItem(k);
+  const key = "tf_device_id";
+  let id = localStorage.getItem(key);
   if (!id) {
     id = crypto.randomUUID();
-    localStorage.setItem(k, id);
+    localStorage.setItem(key, id);
   }
-  return id!;
+  return id;
 }

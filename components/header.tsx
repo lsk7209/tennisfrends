@@ -20,15 +20,6 @@ export default function Header() {
           <a href="/utility" className="px-4 py-2 text-[#37322F] hover:text-[#0BA360] transition-colors text-sm font-medium font-pretendard">
             유틸리티
           </a>
-          <a href="/admin" className="px-4 py-2 text-[#37322F] hover:text-[#0BA360] transition-colors text-sm font-medium font-pretendard">
-            관리자
-          </a>
-          <a href="/test" className="px-4 py-2 bg-[#0BA360] text-white rounded-full hover:bg-[#19C37D] transition-colors text-sm font-medium font-pretendard">
-            NTRP 실력 테스트
-          </a>
-          <a href="/injury-risk" className="px-4 py-2 bg-[#2364AA] text-white rounded-full hover:bg-[#3D8BFF] transition-colors text-sm font-medium font-pretendard">
-            부상 체크
-          </a>
         </div>
       </div>
     </div>

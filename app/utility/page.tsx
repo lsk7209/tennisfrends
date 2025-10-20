@@ -1,28 +1,72 @@
+"use client"
+
 import Link from "next/link"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const utilities = [
   {
     id: "ntrp-analyzer",
     title: "NTRP 실력 테스트 분석",
-    description: "3단계 질문으로 정확한 테니스 실력 레벨을 측정하고 개선 방향을 제시합니다.",
+    description: "15문항으로 정확한 테니스 실력 레벨을 측정하고 개선 방향을 제시합니다.",
     icon: "🎯",
     color: "bg-[#0BA360]",
     href: "/utility/ntrp-analyzer",
-    features: ["정확한 실력 측정", "개선 방향 제시", "맞춤형 훈련 계획"]
+    features: ["정확한 실력 측정", "개선 방향 제시", "맞춤형 훈련 계획"],
+    status: "active"
+  },
+  {
+    id: "injury-risk",
+    title: "부상 위험도 체크",
+    description: "15문항으로 부상 위험을 진단하고 개인화된 체크리스트를 제공합니다.",
+    icon: "🏥",
+    color: "bg-[#2364AA]",
+    href: "/injury-risk/intro",
+    features: ["부상 위험 평가", "개인화 체크리스트", "예방 방법 제시"],
+    status: "active"
+  },
+  {
+    id: "string-tension",
+    title: "스트링 텐션 계산기",
+    description: "라켓과 플레이 스타일에 맞는 최적의 스트링 텐션을 계산해드립니다.",
+    icon: "⚡",
+    color: "bg-[#C7F000]",
+    href: "/string-tension",
+    features: ["최적 텐션 계산", "라켓별 맞춤", "성능 예측"],
+    status: "active"
   },
   {
     id: "tennis-type",
     title: "테니스 성향 7유형",
     description: "당신의 플레이 스타일을 분석하여 최적의 전술과 장비를 추천합니다.",
     icon: "🧩",
-    color: "bg-[#2364AA]",
+    color: "bg-[#0BA360]",
     href: "/utility/tennis-type",
-    features: ["플레이 스타일 분석", "전술 추천", "장비 매칭"]
+    features: ["플레이 스타일 분석", "전술 추천", "장비 매칭"],
+    status: "active"
+  },
+  {
+    id: "rules-quiz",
+    title: "테니스 규칙 퀴즈",
+    description: "12문항 랜덤 퀴즈로 실전 규칙 감각을 점검하고 약점을 분석합니다.",
+    icon: "📚",
+    color: "bg-[#2364AA]",
+    href: "/test",
+    features: ["12문항 랜덤", "즉시 해설", "약점 분석"],
+    status: "active"
+  },
+  {
+    id: "match-analyzer",
+    title: "경기 기록 분석기",
+    description: "경기 데이터를 입력하여 승률, 서브/리턴 지표, UE/위너 비율 등을 분석합니다.",
+    icon: "📊",
+    color: "bg-[#C7F000]",
+    href: "/match-analyzer",
+    features: ["데이터 입력", "통계 분석", "개인화 리포트"],
+    status: "active"
   },
   {
     id: "racket-recommender",
@@ -31,43 +75,8 @@ const utilities = [
     icon: "🎾",
     color: "bg-[#C7F000]",
     href: "/utility/racket-recommender",
-    features: ["AI 기반 추천", "실력별 매칭", "상세 스펙 비교"]
-  },
-  {
-    id: "match-analyzer",
-    title: "경기 기록 분석",
-    description: "매치 데이터를 분석하여 강점과 약점을 파악하고 전략을 수립할 수 있습니다.",
-    icon: "📊",
-    color: "bg-[#0BA360]",
-    href: "/utility/match-analyzer",
-    features: ["경기 데이터 분석", "강약점 파악", "전략 수립"]
-  },
-  {
-    id: "string-tension",
-    title: "스트링 텐션 계산",
-    description: "라켓과 플레이 스타일에 맞는 최적의 스트링 텐션을 계산해드립니다.",
-    icon: "⚡",
-    color: "bg-[#2364AA]",
-    href: "/utility/string-tension",
-    features: ["최적 텐션 계산", "라켓별 맞춤", "성능 예측"]
-  },
-  {
-    id: "rules-quiz",
-    title: "규칙 퀴즈",
-    description: "테니스 규칙을 재미있게 학습할 수 있는 4단계 난이도의 퀴즈입니다.",
-    icon: "📚",
-    color: "bg-[#C7F000]",
-    href: "/utility/rules-quiz",
-    features: ["4단계 난이도", "즉시 피드백", "규칙 마스터"]
-  },
-  {
-    id: "injury-risk",
-    title: "부상 리스크 체크",
-    description: "현재 상태를 분석하여 부상 위험을 평가하고 예방 방법을 제시합니다.",
-    icon: "🛡️",
-    color: "bg-[#0BA360]",
-    href: "/utility/injury-risk",
-    features: ["부상 위험 평가", "예방 방법 제시", "안전한 훈련"]
+    features: ["AI 기반 추천", "실력별 매칭", "상세 스펙 비교"],
+    status: "coming-soon"
   },
   {
     id: "court-finder",
@@ -76,14 +85,97 @@ const utilities = [
     icon: "🏟️",
     color: "bg-[#2364AA]",
     href: "/utility/court-finder",
-    features: ["지역별 검색", "실시간 예약", "리뷰 및 평점"]
+    features: ["지역별 검색", "실시간 예약", "리뷰 및 평점"],
+    status: "coming-soon"
+  },
+  {
+    id: "training-planner",
+    title: "훈련 계획 수립",
+    description: "개인 실력과 목표에 맞는 맞춤형 훈련 계획을 자동으로 생성해드립니다.",
+    icon: "📅",
+    color: "bg-[#C7F000]",
+    href: "/utility/training-planner",
+    features: ["맞춤형 계획", "진도 추적", "목표 설정"],
+    status: "coming-soon"
+  },
+  {
+    id: "nutrition-guide",
+    title: "테니스 영양 가이드",
+    description: "테니스 선수를 위한 맞춤형 영양 계획과 보충제 추천을 제공합니다.",
+    icon: "🥗",
+    color: "bg-[#0BA360]",
+    href: "/utility/nutrition-guide",
+    features: ["맞춤형 영양", "보충제 추천", "식단 계획"],
+    status: "coming-soon"
+  },
+  {
+    id: "mental-training",
+    title: "멘탈 트레이닝",
+    description: "경기 중 집중력과 멘탈 강화를 위한 다양한 훈련 프로그램을 제공합니다.",
+    icon: "🧠",
+    color: "bg-[#2364AA]",
+    href: "/utility/mental-training",
+    features: ["집중력 향상", "멘탈 강화", "경기 심리"],
+    status: "coming-soon"
+  },
+  {
+    id: "equipment-tracker",
+    title: "장비 관리",
+    description: "라켓, 스트링, 신발 등 테니스 장비의 사용 기간과 성능을 추적합니다.",
+    icon: "🔧",
+    color: "bg-[#C7F000]",
+    href: "/utility/equipment-tracker",
+    features: ["사용 기간 추적", "성능 모니터링", "교체 알림"],
+    status: "coming-soon"
+  },
+  {
+    id: "weather-analyzer",
+    title: "날씨별 플레이 분석",
+    description: "날씨 조건에 따른 플레이 스타일 조정과 장비 선택을 도와드립니다.",
+    icon: "🌤️",
+    color: "bg-[#0BA360]",
+    href: "/utility/weather-analyzer",
+    features: ["날씨별 전략", "장비 조정", "플레이 팁"],
+    status: "coming-soon"
+  },
+  {
+    id: "tournament-planner",
+    title: "대회 일정 관리",
+    description: "국내외 테니스 대회 일정을 확인하고 참가 계획을 세울 수 있습니다.",
+    icon: "🏆",
+    color: "bg-[#2364AA]",
+    href: "/utility/tournament-planner",
+    features: ["대회 일정", "참가 계획", "랭킹 추적"],
+    status: "coming-soon"
+  },
+  {
+    id: "video-analysis",
+    title: "동영상 분석",
+    description: "테니스 동영상을 업로드하여 스윙 폼과 기술을 AI가 분석해드립니다.",
+    icon: "🎥",
+    color: "bg-[#C7F000]",
+    href: "/utility/video-analysis",
+    features: ["AI 스윙 분석", "폼 교정", "기술 개선"],
+    status: "coming-soon"
   }
 ]
 
 export default function UtilityPage() {
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 9
+
+  // 페이지네이션 계산
+  const totalPages = Math.ceil(utilities.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentUtilities = utilities.slice(startIndex, endIndex)
+
+  // 활성 유틸리티와 곧 출시될 유틸리티 분리
+  const activeUtilities = utilities.filter(util => util.status === "active")
+  const comingSoonUtilities = utilities.filter(util => util.status === "coming-soon")
+
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
-      
       {/* Page Header */}
       <div className="bg-white border-b border-[#E2E8F0]">
         <div className="max-w-6xl mx-auto px-4 py-8">
@@ -100,10 +192,15 @@ export default function UtilityPage() {
         </div>
       </div>
 
-      {/* Utilities Grid */}
+      {/* Active Utilities Section */}
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {utilities.map((utility) => (
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-[#0F172A] mb-2">사용 가능한 유틸리티</h2>
+          <p className="text-[#64748B]">현재 사용할 수 있는 {activeUtilities.length}개의 유틸리티</p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {activeUtilities.map((utility) => (
             <Card key={utility.id} className="hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
@@ -139,35 +236,86 @@ export default function UtilityPage() {
         </div>
 
         {/* Coming Soon Section */}
-        <div className="mt-16 text-center">
-          <h2 className="text-2xl font-bold text-[#0F172A] mb-4">
-            곧 출시될 기능들
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <Card className="opacity-60">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <span className="text-2xl">📈</span>
-                  랭킹 스냅샷 생성
-                </CardTitle>
-                <CardDescription>
-                  운영자용 랭킹 데이터 분석 및 스냅샷 생성 도구
-                </CardDescription>
-              </CardHeader>
-            </Card>
-            <Card className="opacity-60">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <span className="text-2xl">📋</span>
-                  개인 리포트
-                </CardTitle>
-                <CardDescription>
-                  종합적인 개인 성과 분석 및 맞춤형 리포트 제공
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-[#0F172A] mb-2">곧 출시될 기능들</h2>
+          <p className="text-[#64748B]">개발 중인 {comingSoonUtilities.length}개의 유틸리티</p>
         </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {comingSoonUtilities.map((utility) => (
+            <Card key={utility.id} className="opacity-60 hover:opacity-80 transition-opacity duration-300">
+              <CardHeader>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`w-12 h-12 rounded-lg ${utility.color} flex items-center justify-center text-white text-2xl`}>
+                    {utility.icon}
+                  </div>
+                  <div>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      {utility.title}
+                      <Badge variant="outline" className="text-xs">Coming Soon</Badge>
+                    </CardTitle>
+                  </div>
+                </div>
+                <CardDescription className="text-sm">
+                  {utility.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex flex-wrap gap-1">
+                    {utility.features.map((feature, index) => (
+                      <Badge key={index} variant="secondary" className="text-xs">
+                        {feature}
+                      </Badge>
+                    ))}
+                  </div>
+                  <Button className="w-full" disabled>
+                    곧 출시 예정
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-8">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              이전
+            </Button>
+            
+            <div className="flex gap-1">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <Button
+                  key={page}
+                  variant={page === currentPage ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setCurrentPage(page)}
+                  className="w-8 h-8 p-0"
+                >
+                  {page}
+                </Button>
+              ))}
+            </div>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+            >
+              다음
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )
