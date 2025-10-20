@@ -5,6 +5,7 @@ import { supabase, NTRPResult } from "@/lib/supabaseClient";
 import { getDeviceId } from "@/lib/device";
 import { levelToNum } from "@/lib/ntrp";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
