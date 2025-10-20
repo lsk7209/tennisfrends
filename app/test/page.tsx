@@ -29,7 +29,6 @@ export default function TestPage() {
 
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
-      <Header />
       
       <div className="max-w-2xl mx-auto p-6 pt-8">
         <div className="mb-6">

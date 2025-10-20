@@ -111,7 +111,6 @@ export default function ResultPageClient() {
 
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
-      <Header />
       
       <main className="max-w-4xl mx-auto p-6 pt-8">
         {/* 결과 카드 */}

@@ -69,13 +69,11 @@ export default function LeaderboardPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F7F5F3]">
-        <Header />
         <main className="max-w-4xl mx-auto p-6 pt-8">
           <div className="text-center py-12">
             <div className="text-[#64748B]">리더보드를 불러오는 중...</div>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
