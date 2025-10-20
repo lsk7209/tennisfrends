@@ -1,41 +1,54 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const blogPosts = [
-  {
-    id: "ntrp-guide-2024",
-    title: "NTRP 레벨 완벽 가이드: 1.5부터 5.0+까지",
-    excerpt: "NTRP 시스템을 완전히 이해하고 자신의 실력을 정확히 측정하는 방법을 알아보세요. 각 레벨별 특징과 향상 방법을 상세히 설명합니다.",
-    date: "2024-01-15",
-    readTime: "8분",
-    category: "실력 향상",
-    tags: ["NTRP", "실력 측정", "가이드"],
-    image: "🎾"
-  },
-  {
-    id: "tennis-racket-selection",
-    title: "초보자를 위한 테니스 라켓 선택 가이드",
-    excerpt: "처음 테니스를 시작하는 분들을 위한 라켓 선택 기준과 추천 모델을 소개합니다. 헤드 크기, 무게, 밸런스 등 중요한 요소들을 쉽게 설명합니다.",
-    date: "2024-01-12",
-    readTime: "6분",
-    category: "장비",
-    tags: ["라켓", "초보자", "장비 선택"],
-    image: "🏸"
-  },
-  {
-    id: "tennis-strategy-basics",
-    title: "테니스 전술의 기초: 포지셔닝과 샷 선택",
-    excerpt: "테니스에서 승리하기 위한 기본 전술을 배워보세요. 코트 포지셔닝, 상황별 샷 선택, 상대 분석 방법까지 실전에 바로 적용할 수 있는 내용입니다.",
-    date: "2024-01-10",
-    readTime: "10분",
-    category: "전술",
-    tags: ["전술", "포지셔닝", "전략"],
-    image: "🧠"
-  }
-];
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  tags: string[];
+  read_time: number;
+  image_emoji: string;
+  featured: boolean;
+  view_count: number;
+  created_at: string;
+  published_at: string;
+}
 
 export default function BlogPage() {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/blog?status=published&limit=20');
+      const result = await response.json();
+      
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setPosts(result.data || []);
+      }
+    } catch (err) {
+      setError('블로그 포스트를 불러오는데 실패했습니다.');
+      console.error('Error fetching posts:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
       {/* Page Header */}
@@ -54,53 +67,92 @@ export default function BlogPage() {
 
       {/* Blog Posts */}
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <div className="grid gap-8">
-          {blogPosts.map((post) => (
-            <Card key={post.id} className="hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
+        {loading ? (
+          <div className="grid gap-8">
+            {[...Array(3)].map((_, i) => (
+              <Card key={i} className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#0BA360] to-[#19C37D] rounded-lg flex items-center justify-center text-2xl">
-                    {post.image}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge variant="secondary" className="text-xs">
-                        {post.category}
-                      </Badge>
-                      <span className="text-sm text-[#64748B]">•</span>
-                      <span className="text-sm text-[#64748B]">{post.readTime} 읽기</span>
+                  <Skeleton className="w-16 h-16 rounded-lg" />
+                  <div className="flex-1 space-y-3">
+                    <div className="flex gap-2">
+                      <Skeleton className="h-6 w-20" />
+                      <Skeleton className="h-6 w-16" />
                     </div>
-                    <CardTitle className="text-xl mb-2">
-                      <Link 
-                        href={`/blog/${post.id}`}
-                        className="hover:text-[#0BA360] transition-colors"
-                      >
-                        {post.title}
-                      </Link>
-                    </CardTitle>
-                    <CardDescription className="text-base leading-relaxed">
-                      {post.excerpt}
-                    </CardDescription>
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-2/3" />
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        #{tag}
-                      </Badge>
-                    ))}
+              </Card>
+            ))}
+          </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <p className="text-red-600 mb-4">{error}</p>
+            <Button onClick={fetchPosts} variant="outline">
+              다시 시도
+            </Button>
+          </div>
+        ) : posts.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 mb-4">아직 게시된 블로그 포스트가 없습니다.</p>
+          </div>
+        ) : (
+          <div className="grid gap-8">
+            {posts.map((post) => (
+              <Card key={post.id} className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <div className="flex items-start gap-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#0BA360] to-[#19C37D] rounded-lg flex items-center justify-center text-2xl">
+                      {post.image_emoji || "🎾"}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge variant="secondary" className="text-xs">
+                          {post.category}
+                        </Badge>
+                        {post.featured && (
+                          <Badge variant="default" className="text-xs bg-[#C7F000] text-[#0F172A]">
+                            추천
+                          </Badge>
+                        )}
+                        <span className="text-sm text-[#64748B]">•</span>
+                        <span className="text-sm text-[#64748B]">{post.read_time}분 읽기</span>
+                        <span className="text-sm text-[#64748B]">•</span>
+                        <span className="text-sm text-[#64748B]">{post.view_count}회 조회</span>
+                      </div>
+                      <CardTitle className="text-xl mb-2">
+                        <Link 
+                          href={`/blog/${post.slug}`}
+                          className="hover:text-[#0BA360] transition-colors"
+                        >
+                          {post.title}
+                        </Link>
+                      </CardTitle>
+                      <CardDescription className="text-base leading-relaxed">
+                        {post.excerpt}
+                      </CardDescription>
+                    </div>
                   </div>
-                  <div className="text-sm text-[#64748B]">
-                    {new Date(post.date).toLocaleDateString('ko-KR')}
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags.map((tag) => (
+                        <Badge key={tag} variant="outline" className="text-xs">
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    <div className="text-sm text-[#64748B]">
+                      {new Date(post.published_at).toLocaleDateString('ko-KR')}
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
 
         {/* Newsletter Signup */}
         <div className="mt-16">
