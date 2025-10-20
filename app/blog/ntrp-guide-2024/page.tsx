@@ -9,7 +9,6 @@ import { ArrowLeft } from "lucide-react";
 export default function NTRPGuidePage() {
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
-      <Header />
       
       {/* Page Header */}
       <div className="bg-white border-b border-[#E2E8F0]">
@@ -214,8 +213,6 @@ export default function NTRPGuidePage() {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }

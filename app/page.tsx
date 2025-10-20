@@ -114,7 +114,6 @@ export default function LandingPage() {
             </div>
 
               {/* Footer Section */}
-            <Footer />
             </div>
           </div>
       </div>
