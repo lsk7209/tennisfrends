@@ -69,14 +69,14 @@ const utilities = [
     status: "active"
   },
   {
-    id: "racket-recommender",
-    title: "라켓 추천 시스템",
-    description: "실력과 플레이 스타일에 맞는 최적의 라켓을 AI가 자동으로 추천해드립니다.",
+    id: "racket-matchmaker",
+    title: "라켓 매칭 도우미",
+    description: "10문항 설문으로 플레이어 프로파일을 생성하고 최적의 라켓을 추천합니다.",
     icon: "🎾",
-    color: "bg-[#C7F000]",
-    href: "/utility/racket-recommender",
-    features: ["AI 기반 추천", "실력별 매칭", "상세 스펙 비교"],
-    status: "coming-soon"
+    color: "bg-[#2364AA]",
+    href: "/racket-matchmaker",
+    features: ["10문항 설문", "맞춤 추천", "상세 비교"],
+    status: "active"
   },
   {
     id: "court-finder",

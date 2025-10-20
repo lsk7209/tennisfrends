@@ -1,0 +1,37 @@
+[
+  {
+    "id": "seoul-mapogu-001",
+    "name": "망원 한강 테니스장",
+    "address": "서울 마포구 망원동 ○○-○",
+    "lat": 37.555,
+    "lng": 126.9,
+    "city": "서울 마포구",
+    "surface": "hard",
+    "indoor": false,
+    "lights": true,
+    "fee_type": "paid",
+    "booking": "required",
+    "phones": ["02-000-0000"],
+    "links": ["https://example.seoul.go.kr/tennis/booking"],
+    "notes": "주차 유료, 강풍 주의",
+    "updated_at": "2025-01-15T00:00:00Z"
+  },
+  {
+    "id": "seoul-gangnam-002",
+    "name": "대치 테니스코트",
+    "address": "서울 강남구 대치동 ○○-○",
+    "lat": 37.498,
+    "lng": 127.061,
+    "city": "서울 강남구",
+    "surface": "hard",
+    "indoor": true,
+    "lights": true,
+    "fee_type": "paid",
+    "booking": "required",
+    "phones": ["02-111-2222"],
+    "links": ["https://booking.example.com/dc"],
+    "notes": "실내, 환기 양호",
+    "updated_at": "2025-01-20T00:00:00Z"
+  }
+]
+

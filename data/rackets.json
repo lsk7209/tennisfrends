@@ -1,0 +1,154 @@
+[
+  {
+    "id": "radical-mp-2024",
+    "brand": "HEAD",
+    "model": "Radical MP 2024",
+    "spec": {
+      "weight_strung": 300,
+      "balance_mm": 320,
+      "swingweight": 320,
+      "headsize_in2": 98,
+      "pattern": "16x19",
+      "stiffness_ra": 65
+    },
+    "tags": ["allround", "spin", "control", "intermediate", "advanced"],
+    "cta": {
+      "label": "최저가 보기",
+      "url": "https://affiliate.example.com/head/radical-mp"
+    },
+    "image": "/img/radical-mp.png"
+  },
+  {
+    "id": "aero-98-2023",
+    "brand": "Babolat",
+    "model": "Pure Aero 98 2023",
+    "spec": {
+      "weight_strung": 305,
+      "balance_mm": 315,
+      "swingweight": 325,
+      "headsize_in2": 98,
+      "pattern": "16x20",
+      "stiffness_ra": 66
+    },
+    "tags": ["spin", "aggressive", "advanced"],
+    "cta": {
+      "label": "구매처 바로가기",
+      "url": "https://affiliate.example.com/babolat/aero98"
+    },
+    "image": "/img/aero98.png"
+  },
+  {
+    "id": "ezone-100-2024",
+    "brand": "Yonex",
+    "model": "EZONE 100 2024",
+    "spec": {
+      "weight_strung": 300,
+      "balance_mm": 320,
+      "swingweight": 318,
+      "headsize_in2": 100,
+      "pattern": "16x19",
+      "stiffness_ra": 67
+    },
+    "tags": ["power", "forgiving", "intermediate"],
+    "cta": {
+      "label": "특가 링크",
+      "url": "https://affiliate.example.com/yonex/ezone100"
+    },
+    "image": "/img/ezone100.png"
+  },
+  {
+    "id": "blade-98-v9",
+    "brand": "Wilson",
+    "model": "Blade 98 v9 16x19",
+    "spec": {
+      "weight_strung": 305,
+      "balance_mm": 320,
+      "swingweight": 325,
+      "headsize_in2": 98,
+      "pattern": "16x19",
+      "stiffness_ra": 61
+    },
+    "tags": ["control", "feel", "advanced"],
+    "cta": {
+      "label": "쇼핑하기",
+      "url": "https://affiliate.example.com/wilson/blade98"
+    },
+    "image": "/img/blade98.png"
+  },
+  {
+    "id": "cx-200-2024",
+    "brand": "Dunlop",
+    "model": "CX 200 2024",
+    "spec": {
+      "weight_strung": 305,
+      "balance_mm": 315,
+      "swingweight": 322,
+      "headsize_in2": 98,
+      "pattern": "16x19",
+      "stiffness_ra": 62
+    },
+    "tags": ["control", "arm-friendly", "advanced"],
+    "cta": {
+      "label": "구매 링크",
+      "url": "https://affiliate.example.com/dunlop/cx200"
+    },
+    "image": "/img/cx200.png"
+  },
+  {
+    "id": "pure-drive-2024",
+    "brand": "Babolat",
+    "model": "Pure Drive 2024",
+    "spec": {
+      "weight_strung": 300,
+      "balance_mm": 320,
+      "swingweight": 318,
+      "headsize_in2": 100,
+      "pattern": "16x19",
+      "stiffness_ra": 70
+    },
+    "tags": ["power", "forgiving", "beginner", "intermediate"],
+    "cta": {
+      "label": "구매하기",
+      "url": "https://affiliate.example.com/babolat/pure-drive"
+    },
+    "image": "/img/pure-drive.png"
+  },
+  {
+    "id": "pro-staff-97",
+    "brand": "Wilson",
+    "model": "Pro Staff 97",
+    "spec": {
+      "weight_strung": 315,
+      "balance_mm": 310,
+      "swingweight": 330,
+      "headsize_in2": 97,
+      "pattern": "16x19",
+      "stiffness_ra": 66
+    },
+    "tags": ["control", "feel", "advanced", "pro"],
+    "cta": {
+      "label": "프로용 라켓",
+      "url": "https://affiliate.example.com/wilson/pro-staff"
+    },
+    "image": "/img/pro-staff.png"
+  },
+  {
+    "id": "speed-mp-2024",
+    "brand": "HEAD",
+    "model": "Speed MP 2024",
+    "spec": {
+      "weight_strung": 300,
+      "balance_mm": 320,
+      "swingweight": 318,
+      "headsize_in2": 100,
+      "pattern": "16x19",
+      "stiffness_ra": 66
+    },
+    "tags": ["allround", "power", "intermediate"],
+    "cta": {
+      "label": "스피드 시리즈",
+      "url": "https://affiliate.example.com/head/speed-mp"
+    },
+    "image": "/img/speed-mp.png"
+  }
+]
