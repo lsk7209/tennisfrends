@@ -23,30 +23,64 @@ function createSupabaseClient() {
 // 더미 클라이언트 생성 함수
 function createDummyClient() {
   return {
-    from: () => ({
-      select: () => ({
-        eq: () => ({ data: [], error: null }),
-        gte: () => ({ data: [], error: null }),
-        order: () => ({ data: [], error: null }),
-        limit: () => ({ data: [], error: null }),
+    from: (table: string) => ({
+      select: (columns?: string) => ({
+        eq: (column: string, value: any) => ({
+          order: (column: string, options?: any) => ({
+            range: (start: number, end: number) => ({
+              data: [],
+              error: null
+            }),
+            data: [],
+            error: null
+          }),
+          data: [],
+          error: null
+        }),
+        contains: (column: string, value: any) => ({
+          data: [],
+          error: null
+        }),
         data: [],
         error: null
       }),
-      insert: () => ({ data: [], error: null }),
-      update: () => ({ data: [], error: null }),
-      delete: () => ({ data: [], error: null })
+      insert: (data: any) => ({ data: [], error: null }),
+      update: (data: any) => ({
+        eq: (column: string, value: any) => ({
+          select: () => ({
+            single: () => ({ data: null, error: null }),
+            data: null,
+            error: null
+          }),
+          data: null,
+          error: null
+        }),
+        data: null,
+        error: null
+      }),
+      delete: () => ({
+        eq: (column: string, value: any) => ({
+          data: null,
+          error: null
+        }),
+        data: null,
+        error: null
+      })
     })
   };
 }
 
-// 클라이언트 생성 (빌드 시점에서는 더미 클라이언트 사용)
+// 클라이언트 생성 - 실제 Supabase 클라이언트 사용
 let supabase: any;
-if (typeof window === 'undefined') {
-  // 서버 사이드에서는 더미 클라이언트 사용
+try {
+  supabase = createSupabaseClient();
+  if (!supabase) {
+    console.warn("Supabase client not available, using dummy client");
+    supabase = createDummyClient();
+  }
+} catch (error) {
+  console.warn("Failed to create Supabase client:", error);
   supabase = createDummyClient();
-} else {
-  // 클라이언트 사이드에서는 실제 클라이언트 시도
-  supabase = createSupabaseClient() || createDummyClient();
 }
 
 export { supabase };
