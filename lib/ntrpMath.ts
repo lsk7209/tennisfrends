@@ -12,8 +12,24 @@ export function getNTRPLevel(score: number): NTRPLevel {
   
   if (!band) {
     // Fallback for scores outside range
-    if (score < 15) return levelBands[0];
-    if (score > 75) return levelBands[levelBands.length - 1];
+    if (score < 15) {
+      const fallbackBand = levelBands[0];
+      return {
+        level: fallbackBand.level,
+        title: fallbackBand.title,
+        description: fallbackBand.summary[0],
+        color: fallbackBand.color
+      };
+    }
+    if (score > 75) {
+      const fallbackBand = levelBands[levelBands.length - 1];
+      return {
+        level: fallbackBand.level,
+        title: fallbackBand.title,
+        description: fallbackBand.summary[0],
+        color: fallbackBand.color
+      };
+    }
   }
   
   const selectedBand = band || levelBands[0];
