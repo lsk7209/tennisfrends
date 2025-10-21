@@ -362,7 +362,7 @@ export default function Tennis30DayChallengePost() {
     <BlogTemplate
       title="테니스 실력 향상을 위한 30일 챌린지: 초보자도 NTRP 3.0 달성 가능"
       description="테니스 초보자도 30일 만에 NTRP 3.0을 달성할 수 있는 검증된 챌린지 프로그램입니다. 일일 훈련 계획부터 실력 측정까지 모든 것을 알려드립니다."
-      publishDate="2024-01-20"
+      publishDate="2024-12-30"
       readTime="12"
       tags={['챌린지', '실력향상', '30일', '훈련', '초보자']}
       category="실력 향상"

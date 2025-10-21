@@ -39,7 +39,11 @@ export default function BlogPage() {
         // 에러 발생 시에도 빈 배열로 설정하여 크래시 방지
         setPosts([]);
       } else {
-        setPosts(result.data || []);
+        // 클라이언트 측에서도 날짜 기준 정렬 보장
+        const sortedPosts = (result.data || []).sort((a: BlogPost, b: BlogPost) => {
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        });
+        setPosts(sortedPosts);
       }
     } catch (err) {
       setError('블로그 포스트를 불러오는데 실패했습니다.');
