@@ -3,8 +3,9 @@
 import { forwardRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ResultCardProps } from "@/lib/types";
 
-interface ResultCardProps {
+interface LegacyResultCardProps {
   level: string;
   title: string;
   slogan: string;

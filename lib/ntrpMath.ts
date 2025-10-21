@@ -1,11 +1,5 @@
 import { levelBands } from './ntrpResultConfig';
-
-export interface NTRPLevel {
-  level: string;
-  title: string;
-  description: string;
-  color: string;
-}
+import { NTRPLevel, LevelBand, RadarData } from './types';
 
 export function getNTRPLevel(score: number): NTRPLevel {
   const band = levelBands.find(b => score >= b.band[0] && score <= b.band[1]);
@@ -42,7 +36,7 @@ export function getNTRPLevel(score: number): NTRPLevel {
   };
 }
 
-export function mapScoreToLevelBand(score: number) {
+export function mapScoreToLevelBand(score: number): LevelBand {
   return levelBands.find(b => score >= b.band[0] && score <= b.band[1]) || levelBands[0];
 }
 
@@ -64,7 +58,7 @@ export function mapLevelToBaseProfile(level: string) {
 }
 
 // 레이더 차트용 데이터 변환 함수
-export function convertToRadarData(profile: any) {
+export function convertToRadarData(profile: Record<string, number>): RadarData[] {
   return [
     { key: "파워", value: profile.power },
     { key: "컨트롤", value: profile.control },
