@@ -14,7 +14,7 @@ interface LegacyResultCardProps {
   persona?: string;
 }
 
-const ResultCard = forwardRef<HTMLDivElement, ResultCardProps>(
+const ResultCard = forwardRef<HTMLDivElement, LegacyResultCardProps>(
   ({ level, title, slogan, color, score, persona }, ref) => {
     return (
       <div ref={ref} className="w-full max-w-md mx-auto">
