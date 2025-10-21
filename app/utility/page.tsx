@@ -16,7 +16,8 @@ const utilities = [
     color: "bg-[#0BA360]",
     href: "/utility/ntrp-analyzer",
     features: ["정확한 실력 측정", "개선 방향 제시", "맞춤형 훈련 계획"],
-    status: "active"
+    status: "active",
+    priority: 1
   },
   {
     id: "injury-risk",
@@ -26,7 +27,8 @@ const utilities = [
     color: "bg-[#2364AA]",
     href: "/injury-risk/intro",
     features: ["부상 위험 평가", "개인화 체크리스트", "예방 방법 제시"],
-    status: "active"
+    status: "active",
+    priority: 2
   },
   {
     id: "string-tension",
@@ -36,7 +38,8 @@ const utilities = [
     color: "bg-[#C7F000]",
     href: "/string-tension",
     features: ["최적 텐션 계산", "라켓별 맞춤", "성능 예측"],
-    status: "active"
+    status: "active",
+    priority: 3
   },
   {
     id: "tennis-type",
@@ -46,7 +49,8 @@ const utilities = [
     color: "bg-[#0BA360]",
     href: "/utility/tennis-type",
     features: ["플레이 스타일 분석", "전술 추천", "장비 매칭"],
-    status: "active"
+    status: "active",
+    priority: 4
   },
   {
     id: "rules-quiz",
@@ -56,7 +60,8 @@ const utilities = [
     color: "bg-[#2364AA]",
     href: "/test",
     features: ["12문항 랜덤", "즉시 해설", "약점 분석"],
-    status: "active"
+    status: "active",
+    priority: 5
   },
   {
     id: "match-analyzer",
@@ -66,7 +71,8 @@ const utilities = [
     color: "bg-[#C7F000]",
     href: "/match-analyzer",
     features: ["데이터 입력", "통계 분석", "개인화 리포트"],
-    status: "active"
+    status: "active",
+    priority: 6
   },
   {
     id: "racket-matchmaker",
@@ -76,7 +82,8 @@ const utilities = [
     color: "bg-[#2364AA]",
     href: "/racket-matchmaker",
     features: ["10문항 설문", "맞춤 추천", "상세 비교"],
-    status: "active"
+    status: "active",
+    priority: 7
   },
   {
     id: "court-finder",
@@ -86,7 +93,8 @@ const utilities = [
     color: "bg-[#2364AA]",
     href: "/utility/court-finder",
     features: ["지역별 검색", "실시간 예약", "리뷰 및 평점"],
-    status: "coming-soon"
+    status: "coming-soon",
+    priority: 8
   },
   {
     id: "training-planner",
@@ -96,7 +104,8 @@ const utilities = [
     color: "bg-[#C7F000]",
     href: "/utility/training-planner",
     features: ["맞춤형 계획", "진도 추적", "목표 설정"],
-    status: "coming-soon"
+    status: "coming-soon",
+    priority: 9
   },
   {
     id: "nutrition-guide",
@@ -106,7 +115,8 @@ const utilities = [
     color: "bg-[#0BA360]",
     href: "/utility/nutrition-guide",
     features: ["맞춤형 영양", "보충제 추천", "식단 계획"],
-    status: "coming-soon"
+    status: "coming-soon",
+    priority: 10
   },
   {
     id: "mental-training",
@@ -116,7 +126,8 @@ const utilities = [
     color: "bg-[#2364AA]",
     href: "/utility/mental-training",
     features: ["집중력 향상", "멘탈 강화", "경기 심리"],
-    status: "coming-soon"
+    status: "coming-soon",
+    priority: 11
   },
   {
     id: "equipment-tracker",
@@ -126,7 +137,8 @@ const utilities = [
     color: "bg-[#C7F000]",
     href: "/utility/equipment-tracker",
     features: ["사용 기간 추적", "성능 모니터링", "교체 알림"],
-    status: "coming-soon"
+    status: "coming-soon",
+    priority: 12
   },
   {
     id: "weather-analyzer",
@@ -136,7 +148,8 @@ const utilities = [
     color: "bg-[#0BA360]",
     href: "/utility/weather-analyzer",
     features: ["날씨별 전략", "장비 조정", "플레이 팁"],
-    status: "coming-soon"
+    status: "coming-soon",
+    priority: 13
   },
   {
     id: "tournament-planner",
@@ -146,7 +159,8 @@ const utilities = [
     color: "bg-[#2364AA]",
     href: "/utility/tournament-planner",
     features: ["대회 일정", "참가 계획", "랭킹 추적"],
-    status: "coming-soon"
+    status: "coming-soon",
+    priority: 14
   },
   {
     id: "video-analysis",
@@ -156,23 +170,39 @@ const utilities = [
     color: "bg-[#C7F000]",
     href: "/utility/video-analysis",
     features: ["AI 스윙 분석", "폼 교정", "기술 개선"],
-    status: "coming-soon"
+    status: "coming-soon",
+    priority: 15
   }
 ]
 
 export default function UtilityPage() {
   const [currentPage, setCurrentPage] = useState(1)
+  const [activeTab, setActiveTab] = useState<'active' | 'coming-soon'>('active')
   const itemsPerPage = 9
 
+  // 활성 유틸리티와 곧 출시될 유틸리티 분리 및 정렬
+  const activeUtilities = utilities
+    .filter(util => util.status === "active")
+    .sort((a, b) => (a.priority || 999) - (b.priority || 999))
+  
+  const comingSoonUtilities = utilities
+    .filter(util => util.status === "coming-soon")
+    .sort((a, b) => (a.priority || 999) - (b.priority || 999))
+  
+  // 현재 탭에 따른 유틸리티 선택
+  const currentUtilities = activeTab === 'active' ? activeUtilities : comingSoonUtilities
+  
   // 페이지네이션 계산
-  const totalPages = Math.ceil(utilities.length / itemsPerPage)
+  const totalPages = Math.ceil(currentUtilities.length / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
-  const currentUtilities = utilities.slice(startIndex, endIndex)
+  const paginatedUtilities = currentUtilities.slice(startIndex, endIndex)
 
-  // 활성 유틸리티와 곧 출시될 유틸리티 분리
-  const activeUtilities = utilities.filter(util => util.status === "active")
-  const comingSoonUtilities = utilities.filter(util => util.status === "coming-soon")
+  // 탭 변경 시 페이지 리셋
+  const handleTabChange = (tab: 'active' | 'coming-soon') => {
+    setActiveTab(tab)
+    setCurrentPage(1)
+  }
 
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
@@ -192,15 +222,59 @@ export default function UtilityPage() {
         </div>
       </div>
 
-      {/* Active Utilities Section */}
+      {/* Utilities Section */}
       <div className="max-w-6xl mx-auto px-4 py-12">
+        {/* Tab Navigation */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-[#0F172A] mb-2">사용 가능한 유틸리티</h2>
-          <p className="text-[#64748B]">현재 사용할 수 있는 {activeUtilities.length}개의 유틸리티</p>
+          <div className="flex gap-4 mb-6">
+            <button
+              onClick={() => handleTabChange('active')}
+              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                activeTab === 'active'
+                  ? 'bg-[#0BA360] text-white'
+                  : 'bg-white text-[#64748B] hover:bg-[#F8FAFC]'
+              }`}
+            >
+              사용 가능한 유틸리티 ({activeUtilities.length})
+            </button>
+            <button
+              onClick={() => handleTabChange('coming-soon')}
+              className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                activeTab === 'coming-soon'
+                  ? 'bg-[#0BA360] text-white'
+                  : 'bg-white text-[#64748B] hover:bg-[#F8FAFC]'
+              }`}
+            >
+              곧 출시될 기능 ({comingSoonUtilities.length})
+            </button>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-2xl font-bold text-[#0F172A] mb-2">
+                {activeTab === 'active' ? '사용 가능한 유틸리티' : '곧 출시될 기능들'}
+              </h2>
+              <p className="text-[#64748B]">
+                {activeTab === 'active' 
+                  ? `현재 사용할 수 있는 ${activeUtilities.length}개의 유틸리티`
+                  : `개발 중인 ${comingSoonUtilities.length}개의 유틸리티`
+                }
+              </p>
+            </div>
+            
+            {/* Page Info */}
+            <div className="text-sm text-[#64748B]">
+              {totalPages > 1 && (
+                <span>
+                  {startIndex + 1}-{Math.min(endIndex, currentUtilities.length)} / {currentUtilities.length}
+                </span>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {activeUtilities.map((utility) => (
+          {paginatedUtilities.map((utility) => (
             <Card key={utility.id} className="hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
                 <div className="flex items-center gap-3 mb-2">
@@ -235,48 +309,6 @@ export default function UtilityPage() {
           ))}
         </div>
 
-        {/* Coming Soon Section */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-[#0F172A] mb-2">곧 출시될 기능들</h2>
-          <p className="text-[#64748B]">개발 중인 {comingSoonUtilities.length}개의 유틸리티</p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {comingSoonUtilities.map((utility) => (
-            <Card key={utility.id} className="opacity-60 hover:opacity-80 transition-opacity duration-300">
-              <CardHeader>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className={`w-12 h-12 rounded-lg ${utility.color} flex items-center justify-center text-white text-2xl`}>
-                    {utility.icon}
-                  </div>
-                  <div>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      {utility.title}
-                      <Badge variant="outline" className="text-xs">Coming Soon</Badge>
-                    </CardTitle>
-                  </div>
-                </div>
-                <CardDescription className="text-sm">
-                  {utility.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex flex-wrap gap-1">
-                    {utility.features.map((feature, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs">
-                        {feature}
-                      </Badge>
-                    ))}
-                  </div>
-                  <Button className="w-full" disabled>
-                    곧 출시 예정
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
         {/* Pagination */}
         {totalPages > 1 && (
@@ -286,6 +318,7 @@ export default function UtilityPage() {
               size="sm"
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
+              className="flex items-center gap-1"
             >
               <ChevronLeft className="w-4 h-4" />
               이전
@@ -298,7 +331,11 @@ export default function UtilityPage() {
                   variant={page === currentPage ? "default" : "outline"}
                   size="sm"
                   onClick={() => setCurrentPage(page)}
-                  className="w-8 h-8 p-0"
+                  className={`w-8 h-8 p-0 ${
+                    page === currentPage 
+                      ? 'bg-[#0BA360] hover:bg-[#19C37D] text-white' 
+                      : 'hover:bg-[#F8FAFC]'
+                  }`}
                 >
                   {page}
                 </Button>
@@ -310,6 +347,7 @@ export default function UtilityPage() {
               size="sm"
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
+              className="flex items-center gap-1"
             >
               다음
               <ChevronRight className="w-4 h-4" />
