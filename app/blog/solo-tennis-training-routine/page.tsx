@@ -34,6 +34,11 @@ export default function SoloTennisTrainingRoutinePage() {
       category="training"
       tags={["테니스훈련", "혼자연습", "테니스홈트", "테니스루틴", "집에서테니스"]}
       author="TennisFriends"
+      socialShare={{
+        url: "https://tennisfriends.kr/blog/solo-tennis-training-routine",
+        title: "혼자서 실력 올리는 테니스 훈련 루틴 (집에서도 가능한 루틴 5가지)",
+        description: "코트가 없어도 성장할 수 있습니다. 벽치기, 밸런스 훈련, 하체 강화 루틴 등 집에서도 실력을 끌어올릴 수 있는 실전 루틴 5가지를 소개합니다."
+      }}
       content={
       <div className="prose prose-lg max-w-none">
         <p>

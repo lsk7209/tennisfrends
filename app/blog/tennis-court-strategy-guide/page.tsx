@@ -34,6 +34,11 @@ export default function TennisCourtStrategyGuidePage() {
       category="strategy"
       tags={["테니스코트", "하드코트", "클레이코트", "잔디코트", "테니스전략"]}
       author="TennisFriends"
+      socialShare={{
+        url: "https://tennisfriends.kr/blog/tennis-court-strategy-guide",
+        title: "테니스 코트별 플레이 전략 (하드·클레이·잔디 완벽 비교 가이드)",
+        description: "코트가 달라지면 게임이 달라집니다. 하드·클레이·잔디 코트의 속도, 반응, 전략 차이를 이해하면 경기력은 한 단계 높아집니다."
+      }}
       content={
       <div className="prose prose-lg max-w-none">
         <p>
