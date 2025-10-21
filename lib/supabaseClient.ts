@@ -91,6 +91,29 @@ try {
   supabase = createDummyClient();
 }
 
+// Supabase 연결 테스트 함수
+export async function testSupabaseConnection() {
+  try {
+    if (!supabase) return false;
+    
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('id')
+      .limit(1);
+    
+    if (error) {
+      console.error("Supabase 연결 테스트 실패:", error);
+      return false;
+    }
+    
+    console.log("✅ Supabase 연결 테스트 성공");
+    return true;
+  } catch (error) {
+    console.error("Supabase 연결 테스트 에러:", error);
+    return false;
+  }
+}
+
 export { supabase };
 
 // NTRP 결과 타입 정의

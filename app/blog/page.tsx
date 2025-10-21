@@ -34,7 +34,10 @@ export default function BlogPage() {
       const result = await response.json();
       
       if (result.error) {
+        console.error("블로그 API 에러:", result.error);
         setError(result.error);
+        // 에러 발생 시에도 빈 배열로 설정하여 크래시 방지
+        setPosts([]);
       } else {
         setPosts(result.data || []);
       }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase, testSupabaseConnection } from "@/lib/supabaseClient";
 
 // GET: 블로그 포스트 목록 조회
 export async function GET(req: NextRequest) {
@@ -19,7 +19,20 @@ export async function GET(req: NextRequest) {
     // Supabase 클라이언트 확인
     if (!supabase) {
       console.error("❌ Supabase 클라이언트가 없습니다");
-      return NextResponse.json({ error: "Supabase client not available" }, { status: 500 });
+      return NextResponse.json({ 
+        data: [],
+        error: "Supabase client not available" 
+      });
+    }
+
+    // Supabase 연결 테스트
+    const isConnected = await testSupabaseConnection();
+    if (!isConnected) {
+      console.warn("⚠️ Supabase 연결 실패, 빈 데이터 반환");
+      return NextResponse.json({ 
+        data: [],
+        error: "Supabase connection failed" 
+      });
     }
 
     let query = supabase
@@ -59,15 +72,17 @@ export async function GET(req: NextRequest) {
 
     if (error) {
       console.error("❌ Supabase 쿼리 에러:", error);
+      // 에러 발생 시 빈 배열 반환으로 앱 크래시 방지
       return NextResponse.json({ 
+        data: [],
         error: "Failed to fetch blog posts", 
         details: error.message,
         code: error.code 
-      }, { status: 500 });
+      });
     }
 
     console.log("✅ 쿼리 성공:", { dataCount: data?.length || 0 });
-    return NextResponse.json({ data });
+    return NextResponse.json({ data: data || [] });
   } catch (error) {
     console.error("❌ API 전체 에러:", error);
     return NextResponse.json({ 
