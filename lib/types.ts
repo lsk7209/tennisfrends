@@ -7,7 +7,7 @@ export interface NTRPLevel {
 }
 
 export interface LevelBand {
-  band: [number, number];
+  band: number[];
   level: string;
   title: string;
   color: string;
