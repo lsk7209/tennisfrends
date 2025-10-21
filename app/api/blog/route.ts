@@ -4,6 +4,8 @@ import { supabase } from "@/lib/supabaseClient";
 // GET: 블로그 포스트 목록 조회
 export async function GET(req: NextRequest) {
   try {
+    console.log("🔍 블로그 API 호출 시작");
+    
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
     const tag = searchParams.get("tag");
@@ -11,6 +13,14 @@ export async function GET(req: NextRequest) {
     const slug = searchParams.get("slug");
     const limit = parseInt(searchParams.get("limit") || "10");
     const offset = parseInt(searchParams.get("offset") || "0");
+
+    console.log("📊 쿼리 파라미터:", { category, tag, featured, slug, limit, offset });
+
+    // Supabase 클라이언트 확인
+    if (!supabase) {
+      console.error("❌ Supabase 클라이언트가 없습니다");
+      return NextResponse.json({ error: "Supabase client not available" }, { status: 500 });
+    }
 
     let query = supabase
       .from("blog_posts")
@@ -44,17 +54,26 @@ export async function GET(req: NextRequest) {
       query = query.eq("slug", slug);
     }
 
+    console.log("🔍 Supabase 쿼리 실행 중...");
     const { data, error } = await query;
 
     if (error) {
-      console.error("Error fetching blog posts:", error);
-      return NextResponse.json({ error: "Failed to fetch blog posts" }, { status: 500 });
+      console.error("❌ Supabase 쿼리 에러:", error);
+      return NextResponse.json({ 
+        error: "Failed to fetch blog posts", 
+        details: error.message,
+        code: error.code 
+      }, { status: 500 });
     }
 
+    console.log("✅ 쿼리 성공:", { dataCount: data?.length || 0 });
     return NextResponse.json({ data });
   } catch (error) {
-    console.error("API Error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    console.error("❌ API 전체 에러:", error);
+    return NextResponse.json({ 
+      error: "Internal server error", 
+      details: error instanceof Error ? error.message : "Unknown error"
+    }, { status: 500 });
   }
 }
 

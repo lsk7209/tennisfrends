@@ -4,18 +4,25 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+console.log("🔍 Supabase 환경 변수 확인:");
+console.log("URL:", supabaseUrl ? "설정됨" : "없음");
+console.log("Key:", supabaseAnonKey ? "설정됨" : "없음");
+
 // Supabase 클라이언트 생성 함수
 function createSupabaseClient() {
   if (!supabaseUrl || !supabaseAnonKey || 
       supabaseUrl === "https://placeholder.supabase.co" || 
       supabaseAnonKey === "placeholder-key") {
+    console.warn("⚠️ Supabase 환경 변수가 설정되지 않았습니다");
     return null;
   }
 
   try {
-    return createClient(supabaseUrl, supabaseAnonKey);
+    const client = createClient(supabaseUrl, supabaseAnonKey);
+    console.log("✅ Supabase 클라이언트 생성 성공");
+    return client;
   } catch (error) {
-    console.warn("Supabase client initialization failed:", error);
+    console.warn("❌ Supabase client initialization failed:", error);
     return null;
   }
 }
