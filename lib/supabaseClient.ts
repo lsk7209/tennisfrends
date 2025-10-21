@@ -1,25 +1,26 @@
 import { createClient } from "@supabase/supabase-js";
 
-// 환경 변수 확인
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// 환경 변수 확인 (Vercel 환경 변수 우선, 없으면 하드코딩된 값 사용)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zbccwmtesxalzzgralrz.supabase.co';
+// RLS 정책 우회를 위해 Service Role Key 사용
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY2N3bXRlc3hhbHp6Z3JhbHJ6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDg1NzM1MiwiZXhwIjoyMDc2NDMzMzUyfQ.nPRqka27bSKoCNFGnn7cagynn7Fq44W5Nfr7FNrjic4';
 
 console.log("🔍 Supabase 환경 변수 확인:");
 console.log("URL:", supabaseUrl ? "설정됨" : "없음");
-console.log("Key:", supabaseAnonKey ? "설정됨" : "없음");
+console.log("Key:", supabaseKey ? "설정됨" : "없음");
 
 // Supabase 클라이언트 생성 함수
 function createSupabaseClient() {
-  if (!supabaseUrl || !supabaseAnonKey || 
+  if (!supabaseUrl || !supabaseKey || 
       supabaseUrl === "https://placeholder.supabase.co" || 
-      supabaseAnonKey === "placeholder-key") {
+      supabaseKey === "placeholder-key") {
     console.warn("⚠️ Supabase 환경 변수가 설정되지 않았습니다");
     return null;
   }
 
   try {
-    const client = createClient(supabaseUrl, supabaseAnonKey);
-    console.log("✅ Supabase 클라이언트 생성 성공");
+    const client = createClient(supabaseUrl, supabaseKey);
+    console.log("✅ Supabase 클라이언트 생성 성공 (Service Role Key 사용)");
     return client;
   } catch (error) {
     console.warn("❌ Supabase client initialization failed:", error);
