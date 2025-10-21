@@ -186,7 +186,7 @@ export default function StringTensionResultPage() {
     const alternatives = [];
     
     if (tension > 50) {
-      alternatives.push(`${tension - 2}lbs: 더 부드러운 느낌을 원한다면");
+      alternatives.push(`${tension - 2}lbs: 더 부드러운 느낌을 원한다면`);
       alternatives.push(`${tension - 4}lbs: 팔 건강을 고려한다면`);
     } else {
       alternatives.push(`${tension + 2}lbs: 더 정확한 컨트롤을 원한다면`);
