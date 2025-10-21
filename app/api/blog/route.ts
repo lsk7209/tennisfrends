@@ -5,7 +5,6 @@ import { supabase } from "@/lib/supabaseClient";
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const status = searchParams.get("status") || "published";
     const category = searchParams.get("category");
     const tag = searchParams.get("tag");
     const featured = searchParams.get("featured");
@@ -23,20 +22,10 @@ export async function GET(req: NextRequest) {
         content,
         category,
         tags,
-        read_time,
-        image_emoji,
-        status,
-        featured,
-        view_count,
         created_at,
-        updated_at,
-        published_at,
-        seo_title,
-        seo_description,
-        seo_keywords
+        updated_at
       `)
-      .eq("status", status)
-      .order("published_at", { ascending: false })
+      .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
 
     if (category) {

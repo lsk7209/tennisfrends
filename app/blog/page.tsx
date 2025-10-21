@@ -14,12 +14,8 @@ interface BlogPost {
   excerpt: string;
   category: string;
   tags: string[];
-  read_time: number;
-  image_emoji: string;
-  featured: boolean;
-  view_count: number;
   created_at: string;
-  published_at: string;
+  updated_at: string;
 }
 
 export default function BlogPage() {
@@ -34,7 +30,7 @@ export default function BlogPage() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/blog?status=published&limit=20');
+      const response = await fetch('/api/blog?limit=20');
       const result = await response.json();
       
       if (result.error) {
@@ -104,22 +100,15 @@ export default function BlogPage() {
                 <CardHeader>
                   <div className="flex items-start gap-4">
                     <div className="w-16 h-16 bg-gradient-to-br from-[#0BA360] to-[#19C37D] rounded-lg flex items-center justify-center text-2xl">
-                      {post.image_emoji || "🎾"}
+                      🎾
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <Badge variant="secondary" className="text-xs">
                           {post.category}
                         </Badge>
-                        {post.featured && (
-                          <Badge variant="default" className="text-xs bg-[#C7F000] text-[#0F172A]">
-                            추천
-                          </Badge>
-                        )}
                         <span className="text-sm text-[#64748B]">•</span>
-                        <span className="text-sm text-[#64748B]">{post.read_time}분 읽기</span>
-                        <span className="text-sm text-[#64748B]">•</span>
-                        <span className="text-sm text-[#64748B]">{post.view_count}회 조회</span>
+                        <span className="text-sm text-[#64748B]">테니스 가이드</span>
                       </div>
                       <CardTitle className="text-xl mb-2">
                         <Link 
@@ -145,7 +134,7 @@ export default function BlogPage() {
                       ))}
                     </div>
                     <div className="text-sm text-[#64748B]">
-                      {new Date(post.published_at).toLocaleDateString('ko-KR')}
+                      {new Date(post.created_at).toLocaleDateString('ko-KR')}
                     </div>
                   </div>
                 </CardContent>
