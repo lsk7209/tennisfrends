@@ -8,13 +8,13 @@ export function useMemoizedCallback<T extends (...args: any[]) => any>(
   callback: T,
   deps: React.DependencyList
 ): T {
-  const ref = useRef<{ callback: T; deps: React.DependencyList }>();
+  const ref = useRef<{ callback: T; deps: React.DependencyList } | undefined>();
   
   if (!ref.current || deps.some((dep, index) => dep !== ref.current.deps[index])) {
     ref.current = { callback, deps };
   }
   
-  return ref.current.callback;
+  return ref.current!.callback;
 }
 
 /**
