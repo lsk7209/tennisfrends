@@ -352,7 +352,7 @@ export default function TennisRacketGripGuidePage() {
     <BlogTemplate
       title="내 손에 맞는 라켓 그립 찾는 법 ✋ (그립 두께·감각·부상 방지 가이드)"
       description="그립은 테니스에서 가장 자주 잡는 '감각의 중심'입니다. 그립 두께와 감각을 잘못 선택하면 스윙이 흔들리고 손목 부상으로 이어집니다. 내 손에 딱 맞는 그립을 찾는 방법을 소개합니다."
-      publishDate="2025-01-13T00:00:00.000Z"
+      publishDate="2025-01-13"
       readTime="6"
       category="gear"
       tags={["테니스그립", "라켓그립", "손목통증", "테니스장비", "테니스팁"]}

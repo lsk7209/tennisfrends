@@ -9,7 +9,7 @@ export const metadata: Metadata = generateBlogMetadata({
   description: '테니스 초보자도 5분만에 자신에게 맞는 라켓을 선택할 수 있는 완벽한 가이드입니다. 헤드 크기, 무게, 밸런스부터 브랜드별 추천까지 모든 것을 알려드립니다.',
   keywords: ['테니스 라켓', '초보자', '라켓 선택', '테니스 장비', '라켓 추천', '테니스 기초'],
   category: '장비 & 기어',
-  publishDate: '2025-01-06T00:00:00Z',
+  publishDate: '2025-01-06',
   author: '테니스프렌즈',
   slug: 'tennis-racket-selection',
   readTime: '8',
@@ -328,7 +328,7 @@ export default function TennisRacketSelectionPost() {
     <BlogTemplate
       title="초보자를 위한 테니스 라켓 선택 완벽 가이드 2024"
       description="테니스 초보자도 5분만에 자신에게 맞는 라켓을 선택할 수 있는 완벽한 가이드입니다. 헤드 크기, 무게, 밸런스부터 브랜드별 추천까지 모든 것을 알려드립니다."
-      publishDate="2024-01-15"
+      publishDate="2025-01-06"
       readTime="8"
       tags={['라켓', '초보자', '장비', '가이드', '추천']}
       category="장비 & 기어"

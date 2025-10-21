@@ -141,7 +141,7 @@ export default function BlogPage() {
                       ))}
                     </div>
                     <div className="text-sm text-[#64748B]">
-                      {new Date(post.created_at).toLocaleDateString('ko-KR')}
+                      {new Date(post.created_at).toISOString().split('T')[0]}
                     </div>
                   </div>
                 </CardContent>
