@@ -16,12 +16,18 @@ export default function TestPage() {
     const nxt = [...ans];
     nxt[idx] = v;
     setAns(nxt);
+    
+    // 자동으로 다음 질문으로 넘어가기
     if (idx < questions.length - 1) {
-      setIdx(idx + 1);
+      setTimeout(() => {
+        setIdx(idx + 1);
+      }, 500); // 0.5초 후 자동 진행
     } else {
-      const total = nxt.reduce((a, b) => a + b, 0);
-      const q13Label = questions[12].options[nxt[12] - 1];
-      router.push(`/result?score=${total}&q13=${encodeURIComponent(q13Label)}`);
+      // 마지막 질문인 경우 결과 페이지로 이동
+      setTimeout(() => {
+        const total = nxt.reduce((a, b) => a + b, 0);
+        router.push(`/test/result?score=${total}&total=${questions.length}`);
+      }, 500);
     }
   };
 

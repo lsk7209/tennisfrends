@@ -265,7 +265,15 @@ export default function RacketTestPage() {
                                   ? "border-[#0BA360] bg-[#0BA360]/5"
                                   : "border-[#E2E8F0] hover:border-[#0BA360]/50"
                               }`}
-                              onClick={() => field.onChange(option.value)}
+                              onClick={() => {
+                                field.onChange(option.value);
+                                // 자동으로 다음 질문으로 넘어가기 (마지막 질문이 아닌 경우)
+                                if (currentStep < questions.length - 1) {
+                                  setTimeout(() => {
+                                    nextStep();
+                                  }, 500); // 0.5초 후 자동 진행
+                                }
+                              }}
                             >
                               <div className="flex items-center gap-3">
                                 <div className={`w-4 h-4 rounded-full border-2 ${

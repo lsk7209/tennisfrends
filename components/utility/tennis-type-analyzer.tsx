@@ -205,6 +205,13 @@ export default function TennisTypeAnalyzer() {
 
   const handleAnswer = (questionId: string, value: number) => {
     setAnswers(prev => ({ ...prev, [questionId]: value }))
+    
+    // 자동으로 다음 질문으로 넘어가기 (마지막 질문이 아닌 경우)
+    if (currentStep < 3) {
+      setTimeout(() => {
+        setCurrentStep(currentStep + 1)
+      }, 500) // 0.5초 후 자동 진행
+    }
   }
 
   const calculateTennisType = () => {
