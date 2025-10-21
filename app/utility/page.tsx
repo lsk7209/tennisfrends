@@ -275,8 +275,8 @@ export default function UtilityPage() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {paginatedUtilities.map((utility) => (
-            <Card key={utility.id} className="hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
+            <Card key={utility.id} className="hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+              <CardHeader className="flex-shrink-0">
                 <div className="flex items-center gap-3 mb-2">
                   <div className={`w-12 h-12 rounded-lg ${utility.color} flex items-center justify-center text-white text-2xl`}>
                     {utility.icon}
@@ -289,8 +289,8 @@ export default function UtilityPage() {
                   {utility.description}
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
+              <CardContent className="flex flex-col flex-grow">
+                <div className="space-y-3 flex-grow">
                   <div className="flex flex-wrap gap-1">
                     {utility.features.map((feature, index) => (
                       <Badge key={index} variant="secondary" className="text-xs">
@@ -298,6 +298,8 @@ export default function UtilityPage() {
                       </Badge>
                     ))}
                   </div>
+                </div>
+                <div className="mt-4">
                   <Link href={utility.href}>
                     <Button className="w-full bg-[#0BA360] hover:bg-[#19C37D]">
                       시작하기
