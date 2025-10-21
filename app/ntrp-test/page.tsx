@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { questions } from "@/lib/tennis-quiz-bank";
+import { questions } from "@/lib/questions";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
-export default function TestPage() {
+export default function NTRPTestPage() {
   const [idx, setIdx] = useState(0);
   const [ans, setAns] = useState<number[]>(Array(questions.length).fill(0));
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function TestPage() {
       // 마지막 질문인 경우 결과 페이지로 이동
       setTimeout(() => {
         const total = nxt.reduce((a, b) => a + b, 0);
-        router.push(`/test/result?score=${total}&total=${questions.length}`);
+        router.push(`/ntrp-test/result?score=${total}&total=${questions.length}`);
       }, 500);
     }
   };
@@ -41,15 +41,15 @@ export default function TestPage() {
       <div className="bg-white border-b border-[#E2E8F0]">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
-            <Link href="/utility">
+            <Link href="/utility/ntrp-analyzer">
               <Button variant="ghost" size="sm" className="text-[#0BA360] hover:bg-[#0BA360]/10">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                유틸리티로 돌아가기
+                NTRP 분석기로 돌아가기
               </Button>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-[#0F172A]">테니스 규칙 퀴즈</h1>
-              <p className="text-[#334155]">테니스 규칙에 대한 이해도를 확인해보세요</p>
+              <h1 className="text-2xl font-bold text-[#0F172A]">NTRP 실력 테스트</h1>
+              <p className="text-[#334155]">15문항으로 정확한 테니스 실력 레벨을 측정합니다</p>
             </div>
           </div>
         </div>

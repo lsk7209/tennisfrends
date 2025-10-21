@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
-export default function TestPage() {
+export default function TennisRulesQuizPage() {
   const [idx, setIdx] = useState(0);
   const [ans, setAns] = useState<number[]>(Array(questions.length).fill(0));
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function TestPage() {
       // 마지막 질문인 경우 결과 페이지로 이동
       setTimeout(() => {
         const total = nxt.reduce((a, b) => a + b, 0);
-        router.push(`/test/result?score=${total}&total=${questions.length}`);
+        router.push(`/tennis-rules-quiz/result?score=${total}&total=${questions.length}`);
       }, 500);
     }
   };
