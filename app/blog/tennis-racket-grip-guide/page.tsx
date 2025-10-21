@@ -10,8 +10,8 @@ export const metadata: Metadata = {
     title: "내 손에 맞는 라켓 그립 찾는 법 | 테니스프렌즈 블로그",
     description: "그립 두께·감각·소재별 특징을 통해 손에 딱 맞는 라켓 그립을 선택하는 법. 손목 부상 방지와 스윙 안정성을 높이는 실전 가이드.",
     type: "article",
-    publishedTime: "2025-10-20T00:00:00.000Z",
-    modifiedTime: "2025-10-20T00:00:00.000Z",
+    publishedTime: "2025-01-13T00:00:00.000Z",
+    modifiedTime: "2025-01-13T00:00:00.000Z",
     authors: ["TennisFriends"],
     tags: ["테니스 그립", "라켓 그립 두께", "테니스 손목 부상", "테니스 장비 추천"],
   },
@@ -352,7 +352,7 @@ export default function TennisRacketGripGuidePage() {
     <BlogTemplate
       title="내 손에 맞는 라켓 그립 찾는 법 ✋ (그립 두께·감각·부상 방지 가이드)"
       description="그립은 테니스에서 가장 자주 잡는 '감각의 중심'입니다. 그립 두께와 감각을 잘못 선택하면 스윙이 흔들리고 손목 부상으로 이어집니다. 내 손에 딱 맞는 그립을 찾는 방법을 소개합니다."
-      publishDate="2025-10-20T00:00:00.000Z"
+      publishDate="2025-01-13T00:00:00.000Z"
       readTime="6"
       category="gear"
       tags={["테니스그립", "라켓그립", "손목통증", "테니스장비", "테니스팁"]}

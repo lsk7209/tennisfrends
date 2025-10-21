@@ -9,7 +9,7 @@ export const metadata: Metadata = generateBlogMetadata({
   description: '테니스 초보자도 30일 만에 NTRP 3.0을 달성할 수 있는 검증된 챌린지 프로그램입니다. 일일 훈련 계획부터 실력 측정까지 모든 것을 알려드립니다.',
   keywords: ['테니스 30일 챌린지', '테니스 실력 향상', 'NTRP 3.0', '테니스 훈련', '초보자 테니스', '테니스 연습'],
   category: '실력 향상',
-  publishDate: '2024-01-20T00:00:00Z',
+  publishDate: '2024-12-30T00:00:00Z',
   author: '테니스프렌즈',
   slug: 'tennis-30day-challenge',
   readTime: '12',

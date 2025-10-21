@@ -201,32 +201,6 @@ export default function BlogTemplate({
             </div>
           )}
 
-          {/* 목차 (자동 생성) */}
-          <div className="px-8 pb-8">
-            <Card className="bg-[#F8FAFC] border-[#E2E8F0] rounded-xl">
-              <CardHeader className="pb-4 px-6 pt-6">
-                <CardTitle className="text-lg font-semibold text-[#0F172A] flex items-center gap-2">
-                  📋 목차
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="px-6 pb-6">
-                <nav className="space-y-3 text-sm">
-                  <a href="#introduction" className="block text-[#0BA360] hover:underline hover:text-[#19C37D] transition-colors font-medium">
-                    1. 도입부
-                  </a>
-                  <a href="#main-content" className="block text-[#0BA360] hover:underline hover:text-[#19C37D] transition-colors font-medium">
-                    2. 본문
-                  </a>
-                  <a href="#conclusion" className="block text-[#0BA360] hover:underline hover:text-[#19C37D] transition-colors font-medium">
-                    3. 결론
-                  </a>
-                  <a href="#related-utilities" className="block text-[#0BA360] hover:underline hover:text-[#19C37D] transition-colors font-medium">
-                    4. 관련 유틸리티
-                  </a>
-                </nav>
-              </CardContent>
-            </Card>
-          </div>
 
           {/* 본문 콘텐츠 */}
           <CardContent className="px-8 pb-12">
