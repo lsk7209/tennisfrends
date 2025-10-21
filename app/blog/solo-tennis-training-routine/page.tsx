@@ -152,15 +152,15 @@ export default function SoloTennisTrainingRoutinePage() {
         <hr />
 
         <h3>🔗 SNS 공유하기</h3>
-        <button 
-          onClick={() => {
-            navigator.clipboard.writeText('https://tennisfriends.kr/blog/solo-tennis-training-routine');
-            alert('공유 링크가 복사되었습니다 📎');
-          }}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
-        >
-          📤 링크 복사하기
-        </button>
+        <p>아래 버튼을 눌러 이 글을 친구에게 공유해보세요 👇</p>
+        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+            링크: <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">https://tennisfriends.kr/blog/solo-tennis-training-routine</code>
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-500">
+            위 링크를 복사해서 공유하세요!
+          </p>
+        </div>
 
         <hr />
 
