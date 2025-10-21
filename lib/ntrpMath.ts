@@ -62,3 +62,15 @@ export function mapLevelToBaseProfile(level: string) {
   
   return profiles[level as keyof typeof profiles] || profiles["3.0"];
 }
+
+// 레이더 차트용 데이터 변환 함수
+export function convertToRadarData(profile: any) {
+  return [
+    { key: "파워", value: profile.power },
+    { key: "컨트롤", value: profile.control },
+    { key: "스핀", value: profile.spin },
+    { key: "안정성", value: profile.stability },
+    { key: "풋워크", value: profile.footwork },
+    { key: "멘탈", value: profile.mental }
+  ];
+}
