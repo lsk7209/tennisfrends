@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Share2, Download, Copy, Target, Trophy, BookOpen, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Share2, Download, Copy, Target, Trophy, BookOpen, AlertTriangle, XCircle, CheckCircle } from "lucide-react";
 import { toPng } from "html-to-image";
 import { PDFDocument, rgb } from "pdf-lib";
 import dayjs from "dayjs";
