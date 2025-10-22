@@ -113,7 +113,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           
           <div className="flex items-start gap-4">
             <div className="w-16 h-16 bg-gradient-to-br from-[#0BA360] to-[#19C37D] rounded-lg flex items-center justify-center text-2xl">
-              {post.image_emoji}
+              🎾
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-3">
