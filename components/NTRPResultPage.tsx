@@ -125,7 +125,7 @@ export default function NTRPResultPage({
         </div>
 
         {/* Main Result Card */}
-        <div ref={cardRef} className="bg-white rounded-2xl shadow-xl border border-[#E2E8F0] p-8 mb-8">
+        <div className="bg-white rounded-2xl shadow-xl border border-[#E2E8F0] p-8 mb-8">
           <div className="text-center mb-8">
             <div 
               className="inline-block px-8 py-4 rounded-2xl text-white font-bold text-2xl mb-4"
