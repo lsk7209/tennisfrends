@@ -307,7 +307,7 @@ export function calculateStyleScore(answers: Record<number, number>): string {
 
 // 타이브레이커 해결 함수
 function resolveTiebreaker(tiedStyles: string[], answers: Record<number, number>): string {
-  const tiebreakerQuestions = [5, 9, 12, 16];
+  const tiebreakerQuestions = [5, 9, 12]; // 12개 질문에 맞게 조정
   
   for (const questionId of tiebreakerQuestions) {
     const answerIndex = answers[questionId];

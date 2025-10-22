@@ -267,11 +267,16 @@ export default function RacketTestPage() {
                               }`}
                               onClick={() => {
                                 field.onChange(option.value);
-                                // 자동으로 다음 질문으로 넘어가기 (마지막 질문이 아닌 경우)
+                                // 자동으로 다음 질문으로 넘어가기 또는 결과 페이지로 이동
                                 if (currentStep < questions.length - 1) {
                                   setTimeout(() => {
                                     nextStep();
                                   }, 500); // 0.5초 후 자동 진행
+                                } else {
+                                  // 마지막 질문인 경우 결과 페이지로 자동 이동
+                                  setTimeout(() => {
+                                    form.handleSubmit(onSubmit)();
+                                  }, 500);
                                 }
                               }}
                             >
