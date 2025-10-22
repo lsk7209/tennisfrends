@@ -1,0 +1,34 @@
+name: Auto Re-deploy on Build Failure
+
+on:
+  workflow_run:
+    workflows: ["Vercel Build"]
+    types: [completed]
+
+jobs:
+  check-build-status:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run build locally
+        run: npm run build
+        
+      - name: Trigger Vercel redeploy
+        if: success()
+        run: |
+          curl -X POST "https://api.vercel.com/v1/integrations/deploy/${{ secrets.VERCEL_DEPLOY_HOOK }}"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
