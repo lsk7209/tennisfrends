@@ -247,49 +247,34 @@ export default function InjuryRiskResultPage() {
     ));
   };
 
-  const generateShareImage = () => {
-    // Canvas를 사용한 공유 이미지 생성 로직
-    const canvas = document.createElement('canvas');
-    canvas.width = 1080;
-    canvas.height = 1080;
-    const ctx = canvas.getContext('2d');
-    
-    if (!ctx) return;
+  const [isSharing, setIsSharing] = useState(false);
 
-    // 배경 그라디언트
-    const gradient = ctx.createLinearGradient(0, 0, 1080, 1080);
-    gradient.addColorStop(0, '#0BA360');
-    gradient.addColorStop(1, '#2364AA');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 1080, 1080);
-
-    // 텍스트 추가
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 48px Pretendard';
-    ctx.fillText('🏥 테니스 부상 위험도 체크', 100, 150);
-    
-    ctx.font = 'bold 36px Pretendard';
-    ctx.fillText(`위험도: ${riskLevel.level}`, 100, 250);
-    ctx.fillText(`총점: ${totalScore}점`, 100, 320);
-    
-    ctx.font = '24px Pretendard';
-    ctx.fillText(riskLevel.desc, 100, 400);
-    
-    if (triggers.length > 0) {
-      ctx.fillText('⚠️ 주의사항:', 100, 500);
-      triggers.slice(0, 2).forEach((trigger, index) => {
-        ctx.fillText(`• ${trigger.tag}: ${trigger.tip}`, 100, 550 + index * 50);
-      });
+  const shareResult = async () => {
+    setIsSharing(true);
+    try {
+      const url = window.location.href;
+      if (navigator.share) {
+        await navigator.share({
+          title: '테니스 부상 위험도 진단 결과',
+          text: `부상 위험도: ${riskLevel.level} (${totalScore}점)`,
+          url: url
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        alert('결과 링크가 클립보드에 복사되었습니다!');
+      }
+    } catch (error) {
+      console.error('공유 실패:', error);
+      // Fallback to clipboard
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('결과 링크가 클립보드에 복사되었습니다!');
+      } catch (clipboardError) {
+        console.error('클립보드 복사 실패:', clipboardError);
+      }
+    } finally {
+      setIsSharing(false);
     }
-    
-    ctx.font = '20px Pretendard';
-    ctx.fillText('Tennis Utils | tennisutils.kr', 100, 1000);
-
-    // 이미지 다운로드
-    const link = document.createElement('a');
-    link.download = 'tennis-injury-risk-result.png';
-    link.href = canvas.toDataURL();
-    link.click();
   };
 
   if (loading) {
@@ -458,10 +443,11 @@ export default function InjuryRiskResultPage() {
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
-            onClick={generateShareImage}
+            onClick={shareResult}
+            disabled={isSharing}
             className="bg-[#0BA360] hover:bg-[#19C37D] text-white"
           >
-            📸 결과 이미지 저장
+            {isSharing ? '공유 중...' : '📤 결과 공유하기'}
           </Button>
           <Button
             variant="outline"

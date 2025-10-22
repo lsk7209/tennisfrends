@@ -4,9 +4,6 @@ import { useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { levelBands, personas, drills, kpis, weeklyPlan, doubles, equipment, injuryRisks, commonMistakes } from "@/lib/ntrpResultConfig";
 import { getNTRPLevel, mapScoreToLevelBand, mapLevelToBaseProfile, convertToRadarData } from "@/lib/ntrpMath";
-import { toPng } from "html-to-image";
-import { PDFDocument, rgb } from "pdf-lib";
-import dayjs from "dayjs";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,8 +26,7 @@ export default function NTRPResultPage({
   showTotalQuestions = false 
 }: NTRPResultPageProps) {
   const searchParams = useSearchParams();
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [isExporting, setIsExporting] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
 
   // Parse query parameters
   const score = parseInt(searchParams.get('score') || '45');
@@ -48,77 +44,33 @@ export default function NTRPResultPage({
     return convertToRadarData(profile);
   }, [band.level]);
 
-  // Export functions
-  const exportPNG = async () => {
-    if (!cardRef.current) return;
-    
-    setIsExporting(true);
+  // 공유 함수
+  const shareResult = async () => {
+    setIsSharing(true);
     try {
-      const dataUrl = await toPng(cardRef.current, {
-        quality: 1.0,
-        pixelRatio: 2,
-        backgroundColor: '#ffffff'
-      });
-      
-      const link = document.createElement('a');
-      link.download = `ntrp-${band.level}-${dayjs().format('YYYY-MM-DD')}.png`;
-      link.href = dataUrl;
-      link.click();
+      const url = window.location.href;
+      if (navigator.share) {
+        await navigator.share({
+          title: 'NTRP 실력 분석 결과',
+          text: `NTRP ${band.level} 레벨로 분석되었습니다!`,
+          url: url
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        alert('결과 링크가 클립보드에 복사되었습니다!');
+      }
     } catch (error) {
-      console.error('PNG export failed:', error);
-      alert('이미지 저장에 실패했습니다.');
+      console.error('공유 실패:', error);
+      // Fallback to clipboard
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('결과 링크가 클립보드에 복사되었습니다!');
+      } catch (clipboardError) {
+        console.error('클립보드 복사 실패:', clipboardError);
+      }
     } finally {
-      setIsExporting(false);
+      setIsSharing(false);
     }
-  };
-
-  const exportPDF = async () => {
-    if (!cardRef.current) return;
-    
-    setIsExporting(true);
-    try {
-      const dataUrl = await toPng(cardRef.current, {
-        quality: 1.0,
-        pixelRatio: 2,
-        backgroundColor: '#ffffff'
-      });
-      
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage([800, 1000]);
-      
-      const img = await pdfDoc.embedPng(dataUrl);
-      const { width, height } = img.scale(0.8);
-      
-      page.drawImage(img, {
-        x: 50,
-        y: page.getHeight() - height - 50,
-        width,
-        height,
-      });
-      
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.download = `ntrp-${band.level}-${dayjs().format('YYYY-MM-DD')}.pdf`;
-      link.href = url;
-      link.click();
-      
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('PDF export failed:', error);
-      alert('PDF 저장에 실패했습니다.');
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  const copyShareLink = () => {
-    const url = typeof window !== "undefined" ? window.location.href : "";
-    if (!url) return;
-    navigator.clipboard.writeText(url);
-    alert("결과 링크가 복사되었습니다!");
   };
 
   const shareToSocial = (platform: string) => {
