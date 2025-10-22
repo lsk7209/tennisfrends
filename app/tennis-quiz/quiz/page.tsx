@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ArrowRight, CheckCircle, XCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { pickRandomQuestions, CATEGORY_COLORS, type QuizQuestion } from "@/lib/tennis-quiz-bank-new";
 
 interface Answer {
@@ -24,7 +24,6 @@ export default function TennisQuizPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [showExplanation, setShowExplanation] = useState(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
 
   useEffect(() => {
@@ -52,14 +51,12 @@ export default function TennisQuizPage() {
     };
 
     setAnswers(prev => [...prev, answer]);
-    setShowExplanation(true);
 
-    // 2초 후 다음 질문으로 자동 진행
+    // 0.5초 후 다음 질문으로 자동 진행 (해설 표시 없이)
     setTimeout(() => {
       if (currentIndex < questions.length - 1) {
         setCurrentIndex(currentIndex + 1);
         setSelectedOption(null);
-        setShowExplanation(false);
       } else {
         // 마지막 질문인 경우 결과 페이지로 이동
         const timeSpent = Date.now() - startTime;
@@ -70,16 +67,30 @@ export default function TennisQuizPage() {
             return acc;
           }, {} as Record<string, number>);
 
+        // 오답 문항들의 정보 수집
+        const wrongAnswers = answers.filter(a => !a.correct).map(a => {
+          const question = questions.find(q => q.id === a.questionId);
+          return {
+            questionId: a.questionId,
+            question: question?.question || '',
+            selected: a.selected,
+            correct: question?.correct || 0,
+            explanation: question?.explanation || '',
+            category: a.category
+          };
+        });
+
         const params = new URLSearchParams({
           score: answers.filter(a => a.correct).length.toString(),
           total: questions.length.toString(),
           time: timeSpent.toString(),
-          wrongCats: JSON.stringify(wrongCategories)
+          wrongCats: JSON.stringify(wrongCategories),
+          wrongAnswers: JSON.stringify(wrongAnswers)
         });
 
         router.push(`/tennis-quiz/result?${params.toString()}`);
       }
-    }, 2000);
+    }, 500);
   };
 
   if (questions.length === 0) {
@@ -144,8 +155,6 @@ export default function TennisQuizPage() {
             <div className="space-y-3">
               {currentQuestion.options.map((option, index) => {
                 const isSelected = selectedOption === index;
-                const isCorrect = index === currentQuestion.correct;
-                const showResult = showExplanation;
 
                 return (
                   <Button
@@ -153,55 +162,28 @@ export default function TennisQuizPage() {
                     onClick={() => handleAnswer(index)}
                     disabled={selectedOption !== null}
                     className={`w-full h-auto p-4 text-left justify-start transition-all ${
-                      showResult
-                        ? isCorrect
-                          ? "bg-green-100 border-green-500 text-green-800"
-                          : isSelected
-                          ? "bg-red-100 border-red-500 text-red-800"
-                          : "bg-gray-50 border-gray-200 text-gray-600"
-                        : isSelected
+                      isSelected
                         ? "bg-[#0BA360] text-white border-[#0BA360]"
                         : "hover:bg-[#0BA360]/10 hover:border-[#0BA360]/50"
                     }`}
                     variant="outline"
                   >
                     <div className="flex items-center gap-3">
-                      {showResult && isCorrect && (
-                        <CheckCircle className="w-5 h-5 text-green-600" />
-                      )}
-                      {showResult && isSelected && !isCorrect && (
-                        <XCircle className="w-5 h-5 text-red-600" />
-                      )}
-                      {!showResult && (
-                        <div className={`w-4 h-4 rounded-full border-2 ${
-                          isSelected
-                            ? "border-[#0BA360] bg-[#0BA360]"
-                            : "border-[#E2E8F0]"
-                        }`}>
-                          {isSelected && (
-                            <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5"></div>
-                          )}
-                        </div>
-                      )}
+                      <div className={`w-4 h-4 rounded-full border-2 ${
+                        isSelected
+                          ? "border-[#0BA360] bg-[#0BA360]"
+                          : "border-[#E2E8F0]"
+                      }`}>
+                        {isSelected && (
+                          <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5"></div>
+                        )}
+                      </div>
                       <span className="text-sm font-medium">{option}</span>
                     </div>
                   </Button>
                 );
               })}
             </div>
-
-            {/* Explanation */}
-            {showExplanation && (
-              <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <div className="flex items-start gap-2">
-                  <div className="text-blue-600 mt-1">💡</div>
-                  <div>
-                    <p className="text-sm font-medium text-blue-800 mb-1">해설</p>
-                    <p className="text-sm text-blue-700">{currentQuestion.explanation}</p>
-                  </div>
-                </div>
-              </div>
-            )}
           </CardContent>
         </Card>
 

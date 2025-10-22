@@ -44,8 +44,10 @@ export default function TennisQuizResultPage() {
   const total = parseInt(searchParams.get('total') || '12');
   const timeSpent = parseInt(searchParams.get('time') || '0');
   const wrongCatsStr = searchParams.get('wrongCats') || '{}';
+  const wrongAnswersStr = searchParams.get('wrongAnswers') || '[]';
   
   const wrongCategories = JSON.parse(wrongCatsStr);
+  const wrongAnswers = JSON.parse(wrongAnswersStr);
   const grade = getGrade(score);
   const timeMinutes = Math.round(timeSpent / 60000 * 10) / 10;
 
@@ -250,8 +252,9 @@ export default function TennisQuizResultPage() {
 
         {/* Detailed Analysis */}
         <Tabs defaultValue="analysis" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="analysis">약점 분석</TabsTrigger>
+            <TabsTrigger value="wrongAnswers">오답 해설</TabsTrigger>
             <TabsTrigger value="improvement">개선 가이드</TabsTrigger>
           </TabsList>
           
@@ -289,6 +292,71 @@ export default function TennisQuizResultPage() {
                       <Trophy className="w-12 h-12 text-[#0BA360] mx-auto mb-4" />
                       <p className="text-lg font-semibold text-[#0F172A]">완벽한 성과!</p>
                       <p className="text-[#64748B]">모든 영역에서 완벽한 이해를 보여주셨습니다.</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="wrongAnswers" className="mt-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl font-semibold text-[#0F172A] flex items-center">
+                  <XCircle className="w-5 h-5 mr-2 text-red-500" />
+                  오답 해설
+                </CardTitle>
+                <CardDescription className="text-[#64748B]">
+                  틀린 문제들을 다시 확인하고 학습해보세요.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  {wrongAnswers.length > 0 ? (
+                    wrongAnswers.map((wrongAnswer: any, index: number) => (
+                      <div key={wrongAnswer.questionId} className="border-b pb-6 last:border-b-0 last:pb-0">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Badge className={`${CATEGORY_COLORS[wrongAnswer.category as keyof typeof CATEGORY_COLORS] || 'bg-gray-100 text-gray-800'}`}>
+                            {wrongAnswer.category}
+                          </Badge>
+                          <span className="text-sm text-[#64748B]">문제 {index + 1}</span>
+                        </div>
+                        
+                        <h4 className="font-semibold text-[#0F172A] mb-3">
+                          {wrongAnswer.question}
+                        </h4>
+                        
+                        <div className="space-y-2 mb-3">
+                          <div className="flex items-center gap-2">
+                            <XCircle className="w-4 h-4 text-red-500" />
+                            <span className="text-sm text-red-600">
+                              내 답: {wrongAnswer.selected + 1}번
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <CheckCircle className="w-4 h-4 text-green-500" />
+                            <span className="text-sm text-green-600">
+                              정답: {wrongAnswer.correct + 1}번
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                          <div className="flex items-start gap-2">
+                            <div className="text-blue-600 mt-1">💡</div>
+                            <div>
+                              <p className="text-sm font-medium text-blue-800 mb-1">해설</p>
+                              <p className="text-sm text-blue-700">{wrongAnswer.explanation}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8">
+                      <Trophy className="w-12 h-12 text-[#0BA360] mx-auto mb-4" />
+                      <p className="text-lg font-semibold text-[#0F172A]">완벽한 성과!</p>
+                      <p className="text-[#64748B]">모든 문제를 정답으로 맞혔습니다.</p>
                     </div>
                   )}
                 </div>
