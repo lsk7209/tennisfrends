@@ -128,12 +128,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <span className="text-sm text-[#64748B]">•</span>
                 <span className="text-sm text-[#64748B] flex items-center gap-1">
                   <Clock className="w-3 h-3" />
-                  {post.read_time}분 읽기
+                  {post.reading_time}분 읽기
                 </span>
                 <span className="text-sm text-[#64748B]">•</span>
                 <span className="text-sm text-[#64748B] flex items-center gap-1">
                   <Eye className="w-3 h-3" />
-                  {post.view_count}회 조회
+                  {post.views}회 조회
                 </span>
               </div>
               <h1 className="text-3xl font-bold text-[#0F172A] mb-4">
