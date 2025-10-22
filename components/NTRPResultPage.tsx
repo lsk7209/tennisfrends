@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import ResultCardNew from "@/components/ResultCardNew";
 import Link from "next/link";
-import { ArrowLeft, Share2, Download, Copy, Target, Trophy, Users, Settings, AlertTriangle, Lightbulb } from "lucide-react";
+import { ArrowLeft, Share2, Target, Trophy, Users, Settings, AlertTriangle, Lightbulb } from "lucide-react";
 
 interface NTRPResultPageProps {
   backUrl?: string;
@@ -114,31 +114,12 @@ export default function NTRPResultPage({
             <Button
               variant="outline"
               size="sm"
-              onClick={copyShareLink}
+              onClick={shareResult}
+              disabled={isSharing}
               className="border-[#2364AA] text-[#2364AA] hover:bg-[#2364AA] hover:text-white"
             >
-              <Copy className="w-4 h-4 mr-2" />
-              링크 복사
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={exportPNG}
-              disabled={isExporting}
-              className="border-[#0BA360] text-[#0BA360] hover:bg-[#0BA360] hover:text-white"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              PNG 저장
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={exportPDF}
-              disabled={isExporting}
-              className="border-[#C7F000] text-[#C7F000] hover:bg-[#C7F000] hover:text-white"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              PDF 저장
+              <Share2 className="w-4 h-4 mr-2" />
+              {isSharing ? '공유 중...' : '결과 공유하기'}
             </Button>
           </div>
         </div>
