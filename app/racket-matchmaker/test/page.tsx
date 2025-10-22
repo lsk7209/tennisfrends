@@ -265,7 +265,7 @@ export default function RacketTestPage() {
                                   ? "border-[#0BA360] bg-[#0BA360]/5"
                                   : "border-[#E2E8F0] hover:border-[#0BA360]/50"
                               }`}
-                              onClick={() => {
+                              onClick={async () => {
                                 field.onChange(option.value);
                                 // 자동으로 다음 질문으로 넘어가기 또는 결과 페이지로 이동
                                 if (currentStep < questions.length - 1) {
@@ -274,8 +274,9 @@ export default function RacketTestPage() {
                                   }, 500); // 0.5초 후 자동 진행
                                 } else {
                                   // 마지막 질문인 경우 결과 페이지로 자동 이동
-                                  setTimeout(() => {
-                                    form.handleSubmit(onSubmit)();
+                                  setTimeout(async () => {
+                                    const values = form.getValues();
+                                    await onSubmit(values);
                                   }, 500);
                                 }
                               }}
