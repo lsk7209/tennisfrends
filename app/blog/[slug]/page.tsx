@@ -33,7 +33,7 @@ interface BlogPostPageProps {
 
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'}/api/blog?slug=${slug}&status=published`, {
+    const response = await fetch(`${process.env.NODE_ENV === 'production' ? 'https://tennisfrends.vercel.app' : 'http://localhost:3002'}/api/blog?slug=${slug}&status=published`, {
       cache: 'no-store'
     });
     
@@ -95,7 +95,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     });
   };
 
-  const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'}/blog/${post.slug}`;
+  const shareUrl = `${process.env.NODE_ENV === 'production' ? 'https://tennisfrends.vercel.app' : 'http://localhost:3002'}/blog/${post.slug}`;
 
   return (
     <div className="min-h-screen bg-[#F7F5F3]">

@@ -45,8 +45,16 @@ export async function GET(req: NextRequest) {
         content,
         category,
         tags,
+        reading_time,
+        author,
+        published,
+        featured,
+        views,
         created_at,
-        updated_at
+        updated_at,
+        seo_title,
+        seo_description,
+        seo_keywords
       `)
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
