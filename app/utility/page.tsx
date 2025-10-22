@@ -58,7 +58,7 @@ const utilities = [
     description: "12문항 랜덤 퀴즈로 실전 규칙 감각을 점검하고 약점을 분석합니다.",
     icon: "📚",
     color: "bg-[#2364AA]",
-    href: "/test",
+    href: "/tennis-quiz",
     features: ["12문항 랜덤", "즉시 해설", "약점 분석"],
     status: "active",
     priority: 5
