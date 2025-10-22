@@ -211,7 +211,6 @@ export default function TennisQuizPage() {
               if (currentIndex < questions.length - 1) {
                 setCurrentIndex(currentIndex + 1);
                 setSelectedOption(null);
-                setShowExplanation(false);
               }
             }}
             disabled={currentIndex >= questions.length - 1}
