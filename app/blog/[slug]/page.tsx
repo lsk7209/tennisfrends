@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
       title: post.seo_title || post.title,
       description: post.seo_description || post.excerpt,
       type: 'article',
-      publishedTime: post.published_at,
+      publishedTime: post.created_at,
       modifiedTime: post.updated_at,
       authors: ['테니스프렌즈'],
       tags: post.tags,
