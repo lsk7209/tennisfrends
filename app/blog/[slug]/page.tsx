@@ -13,16 +13,16 @@ interface BlogPost {
   content: string;
   category: string;
   tags: string[];
-  read_time: number;
-  image_emoji: string;
+  reading_time: number;
+  author: string;
+  published: boolean;
   featured: boolean;
-  view_count: number;
+  views: number;
   created_at: string;
   updated_at: string;
-  published_at: string;
-  seo_title: string;
-  seo_description: string;
-  seo_keywords: string[];
+  seo_title?: string;
+  seo_description?: string;
+  seo_keywords?: string[];
 }
 
 interface BlogPostPageProps {
@@ -33,7 +33,7 @@ interface BlogPostPageProps {
 
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/blog?slug=${slug}&status=published`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'}/api/blog?slug=${slug}&status=published`, {
       cache: 'no-store'
     });
     
@@ -95,7 +95,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     });
   };
 
-  const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/blog/${post.slug}`;
+  const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'}/blog/${post.slug}`;
 
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
@@ -230,15 +230,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-2 text-sm text-[#64748B]">
                   <Calendar className="w-4 h-4" />
-                  <span>게시일: {formatDate(post.published_at)}</span>
+                  <span>게시일: {formatDate(post.created_at)}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[#64748B]">
                   <Clock className="w-4 h-4" />
-                  <span>읽기 시간: {post.read_time}분</span>
+                  <span>읽기 시간: {post.reading_time}분</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[#64748B]">
                   <Eye className="w-4 h-4" />
-                  <span>조회수: {post.view_count}</span>
+                  <span>조회수: {post.views}</span>
                 </div>
                 <div className="pt-4 border-t">
                   <p className="text-sm text-[#64748B] mb-2">카테고리</p>

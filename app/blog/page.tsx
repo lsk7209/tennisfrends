@@ -14,6 +14,11 @@ interface BlogPost {
   excerpt: string;
   category: string;
   tags: string[];
+  reading_time: number;
+  author: string;
+  published: boolean;
+  featured: boolean;
+  views: number;
   created_at: string;
   updated_at: string;
 }
@@ -141,7 +146,7 @@ export default function BlogPage() {
                       ))}
                     </div>
                     <div className="text-sm text-[#64748B]">
-                      {new Date(post.created_at).toISOString().split('T')[0]}
+                      {new Date(post.created_at).toISOString().split('T')[0]} • {post.reading_time}분 읽기
                     </div>
                   </div>
                 </CardContent>
