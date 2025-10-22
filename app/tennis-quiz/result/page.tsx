@@ -8,10 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Share2, Download, Copy, Target, Trophy, BookOpen, AlertTriangle, XCircle, CheckCircle } from "lucide-react";
-import { toPng } from "html-to-image";
-import { PDFDocument, rgb } from "pdf-lib";
-import dayjs from "dayjs";
+import { ArrowLeft, Share2, Target, Trophy, BookOpen, AlertTriangle, XCircle, CheckCircle } from "lucide-react";
 
 // 등급 시스템
 const getGrade = (score: number) => {
@@ -38,7 +35,35 @@ export default function TennisQuizResultPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const cardRef = useRef<HTMLDivElement>(null);
-  const [isExporting, setIsExporting] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+
+  const shareResult = async () => {
+    setIsSharing(true);
+    try {
+      const url = window.location.href;
+      if (navigator.share) {
+        await navigator.share({
+          title: '테니스 규칙 퀴즈 결과',
+          text: `테니스 규칙 퀴즈에서 ${score}/${total}점을 받았습니다!`,
+          url: url
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        alert('결과 링크가 클립보드에 복사되었습니다!');
+      }
+    } catch (error) {
+      console.error('공유 실패:', error);
+      // Fallback to clipboard
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('결과 링크가 클립보드에 복사되었습니다!');
+      } catch (clipboardError) {
+        console.error('클립보드 복사 실패:', clipboardError);
+      }
+    } finally {
+      setIsSharing(false);
+    }
+  };
 
   const score = parseInt(searchParams.get('score') || '0');
   const total = parseInt(searchParams.get('total') || '12');
@@ -227,26 +252,11 @@ export default function TennisQuizResultPage() {
           </Link>
           <Button
             className="bg-[#0BA360] hover:bg-[#19C37D]"
-            onClick={copyShareLink}
+            onClick={shareResult}
+            disabled={isSharing}
           >
-            <Copy className="w-4 h-4 mr-2" />
-            결과 링크 복사
-          </Button>
-          <Button
-            className="bg-[#F59E0B] hover:bg-[#D97706]"
-            onClick={exportPNG}
-            disabled={isExporting}
-          >
-            <Download className="w-4 h-4 mr-2" />
-            {isExporting ? 'PNG 내보내는 중...' : 'PNG로 저장'}
-          </Button>
-          <Button
-            className="bg-[#8B5CF6] hover:bg-[#7C3AED]"
-            onClick={exportPDF}
-            disabled={isExporting}
-          >
-            <Download className="w-4 h-4 mr-2" />
-            {isExporting ? 'PDF 내보내는 중...' : 'PDF로 저장'}
+            <Share2 className="w-4 h-4 mr-2" />
+            {isSharing ? '공유 중...' : '결과 공유하기'}
           </Button>
         </div>
 
