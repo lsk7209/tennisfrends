@@ -276,7 +276,7 @@ export default function TennisQuizResultPage() {
                             {category}
                           </Badge>
                           <span className="text-sm text-[#64748B]">
-                            {wrongCount}개 오답
+                            {wrongCount as number}개 오답
                           </span>
                         </div>
                         <div className="text-sm font-medium text-red-600">
