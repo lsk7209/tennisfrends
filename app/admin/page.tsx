@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -12,24 +15,76 @@ import {
   Shield,
   Clock,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
+  Loader2
 } from "lucide-react";
 
+interface Statistics {
+  ntrp: {
+    total: number;
+    averageLevel: string;
+    levelDistribution: Record<string, number>;
+  };
+  tennisStyle: {
+    total: number;
+    styleDistribution: Record<string, number>;
+  };
+  quiz: {
+    total: number;
+    averageScore: string;
+    scoreDistribution: Record<string, number>;
+  };
+  injuryRisk: {
+    total: number;
+    riskDistribution: Record<string, number>;
+  };
+  racketMatch: {
+    total: number;
+  };
+  overall: {
+    totalTests: number;
+    uniqueUsers: number;
+  };
+}
+
 export default function AdminDashboard() {
-  const stats = [
+  const [statistics, setStatistics] = useState<Statistics | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      try {
+        const response = await fetch('/api/admin/statistics');
+        if (response.ok) {
+          const data = await response.json();
+          setStatistics(data.statistics);
+        } else {
+          console.error('통계 데이터를 가져오는데 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('통계 로딩 오류:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStatistics();
+  }, []);
+
+  const stats = statistics ? [
     {
       title: "총 사용자 수",
-      value: "1,234",
-      change: "+12%",
+      value: statistics.overall.uniqueUsers.toLocaleString(),
+      change: "실시간",
       changeType: "positive" as const,
       icon: Users,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
     },
     {
-      title: "NTRP 테스트 완료",
-      value: "5,678",
-      change: "+8%",
+      title: "총 테스트 완료",
+      value: statistics.overall.totalTests.toLocaleString(),
+      change: "실시간",
       changeType: "positive" as const,
       icon: Activity,
       color: "text-green-600",
@@ -37,23 +92,23 @@ export default function AdminDashboard() {
     },
     {
       title: "평균 NTRP 레벨",
-      value: "3.2",
-      change: "+0.1",
+      value: statistics.ntrp.averageLevel,
+      change: `${statistics.ntrp.total}명`,
       changeType: "positive" as const,
       icon: TrendingUp,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
     },
     {
-      title: "블로그 조회수",
-      value: "12,345",
-      change: "+23%",
+      title: "규칙 퀴즈 평균",
+      value: `${statistics.quiz.averageScore}점`,
+      change: `${statistics.quiz.total}회`,
       changeType: "positive" as const,
       icon: FileText,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
     },
-  ];
+  ] : [];
 
   const quickActions = [
     {
@@ -147,6 +202,17 @@ export default function AdminDashboard() {
       color: "text-blue-600",
     },
   ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F7F5F3] flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-[#0BA360] mx-auto mb-4" />
+          <p className="text-[#64748B]">관리자 대시보드를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
