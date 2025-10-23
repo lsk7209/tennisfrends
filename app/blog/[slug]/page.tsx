@@ -221,11 +221,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[#64748B]">
                   <Clock className="w-4 h-4" />
-                  <span>읽기 시간: {post.reading_time}분</span>
+                  <span>읽기 시간: 5분</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[#64748B]">
                   <Eye className="w-4 h-4" />
-                  <span>조회수: {post.views}</span>
+                  <span>조회수: 0회</span>
                 </div>
                 <div className="pt-4 border-t">
                   <p className="text-sm text-[#64748B] mb-2">카테고리</p>
