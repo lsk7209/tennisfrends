@@ -284,14 +284,6 @@ export default function ContentManagementPage() {
     }
   };
 
-  const toggleBlogPostStatus = (id: number) => {
-    setBlogPosts(blogPosts.map(post => 
-      post.id === id 
-        ? { ...post, status: post.status === "published" ? "draft" : "published" }
-        : post
-    ));
-  };
-
   const toggleUtilityStatus = (id: number) => {
     setUtilities(utilities.map(utility => 
       utility.id === id 
