@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,49 +18,23 @@ import {
   Filter,
   Calendar,
   Users,
-  TrendingUp
+  TrendingUp,
+  Loader2
 } from "lucide-react";
 import Link from "next/link";
 
-// 샘플 블로그 데이터
-const sampleBlogPosts = [
-  {
-    id: 1,
-    title: "2024년 NTRP 레벨 완벽 가이드: 내 실력은 몇 점?",
-    slug: "ntrp-guide-2024",
-    description: "NTRP 1.5부터 5.0+까지, 각 레벨의 특징과 실력 향상 팁을 자세히 알아봅니다.",
-    date: "2024-07-26",
-    tags: ["NTRP", "실력분석", "가이드"],
-    status: "published",
-    views: 1234,
-    likes: 56,
-    author: "테니스프렌즈 에디터"
-  },
-  {
-    id: 2,
-    title: "나에게 맞는 테니스 라켓 고르기: 초보부터 상급자까지",
-    slug: "tennis-racket-selection",
-    description: "수많은 라켓 중 나에게 딱 맞는 라켓을 찾는 방법과 추천 라켓을 소개합니다.",
-    date: "2024-07-28",
-    tags: ["라켓", "장비", "추천"],
-    status: "published",
-    views: 987,
-    likes: 43,
-    author: "테니스프렌즈 에디터"
-  },
-  {
-    id: 3,
-    title: "30일 테니스 챌린지: 초보자도 실력 향상 가능한 훈련 계획",
-    slug: "tennis-30day-challenge",
-    description: "30일 동안 꾸준히 따라 하면 테니스 실력이 눈에 띄게 향상되는 훈련 계획을 소개합니다.",
-    date: "2024-07-29",
-    tags: ["훈련", "챌린지", "초보자"],
-    status: "draft",
-    views: 0,
-    likes: 0,
-    author: "테니스프렌즈 에디터"
-  }
-];
+// 블로그 포스트 타입 정의
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+}
 
 // 샘플 유틸리티 데이터
 const sampleUtilities = [
@@ -99,19 +73,146 @@ const sampleUtilities = [
   }
 ];
 
+// 블로그 포스트 폼 컴포넌트
+function BlogPostForm({ 
+  post, 
+  onSave, 
+  onCancel 
+}: { 
+  post: BlogPost | null; 
+  onSave: (data: Partial<BlogPost>) => void; 
+  onCancel: () => void; 
+}) {
+  const [formData, setFormData] = useState({
+    title: post?.title || '',
+    slug: post?.slug || '',
+    excerpt: post?.excerpt || '',
+    content: post?.content || '',
+    category: post?.category || '',
+    tags: post?.tags?.join(', ') || '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+    onSave({
+      ...formData,
+      tags,
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="text-sm font-medium text-[#0F172A]">제목</label>
+          <Input 
+            value={formData.title}
+            onChange={(e) => setFormData({...formData, title: e.target.value})}
+            placeholder="포스트 제목을 입력하세요" 
+            required
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-[#0F172A]">슬러그</label>
+          <Input 
+            value={formData.slug}
+            onChange={(e) => setFormData({...formData, slug: e.target.value})}
+            placeholder="URL 슬러그를 입력하세요" 
+            required
+          />
+        </div>
+      </div>
+      
+      <div>
+        <label className="text-sm font-medium text-[#0F172A]">카테고리</label>
+        <Input 
+          value={formData.category}
+          onChange={(e) => setFormData({...formData, category: e.target.value})}
+          placeholder="카테고리를 입력하세요" 
+          required
+        />
+      </div>
+      
+      <div>
+        <label className="text-sm font-medium text-[#0F172A]">요약</label>
+        <Textarea 
+          value={formData.excerpt}
+          onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
+          placeholder="포스트 요약을 입력하세요" 
+          rows={3}
+          required
+        />
+      </div>
+      
+      <div>
+        <label className="text-sm font-medium text-[#0F172A]">본문</label>
+        <Textarea 
+          value={formData.content}
+          onChange={(e) => setFormData({...formData, content: e.target.value})}
+          placeholder="포스트 본문을 입력하세요" 
+          rows={10}
+          required
+        />
+      </div>
+      
+      <div>
+        <label className="text-sm font-medium text-[#0F172A]">태그</label>
+        <Input 
+          value={formData.tags}
+          onChange={(e) => setFormData({...formData, tags: e.target.value})}
+          placeholder="태그를 쉼표로 구분하여 입력하세요" 
+        />
+      </div>
+      
+      <div className="flex justify-end gap-3">
+        <Button type="button" variant="outline" onClick={onCancel}>
+          취소
+        </Button>
+        <Button type="submit" className="bg-[#0BA360] hover:bg-[#19C37D] text-white">
+          {post ? '수정' : '저장'}
+        </Button>
+      </div>
+    </form>
+  );
+}
+
 export default function ContentManagementPage() {
-  const [blogPosts, setBlogPosts] = useState(sampleBlogPosts);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [utilities, setUtilities] = useState(sampleUtilities);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [showNewPostForm, setShowNewPostForm] = useState(false);
   const [showNewUtilityForm, setShowNewUtilityForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+
+  // 실제 블로그 포스트 데이터 가져오기
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/blog');
+        if (response.ok) {
+          const data = await response.json();
+          setBlogPosts(data.posts || []);
+        } else {
+          console.error('블로그 포스트를 가져오는데 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('블로그 포스트 로딩 오류:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
 
   const filteredBlogPosts = blogPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = selectedStatus === "all" || post.status === selectedStatus;
-    return matchesSearch && matchesStatus;
+                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
   });
 
   const filteredUtilities = utilities.filter(utility => {
@@ -121,9 +222,59 @@ export default function ContentManagementPage() {
     return matchesSearch && matchesStatus;
   });
 
-  const deleteBlogPost = (id: number) => {
+  const deleteBlogPost = async (id: string) => {
     if (confirm("정말로 이 블로그 포스트를 삭제하시겠습니까?")) {
-      setBlogPosts(blogPosts.filter(post => post.id !== id));
+      try {
+        const response = await fetch(`/api/blog/${id}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          setBlogPosts(blogPosts.filter(post => post.id !== id));
+        } else {
+          alert('삭제에 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('삭제 오류:', error);
+        alert('삭제 중 오류가 발생했습니다.');
+      }
+    }
+  };
+
+  const editBlogPost = (post: BlogPost) => {
+    setEditingPost(post);
+    setShowNewPostForm(true);
+  };
+
+  const saveBlogPost = async (postData: Partial<BlogPost>) => {
+    try {
+      const url = editingPost ? `/api/blog/${editingPost.id}` : '/api/blog';
+      const method = editingPost ? 'PUT' : 'POST';
+      
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (response.ok) {
+        const updatedPost = await response.json();
+        if (editingPost) {
+          setBlogPosts(blogPosts.map(post => 
+            post.id === editingPost.id ? updatedPost : post
+          ));
+        } else {
+          setBlogPosts([updatedPost, ...blogPosts]);
+        }
+        setShowNewPostForm(false);
+        setEditingPost(null);
+      } else {
+        alert('저장에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('저장 오류:', error);
+      alert('저장 중 오류가 발생했습니다.');
     }
   };
 
@@ -279,77 +430,76 @@ export default function ContentManagementPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {filteredBlogPosts.map((post) => (
-                    <div key={post.id} className="border border-[#E2E8F0] rounded-lg p-6">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-lg font-semibold text-[#0F172A]">{post.title}</h3>
-                            <Badge className={getStatusColor(post.status)}>
-                              {getStatusText(post.status)}
-                            </Badge>
-                          </div>
-                          <p className="text-[#64748B] mb-3">{post.description}</p>
-                          <div className="flex items-center gap-4 text-sm text-[#64748B]">
-                            <span className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4" />
-                              {post.date}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Eye className="w-4 h-4" />
-                              {post.views} 조회
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <TrendingUp className="w-4 h-4" />
-                              {post.likes} 좋아요
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Users className="w-4 h-4" />
-                              {post.author}
-                            </span>
-                          </div>
-                          <div className="flex flex-wrap gap-2 mt-3">
-                            {post.tags.map((tag, index) => (
-                              <Badge key={index} variant="secondary" className="text-xs">
-                                {tag}
+                {loading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader2 className="w-6 h-6 animate-spin text-[#0BA360]" />
+                    <span className="ml-2 text-[#64748B]">블로그 포스트를 불러오는 중...</span>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {filteredBlogPosts.map((post) => (
+                      <div key={post.id} className="border border-[#E2E8F0] rounded-lg p-6">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <h3 className="text-lg font-semibold text-[#0F172A]">{post.title}</h3>
+                              <Badge variant="secondary" className="text-xs">
+                                {post.category}
                               </Badge>
-                            ))}
+                            </div>
+                            <p className="text-[#64748B] mb-3">{post.excerpt}</p>
+                            <div className="flex items-center gap-4 text-sm text-[#64748B]">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                {new Date(post.created_at).toLocaleDateString('ko-KR')}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-4 h-4" />
+                                수정: {new Date(post.updated_at).toLocaleDateString('ko-KR')}
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap gap-2 mt-3">
+                              {post.tags.map((tag, index) => (
+                                <Badge key={index} variant="secondary" className="text-xs">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex items-center gap-2 ml-4">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => window.open(`/blog/${post.slug}`, '_blank')}
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => toggleBlogPostStatus(post.id)}
-                          >
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => deleteBlogPost(post.id)}
-                            className="text-red-600 hover:text-red-700"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                          <div className="flex items-center gap-2 ml-4">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => window.open(`/blog/${post.slug}`, '_blank')}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => editBlogPost(post)}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => deleteBlogPost(post.id)}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                  {filteredBlogPosts.length === 0 && (
-                    <div className="text-center py-12">
-                      <div className="text-[#64748B]">조건에 맞는 블로그 포스트가 없습니다.</div>
-                    </div>
-                  )}
-                </div>
+                    ))}
+                    {filteredBlogPosts.length === 0 && !loading && (
+                      <div className="text-center py-12">
+                        <div className="text-[#64748B]">조건에 맞는 블로그 포스트가 없습니다.</div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -431,36 +581,22 @@ export default function ContentManagementPage() {
           </TabsContent>
         </Tabs>
 
-        {/* 새 포스트 작성 폼 (모달 대신 간단한 폼) */}
+        {/* 새 포스트 작성/수정 폼 */}
         {showNewPostForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <Card className="w-full max-w-2xl mx-4">
+            <Card className="w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
               <CardHeader>
-                <CardTitle>새 블로그 포스트 작성</CardTitle>
+                <CardTitle>{editingPost ? '블로그 포스트 수정' : '새 블로그 포스트 작성'}</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-[#0F172A]">제목</label>
-                    <Input placeholder="포스트 제목을 입력하세요" />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-[#0F172A]">설명</label>
-                    <Textarea placeholder="포스트 설명을 입력하세요" rows={3} />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-[#0F172A]">태그</label>
-                    <Input placeholder="태그를 쉼표로 구분하여 입력하세요" />
-                  </div>
-                  <div className="flex justify-end gap-3">
-                    <Button variant="outline" onClick={() => setShowNewPostForm(false)}>
-                      취소
-                    </Button>
-                    <Button className="bg-[#0BA360] hover:bg-[#19C37D] text-white">
-                      저장
-                    </Button>
-                  </div>
-                </div>
+                <BlogPostForm 
+                  post={editingPost}
+                  onSave={saveBlogPost}
+                  onCancel={() => {
+                    setShowNewPostForm(false);
+                    setEditingPost(null);
+                  }}
+                />
               </CardContent>
             </Card>
           </div>
