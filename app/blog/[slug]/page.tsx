@@ -13,16 +13,8 @@ interface BlogPost {
   content: string;
   category: string;
   tags: string[];
-  reading_time: number;
-  author: string;
-  published: boolean;
-  featured: boolean;
-  views: number;
   created_at: string;
   updated_at: string;
-  seo_title?: string;
-  seo_description?: string;
-  seo_keywords?: string[];
 }
 
 interface BlogPostPageProps {
@@ -128,12 +120,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <span className="text-sm text-[#64748B]">•</span>
                 <span className="text-sm text-[#64748B] flex items-center gap-1">
                   <Clock className="w-3 h-3" />
-                  {post.reading_time}분 읽기
+                  5분 읽기
                 </span>
                 <span className="text-sm text-[#64748B]">•</span>
                 <span className="text-sm text-[#64748B] flex items-center gap-1">
                   <Eye className="w-3 h-3" />
-                  {post.views}회 조회
+                  0회 조회
                 </span>
               </div>
               <h1 className="text-3xl font-bold text-[#0F172A] mb-4">

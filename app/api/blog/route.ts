@@ -45,16 +45,8 @@ export async function GET(req: NextRequest) {
         content,
         category,
         tags,
-        reading_time,
-        author,
-        published,
-        featured,
-        views,
         created_at,
-        updated_at,
-        seo_title,
-        seo_description,
-        seo_keywords
+        updated_at
       `)
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
@@ -75,16 +67,7 @@ export async function GET(req: NextRequest) {
       query = query.eq("slug", slug);
     }
 
-    // published 상태 필터링 (기본적으로 published된 글만 조회)
-    const status = searchParams.get("status");
-    if (status === "published") {
-      query = query.eq("published", true);
-    } else if (status === "draft") {
-      query = query.eq("published", false);
-    } else {
-      // 기본값: published된 글만 조회
-      query = query.eq("published", true);
-    }
+    // 모든 글 조회 (published 필터링 제거)
 
     console.log("🔍 Supabase 쿼리 실행 중...");
     const { data, error } = await query;

@@ -12,13 +12,9 @@ interface BlogPost {
   slug: string;
   title: string;
   excerpt: string;
+  content: string;
   category: string;
   tags: string[];
-  reading_time: number;
-  author: string;
-  published: boolean;
-  featured: boolean;
-  views: number;
   created_at: string;
   updated_at: string;
 }
