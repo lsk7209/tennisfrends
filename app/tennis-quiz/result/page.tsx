@@ -124,42 +124,58 @@ export default function TennisQuizResultPage() {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0BA360]/10 via-white to-[#2364AA]/10 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50 p-6">
       <div className="max-w-4xl mx-auto pt-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-[#0F172A] mb-4">
-            ✨ 퀴즈 결과
+          <h1 className="text-5xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
+            🎾 테니스 규칙 퀴즈 결과
           </h1>
-          <p className="text-lg text-[#64748B]">
-            테니스 규칙 이해도를 분석했습니다.
+          <p className="text-xl text-gray-600">
+            당신의 테니스 규칙 이해도를 종합적으로 분석했습니다
           </p>
         </div>
 
         {/* Main Result Card for Export */}
-        <div ref={cardRef} className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <div className="text-center mb-6">
+        <div ref={cardRef} className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 mb-8 relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-full -translate-y-16 translate-x-16 opacity-50"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-100 to-emerald-100 rounded-full translate-y-12 -translate-x-12 opacity-50"></div>
+          
+          <div className="text-center mb-6 relative z-10">
             <Badge 
-              className="text-sm px-4 py-2 rounded-full mb-3"
+              className="text-lg px-6 py-3 rounded-full mb-4 shadow-lg transform hover:scale-105 transition-transform duration-200"
               style={{ backgroundColor: grade.color, color: 'white' }}
             >
-              {grade.name}
+              🏆 {grade.name}
             </Badge>
-            <h2 className="text-5xl font-extrabold mb-2" style={{ color: grade.color }}>
+            <h2 className="text-6xl font-extrabold mb-4" style={{ color: grade.color }}>
               {score} / {total}
             </h2>
-            <p className="text-2xl font-semibold text-[#0F172A]">{grade.description}</p>
-            <p className="text-md text-[#64748B] mt-2">소요 시간: {timeMinutes}분</p>
+            <p className="text-2xl font-semibold text-gray-800 mb-2">{grade.description}</p>
+            <div className="flex items-center justify-center gap-4 text-gray-600">
+              <span className="flex items-center gap-2">
+                <span className="text-2xl">⏱️</span>
+                <span className="text-lg">소요 시간: {timeMinutes}분</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="text-2xl">📊</span>
+                <span className="text-lg">정답률: {Math.round((score / total) * 100)}%</span>
+              </span>
+            </div>
           </div>
 
           {/* 약점 영역 */}
           {topWeakAreas.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-[#0F172A] mb-3 text-center">주요 약점 영역</h3>
-              <div className="flex flex-wrap justify-center gap-2">
+            <div className="mb-6 relative z-10">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4 text-center flex items-center justify-center gap-2">
+                <span className="text-2xl">🎯</span>
+                주요 약점 영역
+              </h3>
+              <div className="flex flex-wrap justify-center gap-3">
                 {topWeakAreas.map((category) => (
                   <Badge 
                     key={category}
-                    className={`${CATEGORY_COLORS[category as keyof typeof CATEGORY_COLORS] || 'bg-gray-100 text-gray-800'}`}
+                    className={`${CATEGORY_COLORS[category as keyof typeof CATEGORY_COLORS] || 'bg-gray-100 text-gray-800'} px-4 py-2 text-sm font-medium shadow-sm`}
                   >
                     {category}
                   </Badge>
@@ -170,42 +186,48 @@ export default function TennisQuizResultPage() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-3 justify-center pt-6 mb-8">
+        <div className="flex flex-wrap gap-4 justify-center pt-6 mb-8">
           <Link href="/tennis-quiz/quiz">
             <Button
               variant="outline"
-              className="border-[#2364AA] text-[#2364AA] hover:bg-[#2364AA] hover:text-white"
+              className="border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white transition-all duration-200 shadow-sm px-6 py-3"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              다시 풀기
+              🔄 다시 풀기
             </Button>
           </Link>
           <Button
-            className="bg-[#0BA360] hover:bg-[#19C37D]"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white transition-all duration-200 shadow-lg px-6 py-3"
             onClick={shareResult}
             disabled={isSharing}
           >
             <Share2 className="w-4 h-4 mr-2" />
-            {isSharing ? '공유 중...' : '결과 공유하기'}
+            {isSharing ? '공유 중...' : '📤 결과 공유하기'}
           </Button>
         </div>
 
         {/* Detailed Analysis */}
         <Tabs defaultValue="analysis" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="analysis">약점 분석</TabsTrigger>
-            <TabsTrigger value="wrongAnswers">오답 해설</TabsTrigger>
-            <TabsTrigger value="improvement">개선 가이드</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 bg-gray-100 rounded-xl p-1">
+            <TabsTrigger value="analysis" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              📊 약점 분석
+            </TabsTrigger>
+            <TabsTrigger value="wrongAnswers" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              ❌ 오답 해설
+            </TabsTrigger>
+            <TabsTrigger value="improvement" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              📚 개선 가이드
+            </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="analysis" className="mt-4">
-            <Card>
+          <TabsContent value="analysis" className="mt-6">
+            <Card className="shadow-lg border-gray-100">
               <CardHeader>
-                <CardTitle className="text-xl font-semibold text-[#0F172A]">
-                  <Target className="inline-block w-5 h-5 mr-2 text-[#0BA360]" />
+                <CardTitle className="text-2xl font-semibold text-gray-900 flex items-center gap-3">
+                  <span className="text-3xl">🎯</span>
                   카테고리별 성과
                 </CardTitle>
-                <CardDescription className="text-[#64748B]">
+                <CardDescription className="text-gray-600 text-lg">
                   각 영역별 정답률을 확인하고 약점을 파악하세요.
                 </CardDescription>
               </CardHeader>

@@ -279,23 +279,27 @@ export default function InjuryRiskResultPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0BA360]/10 via-white to-[#2364AA]/10 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="text-2xl mb-4">🏥</div>
-          <div className="text-[#64748B]">결과를 분석하고 있습니다...</div>
+          <div className="text-6xl mb-6 animate-pulse">🏥</div>
+          <div className="text-gray-600 text-lg">결과를 분석하고 있습니다...</div>
+          <div className="mt-4 w-32 h-1 bg-gray-200 rounded-full mx-auto">
+            <div className="h-1 bg-gradient-to-r from-red-400 to-orange-400 rounded-full animate-pulse"></div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0BA360]/10 via-white to-[#2364AA]/10">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50">
       <div className="max-w-4xl mx-auto p-6 pt-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-[#0F172A] mb-4">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
             🏥 부상 위험도 진단 결과
           </h1>
+          <p className="text-gray-600 text-lg">당신의 테니스 부상 위험도를 종합적으로 분석했습니다</p>
         </div>
 
         {/* Risk Level Card */}

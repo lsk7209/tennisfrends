@@ -89,57 +89,67 @@ export default function NTRPResultPage({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0BA360]/5 via-white to-[#2364AA]/5">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
       <div className="max-w-6xl mx-auto p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Link href={backUrl}>
-              <Button variant="ghost" size="sm" className="text-[#2364AA] hover:bg-[#2364AA]/10">
+              <Button variant="ghost" size="sm" className="text-blue-600 hover:bg-blue-50 transition-colors">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 돌아가기
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-[#0F172A]">NTRP 실력 분석 리포트</h1>
-              <p className="text-[#64748B] mt-1">
+              <h1 className="text-4xl font-bold text-gray-900 flex items-center gap-3">
+                🎾 NTRP 실력 분석 리포트
+              </h1>
+              <p className="text-gray-600 mt-2 text-lg">
                 당신의 테니스 실력을 종합적으로 분석했습니다
-                {showTotalQuestions && ` (${score}/${totalQuestions}점)`}
+                {showTotalQuestions && (
+                  <span className="ml-2 px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium">
+                    {score}/{totalQuestions}점
+                  </span>
+                )}
               </p>
             </div>
           </div>
           
           {/* Export Actions */}
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <Button
               variant="outline"
               size="sm"
               onClick={shareResult}
               disabled={isSharing}
-              className="border-[#2364AA] text-[#2364AA] hover:bg-[#2364AA] hover:text-white"
+              className="border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white transition-all duration-200 shadow-sm"
             >
               <Share2 className="w-4 h-4 mr-2" />
-              {isSharing ? '공유 중...' : '결과 공유하기'}
+              {isSharing ? '공유 중...' : '📤 결과 공유하기'}
             </Button>
           </div>
         </div>
 
         {/* Main Result Card */}
-        <div className="bg-white rounded-2xl shadow-xl border border-[#E2E8F0] p-8 mb-8">
-          <div className="text-center mb-8">
+        <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 mb-8 relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-full -translate-y-16 translate-x-16 opacity-50"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-100 to-emerald-100 rounded-full translate-y-12 -translate-x-12 opacity-50"></div>
+          
+          <div className="text-center mb-8 relative z-10">
             <div 
-              className="inline-block px-8 py-4 rounded-2xl text-white font-bold text-2xl mb-4"
+              className="inline-block px-8 py-6 rounded-3xl text-white font-bold text-3xl mb-6 shadow-lg transform hover:scale-105 transition-transform duration-200"
               style={{ backgroundColor: band.color }}
             >
-              NTRP {band.level} - {band.title}
+              🏆 NTRP {band.level} - {band.title}
             </div>
-            <p className="text-xl text-[#64748B] mb-2">{levelObj.description}</p>
-            <div className="flex justify-center gap-2">
-              <Badge variant="secondary" className="bg-[#0BA360]/20 text-[#0BA360]">
-                {persona.key}
+            <p className="text-xl text-gray-700 mb-4 leading-relaxed">{levelObj.description}</p>
+            <div className="flex justify-center gap-3 flex-wrap">
+              <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 px-4 py-2 text-sm font-medium">
+                💪 {persona.key}
               </Badge>
-              <Badge variant="secondary" className="bg-[#2364AA]/20 text-[#2364AA]">
-                {persona.slogan}
+              <Badge variant="secondary" className="bg-blue-100 text-blue-700 px-4 py-2 text-sm font-medium">
+                🎯 {persona.slogan}
               </Badge>
             </div>
           </div>
