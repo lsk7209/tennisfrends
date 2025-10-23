@@ -52,12 +52,12 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   }
 
   return {
-    title: post.seo_title || post.title,
-    description: post.seo_description || post.excerpt,
-    keywords: post.seo_keywords?.join(', '),
+    title: post.title,
+    description: post.excerpt,
+    keywords: post.tags?.join(', '),
     openGraph: {
-      title: post.seo_title || post.title,
-      description: post.seo_description || post.excerpt,
+      title: post.title,
+      description: post.excerpt,
       type: 'article',
       publishedTime: post.created_at,
       modifiedTime: post.updated_at,
@@ -66,8 +66,8 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.seo_title || post.title,
-      description: post.seo_description || post.excerpt,
+      title: post.title,
+      description: post.excerpt,
     },
   };
 }
