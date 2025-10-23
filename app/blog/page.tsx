@@ -142,7 +142,7 @@ export default function BlogPage() {
                       ))}
                     </div>
                     <div className="text-sm text-[#64748B]">
-                      {new Date(post.created_at).toISOString().split('T')[0]} • {post.reading_time}분 읽기
+                      {new Date(post.created_at).toISOString().split('T')[0]} • 5분 읽기
                     </div>
                   </div>
                 </CardContent>
