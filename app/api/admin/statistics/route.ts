@@ -57,9 +57,9 @@ export async function GET(request: NextRequest) {
     const statistics = {
       ntrp: {
         total: ntrpResults?.length || 0,
-        averageLevel: ntrpResults?.length > 0 
+        averageLevel: ntrpResults && ntrpResults.length > 0 
           ? (ntrpResults.reduce((sum, result) => sum + (result.ntrp_level || 0), 0) / ntrpResults.length).toFixed(1)
-          : 0,
+          : "0",
         levelDistribution: ntrpResults?.reduce((acc, result) => {
           const level = result.ntrp_level || 0;
           const key = `${Math.floor(level)}.${Math.round((level % 1) * 2) * 0.5}`;
@@ -79,9 +79,9 @@ export async function GET(request: NextRequest) {
       },
       quiz: {
         total: quizResults?.length || 0,
-        averageScore: quizResults?.length > 0
+        averageScore: quizResults && quizResults.length > 0
           ? (quizResults.reduce((sum, result) => sum + (result.score || 0), 0) / quizResults.length).toFixed(1)
-          : 0,
+          : "0",
         scoreDistribution: quizResults?.reduce((acc, result) => {
           const score = result.score || 0;
           const key = `${score}점`;
