@@ -112,11 +112,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <Badge variant="secondary" className="text-xs">
                   {post.category}
                 </Badge>
-                {post.featured && (
-                  <Badge className="text-xs bg-[#C7F000] text-[#0F172A]">
-                    추천
-                  </Badge>
-                )}
                 <span className="text-sm text-[#64748B]">•</span>
                 <span className="text-sm text-[#64748B] flex items-center gap-1">
                   <Clock className="w-3 h-3" />
