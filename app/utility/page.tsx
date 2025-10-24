@@ -9,6 +9,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const utilities = [
   {
+    id: "ntrp-test",
+    title: "NTRP 실력 테스트 v2",
+    description: "15문항으로 정확한 테니스 실력 레벨을 측정하고 개선 방향을 제시합니다.",
+    icon: "🎯",
+    color: "bg-[#0BA360]",
+    href: "/ntrp-test",
+    features: ["15문항 자가진단", "NTRP 레벨 산정", "플레이 스타일 분석", "SNS 공유"],
+    status: "active",
+    priority: 1
+  },
+  {
     id: "ntrp-analyzer",
     title: "NTRP 실력 테스트 분석",
     description: "15문항으로 정확한 테니스 실력 레벨을 측정하고 개선 방향을 제시합니다.",
@@ -17,7 +28,7 @@ const utilities = [
     href: "/utility/ntrp-analyzer",
     features: ["정확한 실력 측정", "개선 방향 제시", "맞춤형 훈련 계획"],
     status: "active",
-    priority: 1
+    priority: 2
   },
   {
     id: "injury-risk",
@@ -28,7 +39,7 @@ const utilities = [
     href: "/utility/injury-risk",
     features: ["부상 위험 평가", "개인화 체크리스트", "예방 방법 제시"],
     status: "active",
-    priority: 2
+    priority: 3
   },
   {
     id: "string-tension",
@@ -39,7 +50,7 @@ const utilities = [
     href: "/utility/string-tension",
     features: ["최적 텐션 계산", "라켓별 맞춤", "성능 예측"],
     status: "active",
-    priority: 3
+    priority: 4
   },
   {
     id: "tennis-type",
@@ -50,7 +61,7 @@ const utilities = [
     href: "/utility/tennis-type",
     features: ["플레이 스타일 분석", "전술 추천", "장비 매칭"],
     status: "active",
-    priority: 4
+    priority: 5
   },
   {
     id: "rules-quiz",
@@ -61,7 +72,7 @@ const utilities = [
     href: "/utility/tennis-quiz",
     features: ["12문항 랜덤", "즉시 해설", "약점 분석"],
     status: "active",
-    priority: 5
+    priority: 6
   },
   {
     id: "match-analyzer",
@@ -72,7 +83,7 @@ const utilities = [
     href: "/utility/match-analyzer",
     features: ["데이터 입력", "통계 분석", "개인화 리포트"],
     status: "active",
-    priority: 6
+    priority: 7
   },
   {
     id: "racket-matchmaker",
@@ -83,7 +94,18 @@ const utilities = [
     href: "/utility/racket-matchmaker",
     features: ["10문항 설문", "맞춤 추천", "상세 비교"],
     status: "active",
-    priority: 7
+    priority: 8
+  },
+  {
+    id: "rankings-snapshot",
+    title: "테니스 랭킹 스냅샷",
+    description: "ATP/WTA 랭킹을 실시간으로 확인하고 선수들을 비교할 수 있는 분석 도구입니다.",
+    icon: "🏆",
+    color: "bg-[#2364AA]",
+    href: "/rankings",
+    features: ["실시간 랭킹", "선수 비교", "CSV 관리"],
+    status: "active",
+    priority: 9
   },
   {
     id: "court-finder",
@@ -94,7 +116,7 @@ const utilities = [
     href: "/utility/court-finder",
     features: ["지역별 검색", "실시간 예약", "리뷰 및 평점"],
     status: "coming-soon",
-    priority: 8
+    priority: 10
   },
   {
     id: "training-planner",
@@ -105,7 +127,7 @@ const utilities = [
     href: "/utility/training-planner",
     features: ["맞춤형 계획", "진도 추적", "목표 설정"],
     status: "coming-soon",
-    priority: 9
+    priority: 11
   },
   {
     id: "nutrition-guide",
@@ -116,7 +138,7 @@ const utilities = [
     href: "/utility/nutrition-guide",
     features: ["맞춤형 영양", "보충제 추천", "식단 계획"],
     status: "coming-soon",
-    priority: 10
+    priority: 12
   },
   {
     id: "mental-training",
@@ -127,7 +149,7 @@ const utilities = [
     href: "/utility/mental-training",
     features: ["집중력 향상", "멘탈 강화", "경기 심리"],
     status: "coming-soon",
-    priority: 11
+    priority: 13
   },
   {
     id: "equipment-tracker",
@@ -138,7 +160,7 @@ const utilities = [
     href: "/utility/equipment-tracker",
     features: ["사용 기간 추적", "성능 모니터링", "교체 알림"],
     status: "coming-soon",
-    priority: 12
+    priority: 14
   },
   {
     id: "weather-analyzer",
@@ -149,7 +171,7 @@ const utilities = [
     href: "/utility/weather-analyzer",
     features: ["날씨별 전략", "장비 조정", "플레이 팁"],
     status: "coming-soon",
-    priority: 13
+    priority: 15
   },
   {
     id: "tournament-planner",
@@ -160,7 +182,7 @@ const utilities = [
     href: "/utility/tournament-planner",
     features: ["대회 일정", "참가 계획", "랭킹 추적"],
     status: "coming-soon",
-    priority: 14
+    priority: 16
   },
   {
     id: "video-analysis",
@@ -171,7 +193,7 @@ const utilities = [
     href: "/utility/video-analysis",
     features: ["AI 스윙 분석", "폼 교정", "기술 개선"],
     status: "coming-soon",
-    priority: 15
+    priority: 17
   }
 ]
 

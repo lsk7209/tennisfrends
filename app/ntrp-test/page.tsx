@@ -1,89 +1,105 @@
-"use client";
-
-import { useState } from "react";
-import { questions } from "@/lib/questions";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-export default function NTRPTestPage() {
-  const [idx, setIdx] = useState(0);
-  const [ans, setAns] = useState<number[]>(Array(questions.length).fill(0));
-  const router = useRouter();
+export const metadata = {
+  title: "나의 테니스 실력은 몇 점? - NTRP 테스트",
+  description: "NTRP 시스템으로 나의 실력을 재미있게 알아보세요."
+};
 
-  const onChoose = (v: number) => {
-    const nxt = [...ans];
-    nxt[idx] = v;
-    setAns(nxt);
-    
-    // 자동으로 다음 질문으로 넘어가기
-    if (idx < questions.length - 1) {
-      setTimeout(() => {
-        setIdx(idx + 1);
-      }, 500); // 0.5초 후 자동 진행
-    } else {
-      // 마지막 질문인 경우 결과 페이지로 이동
-      setTimeout(() => {
-        const total = nxt.reduce((a, b) => a + b, 0);
-        router.push(`/ntrp-test/result?score=${total}&total=${questions.length}`);
-      }, 500);
-    }
-  };
-
-  const progress = Math.round(((idx + 1) / questions.length) * 100);
-
+export default function NTRPTestIntroPage() {
   return (
-    <div className="min-h-screen bg-[#F7F5F3]">
-      {/* Header */}
-      <div className="bg-white border-b border-[#E2E8F0]">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-4">
-            <Link href="/utility/ntrp-analyzer">
-              <Button variant="ghost" size="sm" className="text-[#0BA360] hover:bg-[#0BA360]/10">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                NTRP 분석기로 돌아가기
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-2xl font-bold text-[#0F172A]">NTRP 실력 테스트</h1>
-              <p className="text-[#334155]">15문항으로 정확한 테니스 실력 레벨을 측정합니다</p>
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-green-600 overflow-hidden">
+      {/* Tennis court background pattern */}
+      <div className="absolute inset-0 bg-[url('/images/tennis-court-pattern.svg')] bg-cover bg-center opacity-10 animate-fade-in"></div>
+
+      <div className="relative z-10 text-center p-6 max-w-4xl mx-auto bg-white/90 backdrop-blur-sm rounded-lg shadow-xl animate-scale-in">
+        <div className="mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4 animate-slide-up">
+            🎾 나의 테니스 실력은 몇 점?
+          </h1>
+          <p className="text-lg md:text-xl text-[#64748B] mb-8 animate-slide-up delay-100">
+            NTRP 시스템으로 나의 실력을 재미있게 알아보세요
+          </p>
+        </div>
+
+        {/* Features */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card className="text-center">
+            <CardHeader>
+              <div className="text-3xl mb-2">📊</div>
+              <CardTitle className="text-lg">15문항 자가진단</CardTitle>
+              <CardDescription>
+                포핸드, 백핸드, 서브, 발리 등 종합 평가
+              </CardDescription>
+            </CardHeader>
+          </Card>
+          
+          <Card className="text-center">
+            <CardHeader>
+              <div className="text-3xl mb-2">🏆</div>
+              <CardTitle className="text-lg">NTRP 레벨 산정</CardTitle>
+              <CardDescription>
+                1.5부터 5.0+까지 정확한 실력 측정
+              </CardDescription>
+            </CardHeader>
+          </Card>
+          
+          <Card className="text-center">
+            <CardHeader>
+              <div className="text-3xl mb-2">🎯</div>
+              <CardTitle className="text-lg">플레이 스타일 분석</CardTitle>
+              <CardDescription>
+                나만의 테니스 성향과 특징 파악
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+
+        {/* CTA */}
+        <div className="mb-8">
+          <Link href="/ntrp-test/test">
+            <Button className="bg-[#0BA360] hover:bg-[#19C37D] text-white text-xl px-12 py-4 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 animate-fade-in delay-200">
+              테스트 시작하기 →
+            </Button>
+          </Link>
+        </div>
+
+        {/* NTRP Levels Info */}
+        <div className="mt-12 p-6 bg-gradient-to-r from-[#0BA360]/10 to-[#2364AA]/10 rounded-lg">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Badge variant="secondary" className="bg-[#0BA360]/20 text-[#0BA360]">
+              NTRP 레벨 가이드
+            </Badge>
+          </div>
+          <h3 className="text-lg font-semibold text-[#0F172A] mb-2">
+            테니스 실력 측정의 표준
+          </h3>
+          <p className="text-[#64748B] text-sm leading-relaxed">
+            1.5 (초보)부터 5.0+ (고급)까지, 미국 테니스 협회가 개발한 
+            공식 실력 측정 시스템으로 정확한 레벨을 확인할 수 있습니다.
+          </p>
+        </div>
+
+        {/* FAQ */}
+        <div className="mt-8 text-left">
+          <h3 className="text-lg font-semibold mb-4">자주 묻는 질문</h3>
+          <div className="space-y-3 text-sm">
+            <div className="p-3 bg-gray-50 rounded">
+              <strong>Q: NTRP가 무엇인가요?</strong>
+              <p className="text-gray-600 mt-1">미국 테니스 협회의 공식 실력 측정 시스템입니다.</p>
+            </div>
+            <div className="p-3 bg-gray-50 rounded">
+              <strong>Q: 결과는 정확한가요?</strong>
+              <p className="text-gray-600 mt-1">15문항의 종합적 평가로 높은 정확도를 제공합니다.</p>
+            </div>
+            <div className="p-3 bg-gray-50 rounded">
+              <strong>Q: 결과를 공유할 수 있나요?</strong>
+              <p className="text-gray-600 mt-1">네, SNS나 카톡으로 결과를 공유할 수 있습니다.</p>
             </div>
           </div>
         </div>
-      </div>
-      
-      <div className="max-w-2xl mx-auto p-6 pt-8">
-        <div className="mb-6">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-[#605A57]">진행률</span>
-            <span className="text-sm text-[#605A57]">{idx + 1} / {questions.length}</span>
-          </div>
-          <Progress value={progress} className="h-2" />
-        </div>
-        
-        <Card className="p-8">
-          <h2 className="text-xl font-semibold mb-6 text-[#37322F]">
-            {questions[idx].question}
-          </h2>
-          <div className="grid gap-3">
-            {questions[idx].options.map((opt, i) => (
-              <Button 
-                key={i} 
-                onClick={() => onChoose(i + 1)}
-                variant="outline"
-                className="h-auto p-4 text-left justify-start hover:bg-[#0BA360] hover:text-white hover:border-[#0BA360] transition-colors"
-              >
-                <span className="mr-3 w-6 h-6 bg-[#F7F5F3] text-[#37322F] rounded-full flex items-center justify-center text-sm font-medium">
-                  {i + 1}
-                </span>
-                {opt}
-              </Button>
-            ))}
-          </div>
-        </Card>
       </div>
     </div>
   );

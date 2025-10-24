@@ -3,6 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+export const metadata = {
+  title: "경기 기록 분석기 - 테니스프렌즈",
+  description: "경기 데이터를 업로드하거나 직접 입력해 승률과 패턴을 파악하세요."
+};
+
 export default function MatchAnalyzerIntroPage() {
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-[#F7F5F3] overflow-hidden">

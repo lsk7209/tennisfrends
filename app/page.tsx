@@ -98,6 +98,51 @@ export default function LandingPage() {
                   </div>
                 </div>
 
+            {/* Rankings Section */}
+            <div className="w-full max-w-4xl px-4 py-16">
+              <div className="bg-white rounded-2xl p-8 shadow-sm border border-[#E0DEDB]">
+                <div className="text-center mb-8">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#2364AA] to-[#0BA360] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-white text-2xl">🏆</span>
+                  </div>
+                  <h2 className="text-[#37322F] text-2xl font-semibold mb-4">
+                    테니스 랭킹 스냅샷
+                  </h2>
+                  <p className="text-[#605A57] text-base mb-6">
+                    ATP/WTA 랭킹을 실시간으로 확인하고 선수들을 비교해보세요
+                  </p>
+                </div>
+                
+                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                  <div className="p-6 bg-gradient-to-r from-[#0BA360]/10 to-[#19C37D]/10 rounded-xl">
+                    <h3 className="text-[#37322F] text-lg font-semibold mb-2 flex items-center gap-2">
+                      <span className="text-[#0BA360]">📊</span>
+                      랭킹 분석
+                    </h3>
+                    <p className="text-[#605A57] text-sm leading-relaxed mb-4">
+                      ATP/WTA 랭킹을 검색하고 필터링하여 원하는 선수를 찾아보세요
+                    </p>
+                    <a href="/rankings" className="inline-block h-10 px-6 py-2 bg-[#0BA360] text-white rounded-full hover:bg-[#19C37D] transition-colors font-medium text-sm">
+                      랭킹 보기
+                    </a>
+                  </div>
+                  
+                  <div className="p-6 bg-gradient-to-r from-[#2364AA]/10 to-[#0BA360]/10 rounded-xl">
+                    <h3 className="text-[#37322F] text-lg font-semibold mb-2 flex items-center gap-2">
+                      <span className="text-[#2364AA]">⚖️</span>
+                      선수 비교
+                    </h3>
+                    <p className="text-[#605A57] text-sm leading-relaxed mb-4">
+                      최대 3명의 선수를 선택하여 랭킹과 포인트 추이를 비교하세요
+                    </p>
+                    <a href="/compare" className="inline-block h-10 px-6 py-2 bg-[#2364AA] text-white rounded-full hover:bg-[#1E40AF] transition-colors font-medium text-sm">
+                      비교하기
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* CTA Section */}
             <div className="w-full max-w-4xl px-4 py-16 text-center">
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-[#E0DEDB]">
@@ -107,9 +152,12 @@ export default function LandingPage() {
                 <p className="text-[#605A57] text-base mb-6">
                   3단계 질문만으로 정확한 NTRP 실력 레벨과 개선 방향을 확인할 수 있습니다.
                 </p>
-                <div className="flex justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a href="/utility" className="inline-block h-12 px-8 py-3 bg-[#0BA360] text-white rounded-full hover:bg-[#19C37D] transition-colors font-medium">
                     모든 유틸리티 보기
+                  </a>
+                  <a href="/rankings" className="inline-block h-12 px-8 py-3 bg-[#2364AA] text-white rounded-full hover:bg-[#1E40AF] transition-colors font-medium">
+                    랭킹 스냅샷
                   </a>
                 </div>
               </div>
