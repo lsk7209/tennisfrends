@@ -1,3 +1,5 @@
+"use client";
+
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -44,8 +46,6 @@ export async function generateMetadata({
     },
   };
 }
-
-"use client";
 
 import { useSearchParams } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
