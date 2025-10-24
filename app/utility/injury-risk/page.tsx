@@ -7,7 +7,7 @@ export default function InjuryRiskPage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/injury-risk/intro');
+    router.push('/utility/injury-risk/intro');
   }, [router]);
 
   return (

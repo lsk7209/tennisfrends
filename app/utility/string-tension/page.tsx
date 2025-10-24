@@ -48,7 +48,7 @@ export default function StringTensionPage() {
 
   const handleSubmit = () => {
     const params = encodeURIComponent(JSON.stringify(formData));
-    router.push(`/string-tension/result?params=${params}`);
+    router.push(`/utility/string-tension/result?params=${params}`);
   };
 
   const isStepComplete = (step: number) => {

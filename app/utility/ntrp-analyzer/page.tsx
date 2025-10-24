@@ -72,7 +72,7 @@ export default function NTRPAnalyzerPage() {
             15문항 질문으로 정확한 NTRP 레벨과 개선 방향을 확인할 수 있습니다.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/ntrp-test">
+            <Link href="/utility/ntrp-analyzer/test">
               <Button size="lg" className="bg-[#0BA360] hover:bg-[#19C37D] text-white text-lg px-8 py-4 rounded-full shadow-lg">
                 🎯 무료로 분석하기
               </Button>
