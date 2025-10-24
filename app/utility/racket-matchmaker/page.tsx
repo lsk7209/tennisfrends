@@ -59,7 +59,7 @@ export default function RacketMatchmakerIntroPage() {
 
         {/* CTA */}
         <div className="mb-8">
-          <Link href="/racket-matchmaker/test">
+          <Link href="/utility/racket-matchmaker/test">
             <Button className="bg-[#0BA360] hover:bg-[#19C37D] text-white text-lg px-8 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 animate-fade-in delay-200">
               지금 시작하기 →
             </Button>
@@ -101,7 +101,7 @@ export default function RacketMatchmakerIntroPage() {
               📊 NTRP 실력 테스트
             </Button>
           </Link>
-          <Link href="/match-analyzer">
+          <Link href="/utility/match-analyzer">
             <Button variant="outline" className="w-full sm:w-auto">
               📈 경기 기록 분석
             </Button>
