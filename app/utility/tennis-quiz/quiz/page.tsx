@@ -88,7 +88,7 @@ export default function TennisQuizPage() {
           wrongAnswers: JSON.stringify(wrongAnswers)
         });
 
-        router.push(`/tennis-quiz/result?${params.toString()}`);
+        router.push(`/utility/tennis-quiz/result?${params.toString()}`);
       }
     }, 500);
   };

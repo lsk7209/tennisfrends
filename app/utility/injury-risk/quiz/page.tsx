@@ -194,7 +194,7 @@ export default function InjuryRiskQuizPage() {
     } else {
       // 마지막 문항 완료 시 결과 페이지로 이동
       const params = encodeURIComponent(JSON.stringify(updatedAnswers));
-      router.push(`/injury-risk/result?answers=${params}`);
+      router.push(`/utility/injury-risk/result?answers=${params}`);
     }
   };
 
