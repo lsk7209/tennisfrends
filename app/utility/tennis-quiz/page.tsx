@@ -99,7 +99,7 @@ export default function TennisQuizIntroPage() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <Link href="/tennis-quiz/quiz">
+          <Link href="/utility/tennis-quiz/quiz">
             <Button size="lg" className="bg-[#0BA360] hover:bg-[#19C37D] text-lg px-8 py-4">
               지금 시작하기
               <ArrowRight className="w-5 h-5 ml-2" />

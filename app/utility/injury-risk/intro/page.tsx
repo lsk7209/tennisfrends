@@ -54,7 +54,7 @@ export default function InjuryRiskIntroPage() {
 
         {/* CTA */}
         <div className="mb-8">
-          <Link href="/injury-risk/quiz">
+          <Link href="/utility/injury-risk/quiz">
             <Button className="bg-[#2364AA] hover:bg-[#3D8BFF] text-white text-lg px-8 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 animate-fade-in delay-200">
               시작하기 →
             </Button>
@@ -63,7 +63,7 @@ export default function InjuryRiskIntroPage() {
 
         {/* Secondary CTAs */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/string-tension">
+          <Link href="/utility/string-tension">
             <Button variant="outline" className="w-full sm:w-auto">
               🎾 스트링 텐션 계산기
             </Button>
@@ -73,7 +73,7 @@ export default function InjuryRiskIntroPage() {
               📊 NTRP 실력 테스트
             </Button>
           </Link>
-          <Link href="/test">
+          <Link href="/utility/tennis-quiz">
             <Button variant="outline" className="w-full sm:w-auto">
               🏆 규칙 퀴즈
             </Button>
