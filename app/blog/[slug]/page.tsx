@@ -26,12 +26,18 @@ interface BlogPostPageProps {
 
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
+    // Supabase 클라이언트 확인
     if (!supabase) {
       console.error('Supabase client not available');
       return null;
     }
 
-    const { data, error } = await supabase
+    // 타임아웃 설정으로 무한 대기 방지
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Supabase query timeout')), 10000);
+    });
+
+    const queryPromise = supabase
       .from('blog_posts')
       .select(`
         id,
@@ -47,8 +53,15 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
       .eq('slug', slug)
       .single();
 
+    const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
+
     if (error) {
       console.error('Supabase query error:', error);
+      return null;
+    }
+
+    if (!data) {
+      console.error('No data returned from Supabase');
       return null;
     }
 
@@ -60,43 +73,61 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
-  const post = await getBlogPost(params.slug);
-  
-  if (!post) {
+  try {
+    const post = await getBlogPost(params.slug);
+    
+    if (!post) {
+      return {
+        title: '포스트를 찾을 수 없습니다',
+        description: '요청하신 블로그 포스트를 찾을 수 없습니다.',
+      };
+    }
+
+    return {
+      title: post.title,
+      description: post.excerpt,
+      keywords: post.tags?.join(', '),
+      openGraph: {
+        title: post.title,
+        description: post.excerpt,
+        type: 'article',
+        publishedTime: post.created_at,
+        modifiedTime: post.updated_at,
+        authors: ['테니스프렌즈'],
+        tags: post.tags,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: post.title,
+        description: post.excerpt,
+      },
+    };
+  } catch (error) {
+    console.error('Error generating metadata:', error);
     return {
       title: '포스트를 찾을 수 없습니다',
       description: '요청하신 블로그 포스트를 찾을 수 없습니다.',
     };
   }
-
-  return {
-    title: post.title,
-    description: post.excerpt,
-    keywords: post.tags?.join(', '),
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      type: 'article',
-      publishedTime: post.created_at,
-      modifiedTime: post.updated_at,
-      authors: ['테니스프렌즈'],
-      tags: post.tags,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.title,
-      description: post.excerpt,
-    },
-  };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await getBlogPost(params.slug);
+  try {
+    const post = await getBlogPost(params.slug);
 
-  if (!post) {
+    if (!post) {
+      console.error('Blog post not found for slug:', params.slug);
+      notFound();
+    }
+
+    return renderBlogPost(post);
+  } catch (error) {
+    console.error('Error in BlogPostPage:', error);
     notFound();
   }
+}
 
+function renderBlogPost(post: BlogPost) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ko-KR', {
       year: 'numeric',

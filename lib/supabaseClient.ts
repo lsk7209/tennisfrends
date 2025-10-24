@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 
-// 환경 변수 확인 (Vercel 환경 변수 우선, 없으면 하드코딩된 값 사용)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zbccwmtesxalzzgralrz.supabase.co';
-// RLS 정책 우회를 위해 Service Role Key 사용
+// Vercel 환경 변수 사용 (서버 사이드에서만 접근 가능)
+const supabaseUrl = process.env.SUPABASE_URL || process.env.tennisfriendSUPABASE_URL || 'https://zbccwmtesxalzzgralrz.supabase.co';
+// Service Role Key 사용 (RLS 정책 우회)
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY2N3bXRlc3hhbHp6Z3JhbHJ6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDg1NzM1MiwiZXhwIjoyMDc2NDMzMzUyfQ.nPRqka27bSKoCNFGnn7cagynn7Fq44W5Nfr7FNrjic4';
 
 console.log("🔍 Supabase 환경 변수 확인:");
