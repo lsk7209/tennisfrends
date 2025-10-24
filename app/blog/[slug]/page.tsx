@@ -72,29 +72,97 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     });
   };
 
-  // 마크다운을 HTML로 변환하는 간단한 함수
+  // 마크다운을 HTML로 변환하는 고급 함수
   const markdownToHtml = (markdown: string) => {
-    return markdown
-      // 헤딩 변환
+    let html = markdown;
+    
+    // 이모지와 불필요한 문구 제거
+    html = html
+      .replace(/^🪶 Hook$/gm, '')
+      .replace(/^🎯 Truth — .*$/gm, '')
+      .replace(/^⚙️ Insight — .*$/gm, '')
+      .replace(/^🧩 Application — .*$/gm, '')
+      .replace(/^💬 Connection — .*$/gm, '')
+      .replace(/^🧠 Q&A — .*$/gm, '')
+      .replace(/^🔗 CTA Bridge — .*$/gm, '')
+      .replace(/^🏁 Closing — .*$/gm, '')
+      .replace(/^💡 핵심 포인트: .*$/gm, '')
+      .replace(/^💬 코치의 조언: .*$/gm, '')
+      .replace(/^📎 .*$/gm, '')
+      .replace(/^@https:\/\/.*$/gm, '')
+      .replace(/^#### ⚖️ \d+\. .*$/gm, (match) => {
+        const number = match.match(/\d+/)?.[0] || '';
+        const title = match.replace(/^#### ⚖️ \d+\. /, '');
+        return `#### ${number}. ${title}`;
+      })
+      .replace(/^#### ⚙️ \d+\. .*$/gm, (match) => {
+        const number = match.match(/\d+/)?.[0] || '';
+        const title = match.replace(/^#### ⚙️ \d+\. /, '');
+        return `#### ${number}. ${title}`;
+      })
+      .replace(/^#### 🧵 \d+\. .*$/gm, (match) => {
+        const number = match.match(/\d+/)?.[0] || '';
+        const title = match.replace(/^#### 🧵 \d+\. /, '');
+        return `#### ${number}. ${title}`;
+      })
+      .replace(/^#### 🪶 \d+\. .*$/gm, (match) => {
+        const number = match.match(/\d+/)?.[0] || '';
+        const title = match.replace(/^#### 🪶 \d+\. /, '');
+        return `#### ${number}. ${title}`;
+      })
+      .replace(/^#### 🗺️ \d+\. .*$/gm, (match) => {
+        const number = match.match(/\d+/)?.[0] || '';
+        const title = match.replace(/^#### 🗺️ \d+\. /, '');
+        return `#### ${number}. ${title}`;
+      });
+
+    // 헤딩 변환
+    html = html
+      .replace(/^#### (.*$)/gim, '<h4 class="text-lg font-semibold text-gray-900 mb-3 mt-6">$1</h4>')
       .replace(/^### (.*$)/gim, '<h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">$1</h3>')
       .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-gray-900 mb-4 mt-8">$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-900 mb-6 mt-8">$1</h1>')
-      // 볼드 텍스트
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
-      // 이탤릭 텍스트
-      .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
-      // 인용문
-      .replace(/^> (.*$)/gim, '<blockquote class="border-l-4 border-green-500 pl-4 py-2 bg-green-50 my-4 italic text-gray-700">$1</blockquote>')
-      // 링크
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-green-600 hover:text-green-800 underline">$1</a>')
-      // 구분선
-      .replace(/^---$/gim, '<hr class="my-6 border-gray-300">')
-      // 리스트 아이템
-      .replace(/^- (.*$)/gim, '<li class="ml-4 mb-2">• $1</li>')
-      // 줄바꿈
-      .replace(/\n/g, '<br>')
-      // 리스트 래핑
-      .replace(/(<li.*<\/li>)/g, '<ul class="list-disc list-inside mb-4">$1</ul>');
+      .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-900 mb-6 mt-8">$1</h1>');
+
+    // 볼드 텍스트
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>');
+    
+    // 이탤릭 텍스트
+    html = html.replace(/\*(.*?)\*/g, '<em class="italic text-gray-700">$1</em>');
+    
+    // 인용문
+    html = html.replace(/^> (.*$)/gim, '<blockquote class="border-l-4 border-[#0BA360] pl-4 py-2 bg-[#0BA360]/5 my-4 italic text-gray-700">$1</blockquote>');
+    
+    // 링크
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-[#0BA360] hover:text-[#19C37D] underline font-medium">$1</a>');
+    
+    // 구분선
+    html = html.replace(/^---$/gim, '<hr class="my-8 border-gray-200">');
+    
+    // 테이블 처리
+    html = html.replace(/\|([^|]+)\|([^|]+)\|([^|]+)\|/g, (match, col1, col2, col3) => {
+      if (col1.includes('구분') && col2.includes('잘못된 선택') && col3.includes('교정 방법')) {
+        return ''; // 테이블 헤더 제거
+      }
+      return `<tr class="border-b border-gray-100"><td class="py-2 px-3 text-sm">${col1.trim()}</td><td class="py-2 px-3 text-sm">${col2.trim()}</td><td class="py-2 px-3 text-sm">${col3.trim()}</td></tr>`;
+    });
+    
+    // 리스트 아이템
+    html = html.replace(/^- (.*$)/gim, '<li class="ml-4 mb-2 text-gray-700">• $1</li>');
+    
+    // 번호 리스트
+    html = html.replace(/^\d+\. (.*$)/gim, '<li class="ml-4 mb-2 text-gray-700">$1</li>');
+    
+    // 줄바꿈 처리
+    html = html.replace(/\n\n/g, '</p><p class="mb-4 text-gray-700 leading-relaxed">');
+    html = html.replace(/\n/g, '<br>');
+    
+    // 리스트 래핑
+    html = html.replace(/(<li.*<\/li>)/g, '<ul class="list-disc list-inside mb-6 space-y-2">$1</ul>');
+    
+    // 문단 래핑
+    html = `<p class="mb-4 text-gray-700 leading-relaxed">${html}</p>`;
+    
+    return html;
   };
 
   const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/blog/${params.slug}` : '';
