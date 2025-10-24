@@ -198,7 +198,7 @@ export default function RacketTestPage() {
       };
 
       const profileStr = encodeURIComponent(JSON.stringify(profile));
-      router.push(`/racket-matchmaker/result?p=${profileStr}`);
+      router.push(`/utility/racket-matchmaker/result?p=${profileStr}`);
     } catch (error) {
       console.error("설문 제출 오류:", error);
       alert("설문 제출 중 오류가 발생했습니다.");
