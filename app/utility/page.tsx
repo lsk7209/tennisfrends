@@ -25,7 +25,7 @@ const utilities = [
     description: "15문항으로 부상 위험을 진단하고 개인화된 체크리스트를 제공합니다.",
     icon: "🏥",
     color: "bg-[#2364AA]",
-    href: "/injury-risk/intro",
+    href: "/utility/injury-risk",
     features: ["부상 위험 평가", "개인화 체크리스트", "예방 방법 제시"],
     status: "active",
     priority: 2
@@ -36,7 +36,7 @@ const utilities = [
     description: "라켓과 플레이 스타일에 맞는 최적의 스트링 텐션을 계산해드립니다.",
     icon: "⚡",
     color: "bg-[#C7F000]",
-    href: "/string-tension",
+    href: "/utility/string-tension",
     features: ["최적 텐션 계산", "라켓별 맞춤", "성능 예측"],
     status: "active",
     priority: 3
@@ -58,7 +58,7 @@ const utilities = [
     description: "12문항 랜덤 퀴즈로 실전 규칙 감각을 점검하고 약점을 분석합니다.",
     icon: "📚",
     color: "bg-[#2364AA]",
-    href: "/tennis-quiz",
+    href: "/utility/tennis-quiz",
     features: ["12문항 랜덤", "즉시 해설", "약점 분석"],
     status: "active",
     priority: 5
@@ -69,7 +69,7 @@ const utilities = [
     description: "경기 데이터를 입력하여 승률, 서브/리턴 지표, UE/위너 비율 등을 분석합니다.",
     icon: "📊",
     color: "bg-[#C7F000]",
-    href: "/match-analyzer",
+    href: "/utility/match-analyzer",
     features: ["데이터 입력", "통계 분석", "개인화 리포트"],
     status: "active",
     priority: 6
@@ -80,7 +80,7 @@ const utilities = [
     description: "10문항 설문으로 플레이어 프로파일을 생성하고 최적의 라켓을 추천합니다.",
     icon: "🎾",
     color: "bg-[#2364AA]",
-    href: "/racket-matchmaker",
+    href: "/utility/racket-matchmaker",
     features: ["10문항 설문", "맞춤 추천", "상세 비교"],
     status: "active",
     priority: 7
