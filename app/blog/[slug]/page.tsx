@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, Clock, Eye, Share2 } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
 
 interface BlogPost {
   id: string;
@@ -25,16 +26,33 @@ interface BlogPostPageProps {
 
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
-    const response = await fetch(`${process.env.NODE_ENV === 'production' ? 'https://tennisfrends.vercel.app' : 'http://localhost:3002'}/api/blog?slug=${slug}&status=published`, {
-      cache: 'no-store'
-    });
-    
-    if (!response.ok) {
+    if (!supabase) {
+      console.error('Supabase client not available');
       return null;
     }
-    
-    const result = await response.json();
-    return result.data?.[0] || null;
+
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select(`
+        id,
+        slug,
+        title,
+        excerpt,
+        content,
+        category,
+        tags,
+        created_at,
+        updated_at
+      `)
+      .eq('slug', slug)
+      .single();
+
+    if (error) {
+      console.error('Supabase query error:', error);
+      return null;
+    }
+
+    return data;
   } catch (error) {
     console.error('Error fetching blog post:', error);
     return null;
@@ -87,7 +105,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     });
   };
 
-  const shareUrl = `${process.env.NODE_ENV === 'production' ? 'https://tennisfrends.vercel.app' : 'http://localhost:3002'}/blog/${post.slug}`;
+  const shareUrl = `${process.env.NODE_ENV === 'production' ? 'https://tennisfrends.vercel.app' : 'http://localhost:3003'}/blog/${post.slug}`;
 
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
