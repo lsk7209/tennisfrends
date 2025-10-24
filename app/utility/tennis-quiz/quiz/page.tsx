@@ -110,7 +110,7 @@ export default function TennisQuizPage() {
       <div className="bg-white border-b border-[#E2E8F0]">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
-            <Link href="/tennis-quiz">
+            <Link href="/utility/tennis-quiz">
               <Button variant="ghost" size="sm" className="text-[#0BA360] hover:bg-[#0BA360]/10">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 돌아가기

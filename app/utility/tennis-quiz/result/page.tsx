@@ -190,7 +190,7 @@ export default function TennisQuizResultPage() {
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-4 justify-center pt-6 mb-8">
-          <Link href="/tennis-quiz/quiz">
+          <Link href="/utility/tennis-quiz/quiz">
             <Button
               variant="outline"
               className="border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white transition-all duration-200 shadow-sm px-6 py-3"
