@@ -117,7 +117,7 @@ export default function RacketResultPage() {
         <div className="text-center">
           <div className="text-2xl mb-4">❌</div>
           <div className="text-[#64748B] mb-4">프로필이 없습니다. 테스트부터 진행해주세요.</div>
-          <Link href="/racket-matchmaker/test">
+          <Link href="/utility/racket-matchmaker/test">
             <Button className="bg-[#0BA360] hover:bg-[#19C37D]">
               테스트 시작하기
             </Button>
@@ -132,7 +132,7 @@ export default function RacketResultPage() {
       <div className="max-w-6xl mx-auto p-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/racket-matchmaker/test">
+          <Link href="/utility/racket-matchmaker/test">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="w-4 h-4 mr-2" />
               다시 테스트
@@ -300,7 +300,7 @@ export default function RacketResultPage() {
                 스윙 속도나 컨디션이 달라졌다면 결과도 달라질 수 있어요.
               </p>
               <div className="flex gap-2">
-                <Link href="/racket-matchmaker/test">
+                <Link href="/utility/racket-matchmaker/test">
                   <Button variant="outline" className="w-full">
                     <RotateCcw className="w-4 h-4 mr-2" />
                     다시 테스트하기

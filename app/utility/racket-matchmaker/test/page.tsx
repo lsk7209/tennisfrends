@@ -212,7 +212,7 @@ export default function RacketTestPage() {
       <div className="max-w-4xl mx-auto p-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link href="/racket-matchmaker">
+          <Link href="/utility/racket-matchmaker">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="w-4 h-4 mr-2" />
               돌아가기
