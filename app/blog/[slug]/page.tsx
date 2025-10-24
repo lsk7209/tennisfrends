@@ -70,7 +70,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     });
   };
 
-  const shareUrl = `${window.location.origin}/blog/${params.slug}`;
+  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/blog/${params.slug}` : '';
 
   if (loading) {
     return (
