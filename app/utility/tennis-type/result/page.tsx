@@ -52,21 +52,24 @@ export default function TennisTypeResultPage() {
     setIsSharing(true);
     try {
       const url = window.location.href;
+      const shareText = `🧩 테니스 성향 7유형 분석 결과 공유! 🧩\n\n나의 테니스 성향은 ${profile.emoji} ${profile.name}입니다!\n\n${profile.subtitle}\n\n나도 어떤 테니스 성향일까? 테니스프렌즈에서 확인해보세요!\n\n${url}`;
+      
       if (navigator.share) {
         await navigator.share({
           title: '테니스 성향 분석 결과',
-          text: `나의 테니스 성향은 ${profile.emoji} ${profile.name}입니다!`,
+          text: shareText,
           url: url
         });
       } else {
-        await navigator.clipboard.writeText(url);
-        alert('결과 링크가 클립보드에 복사되었습니다!');
+        await navigator.clipboard.writeText(shareText);
+        alert('결과 링크가 복사되었습니다! 친구들과 공유해보세요 🧩');
       }
     } catch (error) {
       console.error('공유 실패:', error);
       try {
-        await navigator.clipboard.writeText(window.location.href);
-        alert('결과 링크가 클립보드에 복사되었습니다!');
+        const fallbackText = `🧩 테니스 성향 7유형 분석 결과 공유! 🧩\n\n나의 테니스 성향은 ${profile.emoji} ${profile.name}입니다!\n\n${profile.subtitle}\n\n나도 어떤 테니스 성향일까? 테니스프렌즈에서 확인해보세요!\n\n${window.location.href}`;
+        await navigator.clipboard.writeText(fallbackText);
+        alert('결과 링크가 복사되었습니다! 친구들과 공유해보세요 🧩');
       } catch (clipboardError) {
         console.error('클립보드 복사 실패:', clipboardError);
       }

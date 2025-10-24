@@ -253,22 +253,25 @@ export default function InjuryRiskResultPage() {
     setIsSharing(true);
     try {
       const url = window.location.href;
+      const shareText = `🏥 테니스 부상 위험도 진단 결과 공유! 🏥\n\n부상 위험도: ${riskLevel.level} (${totalScore}점)\n\n${riskLevel.desc}\n\n나도 테니스 부상 위험이 얼마나 될까? 테니스프렌즈에서 확인해보세요!\n\n${url}`;
+      
       if (navigator.share) {
         await navigator.share({
           title: '테니스 부상 위험도 진단 결과',
-          text: `부상 위험도: ${riskLevel.level} (${totalScore}점)`,
+          text: shareText,
           url: url
         });
       } else {
-        await navigator.clipboard.writeText(url);
-        alert('결과 링크가 클립보드에 복사되었습니다!');
+        await navigator.clipboard.writeText(shareText);
+        alert('결과 링크가 복사되었습니다! 친구들과 공유해보세요 🏥');
       }
     } catch (error) {
       console.error('공유 실패:', error);
       // Fallback to clipboard
       try {
-        await navigator.clipboard.writeText(window.location.href);
-        alert('결과 링크가 클립보드에 복사되었습니다!');
+        const fallbackText = `🏥 테니스 부상 위험도 진단 결과 공유! 🏥\n\n부상 위험도: ${riskLevel.level} (${totalScore}점)\n\n${riskLevel.desc}\n\n나도 테니스 부상 위험이 얼마나 될까? 테니스프렌즈에서 확인해보세요!\n\n${window.location.href}`;
+        await navigator.clipboard.writeText(fallbackText);
+        alert('결과 링크가 복사되었습니다! 친구들과 공유해보세요 🏥');
       } catch (clipboardError) {
         console.error('클립보드 복사 실패:', clipboardError);
       }

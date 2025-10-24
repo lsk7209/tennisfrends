@@ -55,17 +55,17 @@ export default function MatchAnalyzerIntroPage() {
         {/* CTA */}
         <div className="mb-8">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/match-analyzer/new">
+            <Link href="/utility/match-analyzer/new">
               <Button className="bg-[#0BA360] hover:bg-[#19C37D] text-white text-lg px-8 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 animate-fade-in delay-200">
                 새 기록 입력 →
               </Button>
             </Link>
-            <Link href="/match-analyzer/matches">
+            <Link href="/utility/match-analyzer/matches">
               <Button variant="outline" className="text-lg px-8 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 animate-fade-in delay-300">
                 CSV 업로드
               </Button>
             </Link>
-            <Link href="/match-analyzer/analytics">
+            <Link href="/utility/match-analyzer/analytics">
               <Button variant="outline" className="text-lg px-8 py-3 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 animate-fade-in delay-400">
                 누적 분석
               </Button>

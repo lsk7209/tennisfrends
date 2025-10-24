@@ -41,22 +41,25 @@ export default function TennisQuizResultPage() {
     setIsSharing(true);
     try {
       const url = window.location.href;
+      const shareText = `🎾 테니스 규칙 퀴즈 결과 공유! 🎾\n\n${grade.name} 등급 (${score}/${total}점)\n\n${grade.description}\n\n나도 테니스 규칙을 얼마나 알고 있을까? 테니스프렌즈에서 확인해보세요!\n\n${url}`;
+      
       if (navigator.share) {
         await navigator.share({
           title: '테니스 규칙 퀴즈 결과',
-          text: `테니스 규칙 퀴즈에서 ${score}/${total}점을 받았습니다!`,
+          text: shareText,
           url: url
         });
       } else {
-        await navigator.clipboard.writeText(url);
-        alert('결과 링크가 클립보드에 복사되었습니다!');
+        await navigator.clipboard.writeText(shareText);
+        alert('결과 링크가 복사되었습니다! 친구들과 공유해보세요 🎾');
       }
     } catch (error) {
       console.error('공유 실패:', error);
       // Fallback to clipboard
       try {
-        await navigator.clipboard.writeText(window.location.href);
-        alert('결과 링크가 클립보드에 복사되었습니다!');
+        const fallbackText = `🎾 테니스 규칙 퀴즈 결과 공유! 🎾\n\n${grade.name} 등급 (${score}/${total}점)\n\n${grade.description}\n\n나도 테니스 규칙을 얼마나 알고 있을까? 테니스프렌즈에서 확인해보세요!\n\n${window.location.href}`;
+        await navigator.clipboard.writeText(fallbackText);
+        alert('결과 링크가 복사되었습니다! 친구들과 공유해보세요 🎾');
       } catch (clipboardError) {
         console.error('클립보드 복사 실패:', clipboardError);
       }
