@@ -35,6 +35,12 @@ export default function TennisTypeAnalyzer() {
     setResult(resultType)
   }
 
+  const handleViewResult = () => {
+    const resultType = calculateStyleScore(answers)
+    const typeId = Object.keys(STYLE_META).indexOf(resultType) + 1
+    router.push(`/utility/tennis-type/result?type=${typeId}`)
+  }
+
   const handleSubmit = () => {
     calculateResult()
   }
@@ -131,8 +137,14 @@ export default function TennisTypeAnalyzer() {
                 다시 테스트하기
               </Button>
               <Button 
-                onClick={() => router.push('/utility')}
+                onClick={handleViewResult}
                 className="bg-[#0BA360] hover:bg-[#19C37D]"
+              >
+                상세 결과 보기
+              </Button>
+              <Button 
+                onClick={() => router.push('/utility')}
+                variant="outline"
               >
                 다른 유틸리티 보기
               </Button>

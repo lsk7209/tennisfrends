@@ -378,12 +378,12 @@ export default function TennisQuizResultPage() {
                 NTRP 실력 테스트
               </Button>
             </Link>
-            <Link href="/injury-risk/intro">
+            <Link href="/utility/injury-risk">
               <Button variant="outline" className="border-[#2364AA] text-[#2364AA] hover:bg-[#2364AA] hover:text-white">
                 부상 위험도 체크
               </Button>
             </Link>
-            <Link href="/string-tension">
+            <Link href="/utility/string-tension">
               <Button variant="outline" className="border-[#C7F000] text-[#C7F000] hover:bg-[#C7F000] hover:text-black">
                 스트링 텐션 계산기
               </Button>

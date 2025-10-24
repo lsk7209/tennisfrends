@@ -413,7 +413,7 @@ export default function InjuryRiskResultPage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Link href="/string-tension">
+              <Link href="/utility/string-tension">
                 <Button variant="outline" className="w-full h-auto p-4">
                   <div className="text-center">
                     <div className="text-2xl mb-2">🎾</div>

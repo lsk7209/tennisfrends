@@ -434,17 +434,17 @@ export default function TennisTypeResultPage() {
         <div className="text-center">
           <h3 className="text-2xl font-bold text-[#0F172A] mb-4">다른 유틸리티도 체험해보세요</h3>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link href="/ntrp-test">
+            <Link href="/utility/ntrp-analyzer">
               <Button variant="outline" className="border-[#0BA360] text-[#0BA360] hover:bg-[#0BA360] hover:text-white">
                 NTRP 실력 테스트
               </Button>
             </Link>
-            <Link href="/tennis-quiz">
+            <Link href="/utility/tennis-quiz">
               <Button variant="outline" className="border-[#2364AA] text-[#2364AA] hover:bg-[#2364AA] hover:text-white">
                 테니스 규칙 퀴즈
               </Button>
             </Link>
-            <Link href="/injury-risk/intro">
+            <Link href="/utility/injury-risk">
               <Button variant="outline" className="border-[#C7F000] text-[#C7F000] hover:bg-[#C7F000] hover:text-black">
                 부상 위험도 체크
               </Button>
