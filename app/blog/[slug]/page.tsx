@@ -1,10 +1,12 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, Clock, Eye, Share2 } from "lucide-react";
-import { supabase } from "@/lib/supabaseClient";
+import { ArrowLeft, Calendar, Clock, Eye, Share2, Loader2 } from "lucide-react";
 
 interface BlogPost {
   id: string;
@@ -24,110 +26,42 @@ interface BlogPostPageProps {
   };
 }
 
-async function getBlogPost(slug: string): Promise<BlogPost | null> {
-  try {
-    // Supabase 클라이언트 확인
-    if (!supabase) {
-      console.error('Supabase client not available');
-      return null;
+export default function BlogPostPage({ params }: BlogPostPageProps) {
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchBlogPost();
+  }, [params.slug]);
+
+  const fetchBlogPost = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch(`/api/blog?slug=${params.slug}`);
+      const result = await response.json();
+      
+      if (result.error) {
+        console.error("API 에러:", result.error);
+        setError(result.error);
+        return;
+      }
+
+      if (result.data && result.data.length > 0) {
+        setPost(result.data[0]);
+      } else {
+        setError('포스트를 찾을 수 없습니다');
+      }
+    } catch (err) {
+      console.error('포스트 로딩 오류:', err);
+      setError('포스트를 불러오는데 실패했습니다.');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // 타임아웃 설정으로 무한 대기 방지
-    const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error('Supabase query timeout')), 10000);
-    });
-
-    const queryPromise = supabase
-      .from('blog_posts')
-      .select(`
-        id,
-        slug,
-        title,
-        excerpt,
-        content,
-        category,
-        tags,
-        created_at,
-        updated_at
-      `)
-      .eq('slug', slug)
-      .single();
-
-    const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
-
-    if (error) {
-      console.error('Supabase query error:', error);
-      return null;
-    }
-
-    if (!data) {
-      console.error('No data returned from Supabase');
-      return null;
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Error fetching blog post:', error);
-    return null;
-  }
-}
-
-export async function generateMetadata({ params }: BlogPostPageProps) {
-  try {
-    const post = await getBlogPost(params.slug);
-    
-    if (!post) {
-      return {
-        title: '포스트를 찾을 수 없습니다',
-        description: '요청하신 블로그 포스트를 찾을 수 없습니다.',
-      };
-    }
-
-    return {
-      title: post.title,
-      description: post.excerpt,
-      keywords: post.tags?.join(', '),
-      openGraph: {
-        title: post.title,
-        description: post.excerpt,
-        type: 'article',
-        publishedTime: post.created_at,
-        modifiedTime: post.updated_at,
-        authors: ['테니스프렌즈'],
-        tags: post.tags,
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: post.title,
-        description: post.excerpt,
-      },
-    };
-  } catch (error) {
-    console.error('Error generating metadata:', error);
-    return {
-      title: '포스트를 찾을 수 없습니다',
-      description: '요청하신 블로그 포스트를 찾을 수 없습니다.',
-    };
-  }
-}
-
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  try {
-    const post = await getBlogPost(params.slug);
-
-    if (!post) {
-      console.error('Blog post not found for slug:', params.slug);
-      notFound();
-    }
-
-    return renderBlogPost(post);
-  } catch (error) {
-    console.error('Error in BlogPostPage:', error);
-    notFound();
-  }
-}
-
-function renderBlogPost(post: BlogPost) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ko-KR', {
       year: 'numeric',
@@ -136,7 +70,38 @@ function renderBlogPost(post: BlogPost) {
     });
   };
 
-  const shareUrl = `${process.env.NODE_ENV === 'production' ? 'https://tennisfrends.vercel.app' : 'http://localhost:3003'}/blog/${post.slug}`;
+  const shareUrl = `${window.location.origin}/blog/${params.slug}`;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F7F5F3] flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-[#0BA360] mx-auto mb-4" />
+          <p className="text-[#64748B]">포스트를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !post) {
+    return (
+      <div className="min-h-screen bg-[#F7F5F3] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl">❌</span>
+          </div>
+          <h1 className="text-2xl font-bold text-[#0F172A] mb-2">포스트를 찾을 수 없습니다</h1>
+          <p className="text-[#64748B] mb-6">{error || '요청하신 블로그 포스트를 찾을 수 없습니다.'}</p>
+          <Link href="/blog">
+            <Button className="bg-[#0BA360] hover:bg-[#19C37D] text-white">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              블로그로 돌아가기
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
