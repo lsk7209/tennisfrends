@@ -458,7 +458,7 @@ export default function InjuryRiskResultPage() {
           </Button>
           <Button
             variant="outline"
-            onClick={() => router.push('/injury-risk/intro')}
+            onClick={() => router.push('/utility/injury-risk/intro')}
           >
             🔄 다시 체크하기
           </Button>

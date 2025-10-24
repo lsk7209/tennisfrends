@@ -48,10 +48,10 @@ export default function StringTensionResultPage() {
         calculateTension(decoded);
       } catch (error) {
         console.error('Error parsing params:', error);
-        router.push('/string-tension');
+        router.push('/utility/string-tension');
       }
     } else {
-      router.push('/string-tension');
+      router.push('/utility/string-tension');
     }
   }, [searchParams, router]);
 
@@ -212,7 +212,7 @@ export default function StringTensionResultPage() {
       <div className="min-h-screen bg-gradient-to-br from-[#0BA360]/10 via-white to-[#2364AA]/10 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-[#0F172A] mb-4">오류가 발생했습니다</h1>
-          <Button onClick={() => router.push('/string-tension')} className="bg-[#0BA360] hover:bg-[#19C37D]">
+          <Button onClick={() => router.push('/utility/string-tension')} className="bg-[#0BA360] hover:bg-[#19C37D]">
             다시 시작하기
           </Button>
         </div>
@@ -326,7 +326,7 @@ export default function StringTensionResultPage() {
             📋 텐션 복사하기
           </Button>
           <Button
-            onClick={() => router.push('/string-tension')}
+            onClick={() => router.push('/utility/string-tension')}
             variant="outline"
           >
             🔄 다시 계산하기

@@ -107,12 +107,12 @@ export default function TennisQuizIntroPage() {
           </Link>
           
           <div className="flex flex-col sm:flex-row gap-2">
-            <Link href="/injury-risk/intro">
+            <Link href="/utility/injury-risk/intro">
               <Button variant="outline" size="lg" className="border-[#2364AA] text-[#2364AA] hover:bg-[#2364AA] hover:text-white">
                 부상 위험도 체크
               </Button>
             </Link>
-            <Link href="/string-tension">
+            <Link href="/utility/string-tension">
               <Button variant="outline" size="lg" className="border-[#C7F000] text-[#C7F000] hover:bg-[#C7F000] hover:text-black">
                 스트링 텐션 계산기
               </Button>
