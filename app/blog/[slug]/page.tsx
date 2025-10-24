@@ -72,6 +72,31 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     });
   };
 
+  // 마크다운을 HTML로 변환하는 간단한 함수
+  const markdownToHtml = (markdown: string) => {
+    return markdown
+      // 헤딩 변환
+      .replace(/^### (.*$)/gim, '<h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">$1</h3>')
+      .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-gray-900 mb-4 mt-8">$1</h2>')
+      .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-900 mb-6 mt-8">$1</h1>')
+      // 볼드 텍스트
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
+      // 이탤릭 텍스트
+      .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+      // 인용문
+      .replace(/^> (.*$)/gim, '<blockquote class="border-l-4 border-green-500 pl-4 py-2 bg-green-50 my-4 italic text-gray-700">$1</blockquote>')
+      // 링크
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-green-600 hover:text-green-800 underline">$1</a>')
+      // 구분선
+      .replace(/^---$/gim, '<hr class="my-6 border-gray-300">')
+      // 리스트 아이템
+      .replace(/^- (.*$)/gim, '<li class="ml-4 mb-2">• $1</li>')
+      // 줄바꿈
+      .replace(/\n/g, '<br>')
+      // 리스트 래핑
+      .replace(/(<li.*<\/li>)/g, '<ul class="list-disc list-inside mb-4">$1</ul>');
+  };
+
   const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/blog/${params.slug}` : '';
 
   if (loading) {
@@ -159,9 +184,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <CardContent className="p-8">
                 <div className="prose prose-lg max-w-none">
                   <div 
-                    className="whitespace-pre-wrap"
+                    className="blog-content"
                     dangerouslySetInnerHTML={{ 
-                      __html: post.content.replace(/\n/g, '<br>') 
+                      __html: markdownToHtml(post.content)
                     }}
                   />
                 </div>
