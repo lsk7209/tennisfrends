@@ -32,7 +32,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchBlogPost();
+    if (params.slug) {
+      fetchBlogPost();
+    }
   }, [params.slug]);
 
   const fetchBlogPost = async () => {
