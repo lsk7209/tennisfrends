@@ -58,12 +58,12 @@ export function mapLevelToBaseProfile(level: string) {
 }
 
 export function getPersonaFromQ13(q13: string) {
-  const personas: { [key: string]: { key: string; theme: string; slogan: string } } = {
-    "공만 넘기는 성실형": { key: "rallyer", theme: "#1b5e20", slogan: "끝까지 넘기고 또 넘긴다" },
-    "수비적 생존형": { key: "defender", theme: "#33691e", slogan: "하나라도 더 받는다" },
-    "빠른 공격형": { key: "attacker", theme: "#bf360c", slogan: "기회를 보면 꽂는다" },
-    "전술 분석형": { key: "analyst", theme: "#0d47a1", slogan: "읽고, 유도하고, 마무리" },
-    "올라운더": { key: "allround", theme: "#6d4c41", slogan: "어디서든 해답을 찾는다" }
+  const personas: { [key: string]: { key: string; name: string; theme: string; slogan: string } } = {
+    "공만 넘기는 성실형": { key: "rallyer", name: "성실형", theme: "#1b5e20", slogan: "끝까지 넘기고 또 넘긴다" },
+    "수비적 생존형": { key: "defender", name: "생존형", theme: "#33691e", slogan: "하나라도 더 받는다" },
+    "빠른 공격형": { key: "attacker", name: "공격형", theme: "#bf360c", slogan: "기회를 보면 꽂는다" },
+    "전술 분석형": { key: "analyst", name: "분석형", theme: "#0d47a1", slogan: "읽고, 유도하고, 마무리" },
+    "올라운더": { key: "allround", name: "올라운더", theme: "#6d4c41", slogan: "어디서든 해답을 찾는다" }
   };
 
   return personas[q13] || personas["올라운더"];
