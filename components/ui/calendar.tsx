@@ -26,7 +26,6 @@ function Calendar({
     root: 'rdp',
     months: 'rdp-months',
     month: 'rdp-month',
-    month_caption: 'rdp-month_caption',
     caption: 'rdp-caption',
     caption_label: 'rdp-caption_label',
     nav: 'rdp-nav',
@@ -79,9 +78,9 @@ function Calendar({
           'size-(--cell-size) aria-disabled:opacity-50 p-0 select-none',
           defaultClassNames.nav_button_next,
         ),
-        month_caption: cn(
+        caption: cn(
           'flex items-center justify-center h-(--cell-size) w-full px-(--cell-size)',
-          defaultClassNames.month_caption,
+          defaultClassNames.caption,
         ),
         dropdowns: cn(
           'w-full flex items-center text-sm font-medium justify-center h-(--cell-size) gap-1.5',
@@ -209,7 +208,6 @@ function CalendarDayButton({
     root: 'rdp',
     months: 'rdp-months',
     month: 'rdp-month',
-    month_caption: 'rdp-month_caption',
     caption: 'rdp-caption',
     caption_label: 'rdp-caption_label',
     nav: 'rdp-nav',
