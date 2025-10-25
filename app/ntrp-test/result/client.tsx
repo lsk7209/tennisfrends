@@ -385,28 +385,18 @@ export default function NTRPResultClient() {
                     </CardHeader>
                     <CardContent>
                       <Accordion type="single" collapsible className="w-full">
-                        {drills.map((drill, index) => (
+                        {(drills[result.level as keyof typeof drills] || drills["3.0"]).map((drill, index) => (
                           <AccordionItem key={index} value={`drill-${index}`}>
                             <AccordionTrigger className="text-left">
                               <div>
                                 <div className="font-semibold">{drill.name}</div>
-                                <div className="text-sm text-gray-500">{drill.category}</div>
+                                <div className="text-sm text-gray-500">{drill.goal}</div>
                               </div>
                             </AccordionTrigger>
                             <AccordionContent>
                               <div className="space-y-3">
-                                <p className="text-gray-600">{drill.description}</p>
-                                <div>
-                                  <h5 className="font-semibold text-gray-900 mb-2">실행 방법:</h5>
-                                  <ol className="list-decimal list-inside space-y-1 text-sm text-gray-600">
-                                    {drill.steps.map((step, stepIndex) => (
-                                      <li key={stepIndex}>{step}</li>
-                                    ))}
-                                  </ol>
-                                </div>
+                                <p className="text-gray-600">{drill.goal}</p>
                                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                                  <span>난이도: {drill.difficulty}</span>
-                                  <span>•</span>
                                   <span>시간: {drill.duration}</span>
                                 </div>
                               </div>
