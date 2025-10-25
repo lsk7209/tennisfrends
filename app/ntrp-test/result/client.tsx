@@ -246,13 +246,13 @@ export default function NTRPResultClient() {
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <h4 className="font-semibold text-gray-900 mb-2">현재 밴드</h4>
-                          <p className="text-gray-600">{band.description}</p>
+                          <p className="text-gray-600">{band.summary.join(', ')}</p>
                         </div>
                         <div>
                           <h4 className="font-semibold text-gray-900 mb-2">특징</h4>
                           <ul className="text-sm text-gray-600 space-y-1">
-                            {band.characteristics.map((char, index) => (
-                              <li key={index}>• {char}</li>
+                            {band.strengths.map((strength, index) => (
+                              <li key={index}>• {strength}</li>
                             ))}
                           </ul>
                         </div>
