@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-10-25T08:19:30.211Z",
+  "timestamp": "2025-10-25T08:22:41.851Z",
   "deployment": {
     "status": 200,
     "healthy": true,
-    "timestamp": "2025-10-25T08:19:27.454Z"
+    "timestamp": "2025-10-25T08:22:40.035Z"
   },
   "functionality": [
     {
@@ -11,33 +11,33 @@
       "url": "https://tennisfrends.vercel.app",
       "status": 200,
       "success": true,
-      "timestamp": "2025-10-25T08:19:27.534Z"
+      "timestamp": "2025-10-25T08:22:40.133Z"
     },
     {
       "name": "NTRP 테스트",
       "url": "https://tennisfrends.vercel.app/ntrp-test",
       "status": 200,
       "success": true,
-      "timestamp": "2025-10-25T08:19:27.656Z"
+      "timestamp": "2025-10-25T08:22:40.209Z"
     },
     {
       "name": "유틸리티 페이지",
       "url": "https://tennisfrends.vercel.app/utility",
       "status": 200,
       "success": true,
-      "timestamp": "2025-10-25T08:19:27.675Z"
+      "timestamp": "2025-10-25T08:22:40.230Z"
     },
     {
       "name": "블로그 페이지",
       "url": "https://tennisfrends.vercel.app/blog",
       "status": 200,
       "success": true,
-      "timestamp": "2025-10-25T08:19:27.692Z"
+      "timestamp": "2025-10-25T08:22:40.251Z"
     }
   ],
   "performance": {
-    "페이지 로드 시간": 14,
-    "API 응답 시간": 2501
+    "페이지 로드 시간": 20,
+    "API 응답 시간": 1575
   },
   "summary": {
     "healthy": true,
