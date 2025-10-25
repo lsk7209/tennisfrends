@@ -23,6 +23,20 @@ function Calendar({
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
 }) {
   const defaultClassNames = {
+    root: 'rdp',
+    months: 'rdp-months',
+    month: 'rdp-month',
+    caption: 'rdp-caption',
+    caption_label: 'rdp-caption_label',
+    nav: 'rdp-nav',
+    nav_button: 'rdp-nav_button',
+    nav_button_previous: 'rdp-nav_button_previous',
+    nav_button_next: 'rdp-nav_button_next',
+    table: 'rdp-table',
+    head_row: 'rdp-head_row',
+    head_cell: 'rdp-head_cell',
+    row: 'rdp-row',
+    cell: 'rdp-cell',
     day: 'rdp-day',
     day_selected: 'rdp-day_selected',
     day_today: 'rdp-day_today',
@@ -191,6 +205,20 @@ function CalendarDayButton({
   }
 }) {
   const defaultClassNames = {
+    root: 'rdp',
+    months: 'rdp-months',
+    month: 'rdp-month',
+    caption: 'rdp-caption',
+    caption_label: 'rdp-caption_label',
+    nav: 'rdp-nav',
+    nav_button: 'rdp-nav_button',
+    nav_button_previous: 'rdp-nav_button_previous',
+    nav_button_next: 'rdp-nav_button_next',
+    table: 'rdp-table',
+    head_row: 'rdp-head_row',
+    head_cell: 'rdp-head_cell',
+    row: 'rdp-row',
+    cell: 'rdp-cell',
     day: 'rdp-day',
     day_selected: 'rdp-day_selected',
     day_today: 'rdp-day_today',
