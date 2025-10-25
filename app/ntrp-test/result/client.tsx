@@ -471,10 +471,13 @@ export default function NTRPResultClient() {
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">주의사항</h4>
                       <ul className="text-sm text-gray-600 space-y-1">
-                        {injuryRisks.map((risk, index) => (
+                        {(injuryRisks[result.level as keyof typeof injuryRisks] || injuryRisks["3.0"]).map((risk, index) => (
                           <li key={index} className="flex items-start gap-2">
                             <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                            {risk}
+                            <div>
+                              <div className="font-medium">{risk.risk}</div>
+                              <div className="text-xs text-gray-500 mt-1">{risk.tip}</div>
+                            </div>
                           </li>
                         ))}
                       </ul>
