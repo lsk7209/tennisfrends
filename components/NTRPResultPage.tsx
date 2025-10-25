@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { levelBands, personas, drills, kpis, weeklyPlan, doubles, equipment, injuryRisks, commonMistakes } from "@/lib/ntrpResultConfig";
-import { getNTRPLevel, mapScoreToLevelBand, mapLevelToBaseProfile, convertToRadarData } from "@/lib/ntrpMath";
+import { getNTRPLevel, mapScoreToLevelBand, mapLevelToBaseProfile } from "@/lib/ntrpMath";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

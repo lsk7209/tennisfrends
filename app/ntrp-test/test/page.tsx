@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 
-export const questions = [
+const questions = [
   {
     id: 1,
     question: "당신의 포핸드 스트로크는 어떤가요?",
