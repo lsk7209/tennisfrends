@@ -41,7 +41,16 @@ export default function NTRPResultPage({
   // Radar chart data
   const radarData = useMemo(() => {
     const profile = mapLevelToBaseProfile(band.level);
-    return convertToRadarData(profile);
+    return [
+      { skill: "서브", value: profile.serve },
+      { skill: "포핸드", value: profile.forehand },
+      { skill: "백핸드", value: profile.backhand },
+      { skill: "발리", value: profile.volley },
+      { skill: "오버헤드", value: profile.overhead },
+      { skill: "이동", value: profile.movement },
+      { skill: "멘탈", value: profile.mental },
+      { skill: "전술", value: profile.tactics }
+    ];
   }, [band.level]);
 
   // 공유 함수
