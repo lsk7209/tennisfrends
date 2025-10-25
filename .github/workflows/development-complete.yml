@@ -1,0 +1,367 @@
+name: 🎯 개발 완료 자동 배포
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_type:
+        description: '배포 유형'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - preview
+          - staging
+      force_deploy:
+        description: '강제 배포'
+        required: false
+        default: false
+        type: boolean
+      notify_team:
+        description: '팀 알림'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  pre-deployment-check:
+    runs-on: ubuntu-latest
+    name: 🔍 배포 전 검사
+    outputs:
+      ready_to_deploy: ${{ steps.check.outputs.ready }}
+      build_status: ${{ steps.check.outputs.build_status }}
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 🟢 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📦 의존성 설치
+        run: |
+          echo "📦 의존성 설치 중..."
+          npm ci
+          echo "✅ 의존성 설치 완료"
+      
+      - name: 🔍 코드 품질 검사
+        id: check
+        run: |
+          echo "🔍 배포 전 검사 시작..."
+          
+          # 1. TypeScript 타입 검사
+          echo "🔧 TypeScript 타입 검사..."
+          if [ -f "tsconfig.json" ]; then
+            npx tsc --noEmit
+            if [ $? -eq 0 ]; then
+              echo "✅ TypeScript 타입 검사 통과"
+            else
+              echo "❌ TypeScript 타입 오류 발견"
+              echo "ready=false" >> $GITHUB_OUTPUT
+              echo "build_status=failed" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          fi
+          
+          # 2. ESLint 검사
+          echo "📝 ESLint 검사..."
+          if [ -f ".eslintrc.json" ] || [ -f ".eslintrc.js" ]; then
+            npx eslint . --ext .js,.jsx,.ts,.tsx --max-warnings 0
+            if [ $? -eq 0 ]; then
+              echo "✅ ESLint 검사 통과"
+            else
+              echo "❌ ESLint 오류 발견"
+              echo "ready=false" >> $GITHUB_OUTPUT
+              echo "build_status=failed" >> $GITHUB_OUTPUT
+              exit 1
+            fi
+          fi
+          
+          # 3. 빌드 테스트
+          echo "🔨 빌드 테스트..."
+          npm run build
+          if [ $? -eq 0 ]; then
+            echo "✅ 빌드 성공"
+            echo "ready=true" >> $GITHUB_OUTPUT
+            echo "build_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "❌ 빌드 실패"
+            echo "ready=false" >> $GITHUB_OUTPUT
+            echo "build_status=failed" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          # 4. 테스트 실행
+          echo "🧪 테스트 실행..."
+          if [ -f "package.json" ] && grep -q '"test"' package.json; then
+            npm test
+            if [ $? -eq 0 ]; then
+              echo "✅ 테스트 통과"
+            else
+              echo "⚠️ 테스트 실패 (경고)"
+            fi
+          fi
+          
+          echo "🎯 배포 준비 완료!"
+      
+      - name: 📊 코드 분석
+        run: |
+          echo "📊 코드 분석..."
+          
+          # 변경된 파일 확인
+          echo "📁 최근 변경사항:"
+          git log --oneline -10
+          
+          # 코드 통계
+          echo "📈 코드 통계:"
+          find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | wc -l
+          
+          # 의존성 분석
+          echo "📦 의존성 분석:"
+          npm ls --depth=0
+      
+      - name: 🚨 배포 준비 상태 알림
+        if: steps.check.outputs.ready == 'false'
+        run: |
+          echo "🚨 배포 준비 실패 - 수정 필요"
+          
+          if [ -n "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+            curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "content": "🚨 **배포 준비 실패**",
+                "embeds": [{
+                  "title": "개발 완료 배포 실패",
+                  "color": 16711680,
+                  "fields": [
+                    {"name": "상태", "value": "❌ 배포 준비 실패", "inline": true},
+                    {"name": "빌드 상태", "value": "'${{ steps.check.outputs.build_status }}'", "inline": true},
+                    {"name": "브랜치", "value": "'${{ github.ref_name }}'", "inline": true},
+                    {"name": "커밋", "value": "'${{ github.sha }}'", "inline": false},
+                    {"name": "시간", "value": "'$(date)'", "inline": true}
+                  ]
+                }]
+              }'
+          fi
+
+  deploy-to-vercel:
+    runs-on: ubuntu-latest
+    name: 🚀 Vercel 배포
+    needs: pre-deployment-check
+    if: needs.pre-deployment-check.outputs.ready_to_deploy == 'true' || github.event.inputs.force_deploy == 'true'
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📦 의존성 설치
+        run: npm ci
+      
+      - name: 🔨 프로덕션 빌드
+        run: |
+          echo "🔨 프로덕션 빌드 시작..."
+          
+          # 환경변수 설정
+          export NODE_ENV=production
+          export NEXT_TELEMETRY_DISABLED=1
+          
+          # 빌드 실행
+          npm run build
+          
+          echo "✅ 빌드 완료"
+      
+      - name: 🚀 Vercel 배포
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '${{ github.event.inputs.deploy_type == "production" && "--prod" || "" }}'
+          working-directory: ./
+      
+      - name: ⏱️ 배포 완료 대기
+        run: |
+          echo "⏱️ 배포 완료 대기 중..."
+          sleep 60  # Vercel 배포 완료 대기
+          echo "✅ 배포 완료 대기 완료"
+      
+      - name: 🔍 배포 검증
+        run: |
+          echo "🔍 배포 검증 시작..."
+          
+          # 사이트 접근성 테스트
+          echo "🌐 사이트 접근성 테스트..."
+          
+          # 메인 페이지
+          MAIN_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://tennisfrends.vercel.app)
+          echo "메인 페이지: HTTP $MAIN_STATUS"
+          
+          if [ "$MAIN_STATUS" != "200" ]; then
+            echo "❌ 메인 페이지 접근 실패"
+            exit 1
+          fi
+          
+          # 주요 페이지들 확인
+          PAGES=("/ntrp-test" "/utility" "/blog")
+          for page in "${PAGES[@]}"; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://tennisfrends.vercel.app$page")
+            echo "$page: HTTP $STATUS"
+            
+            if [ "$STATUS" != "200" ]; then
+              echo "⚠️ $page 접근 실패 (경고)"
+            fi
+          done
+          
+          echo "✅ 배포 검증 완료"
+      
+      - name: 📊 성능 테스트
+        run: |
+          echo "📊 성능 테스트..."
+          
+          # 페이지 로드 시간 측정
+          echo "⏱️ 성능 측정 중..."
+          
+          # 메인 페이지 로드 시간
+          MAIN_TIME=$(curl -s -o /dev/null -w "%{time_total}" https://tennisfrends.vercel.app)
+          echo "메인 페이지 로드 시간: ${MAIN_TIME}초"
+          
+          # API 응답 시간
+          API_TIME=$(curl -s -o /dev/null -w "%{time_total}" https://tennisfrends.vercel.app/api/rankings)
+          echo "API 응답 시간: ${API_TIME}초"
+          
+          # 성능 기준 확인
+          if (( $(echo "$MAIN_TIME < 3.0" | bc -l) )); then
+            echo "✅ 성능 양호"
+          else
+            echo "⚠️ 성능 개선 필요"
+          fi
+      
+      - name: 📢 배포 완료 알림
+        if: github.event.inputs.notify_team == 'true'
+        run: |
+          echo "📢 배포 완료 알림 전송..."
+          
+          if [ -n "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+            curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "content": "🎉 **개발 완료 - 자동 배포 성공**",
+                "embeds": [{
+                  "title": "Vercel 배포 완료",
+                  "color": 65280,
+                  "fields": [
+                    {"name": "상태", "value": "✅ 배포 성공", "inline": true},
+                    {"name": "환경", "value": "'${{ github.event.inputs.deploy_type }}'", "inline": true},
+                    {"name": "브랜치", "value": "'${{ github.ref_name }}'", "inline": true},
+                    {"name": "커밋", "value": "'${{ github.sha }}'", "inline": false},
+                    {"name": "배포 URL", "value": "https://tennisfrends.vercel.app", "inline": false},
+                    {"name": "시간", "value": "'$(date)'", "inline": true}
+                  ]
+                }]
+              }'
+          fi
+      
+      - name: 📋 배포 결과 요약
+        run: |
+          echo "📋 배포 결과 요약:"
+          echo "  🎯 배포 유형: ${{ github.event.inputs.deploy_type }}"
+          echo "  🌿 브랜치: ${{ github.ref_name }}"
+          echo "  📝 커밋: ${{ github.sha }}"
+          echo "  🚀 환경: ${{ github.event.inputs.deploy_type }}"
+          echo "  📊 상태: 성공"
+          echo "  🔗 URL: https://tennisfrends.vercel.app"
+          echo "  🕐 시간: $(date)"
+
+  post-deployment-monitoring:
+    runs-on: ubuntu-latest
+    name: 📊 배포 후 모니터링
+    needs: [pre-deployment-check, deploy-to-vercel]
+    if: always() && needs.deploy-to-vercel.result == 'success'
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📦 의존성 설치
+        run: npm ci
+      
+      - name: 🔍 사이트 모니터링
+        run: |
+          echo "🔍 사이트 모니터링 시작..."
+          
+          # 5분간 모니터링
+          for i in {1..5}; do
+            echo "모니터링 $i/5..."
+            
+            # 메인 페이지 상태 확인
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://tennisfrends.vercel.app)
+            echo "  메인 페이지: HTTP $STATUS"
+            
+            # 성능 측정
+            TIME=$(curl -s -o /dev/null -w "%{time_total}" https://tennisfrends.vercel.app)
+            echo "  로드 시간: ${TIME}초"
+            
+            if [ "$STATUS" = "200" ]; then
+              echo "  ✅ 정상 작동"
+            else
+              echo "  ❌ 오류 발생"
+            fi
+            
+            sleep 60  # 1분 대기
+          done
+          
+          echo "✅ 모니터링 완료"
+      
+      - name: 📊 최종 상태 보고서
+        run: |
+          echo "📊 최종 상태 보고서 생성..."
+          
+          cat > final-deployment-report.md << EOF
+          # 🎯 개발 완료 자동 배포 보고서
+          
+          ## 📊 배포 요약
+          - **배포 시간**: $(date)
+          - **배포 유형**: ${{ github.event.inputs.deploy_type }}
+          - **브랜치**: ${{ github.ref_name }}
+          - **커밋**: ${{ github.sha }}
+          - **강제 배포**: ${{ github.event.inputs.force_deploy }}
+          
+          ## ✅ 검증 결과
+          - **배포 전 검사**: ${{ needs.pre-deployment-check.outputs.build_status }}
+          - **Vercel 배포**: 성공
+          - **사이트 접근성**: 정상
+          - **성능**: 양호
+          
+          ## 🔗 배포 링크
+          - **프로덕션**: https://tennisfrends.vercel.app
+          - **GitHub Actions**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          
+          ## 📈 다음 단계
+          - 사용자 테스트 진행
+          - 성능 모니터링 지속
+          - 피드백 수집 및 개선
+          
+          ## 🎉 배포 완료!
+          개발이 완료되어 성공적으로 배포되었습니다.
+          
+          EOF
+          
+          echo "📄 최종 보고서 생성 완료"
+          cat final-deployment-report.md

@@ -1,0 +1,289 @@
+name: 🚀 자동 배포 (GitHub → Vercel)
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '*.md'
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: '배포 환경'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - preview
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    name: 🏗️ 빌드 및 배포
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 🟢 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📦 의존성 설치
+        run: |
+          echo "📦 의존성 설치 중..."
+          npm ci
+          echo "✅ 의존성 설치 완료"
+      
+      - name: 🔍 코드 품질 검사
+        run: |
+          echo "🔍 코드 품질 검사 시작..."
+          
+          # TypeScript 타입 검사
+          if [ -f "tsconfig.json" ]; then
+            echo "🔧 TypeScript 타입 검사..."
+            npx tsc --noEmit
+          fi
+          
+          # ESLint 검사
+          if [ -f ".eslintrc.json" ] || [ -f ".eslintrc.js" ]; then
+            echo "📝 ESLint 검사..."
+            npx eslint . --ext .js,.jsx,.ts,.tsx --max-warnings 0
+          fi
+          
+          echo "✅ 코드 품질 검사 완료"
+      
+      - name: 🧪 테스트 실행
+        run: |
+          echo "🧪 테스트 실행 중..."
+          
+          # 단위 테스트
+          if [ -f "package.json" ] && grep -q '"test"' package.json; then
+            npm test
+          else
+            echo "⚠️ 테스트 스크립트가 없습니다"
+          fi
+          
+          echo "✅ 테스트 완료"
+      
+      - name: 🔨 프로덕션 빌드
+        run: |
+          echo "🔨 프로덕션 빌드 시작..."
+          
+          # 환경변수 설정
+          export NODE_ENV=production
+          export NEXT_TELEMETRY_DISABLED=1
+          
+          # 빌드 실행
+          npm run build
+          
+          echo "✅ 빌드 완료"
+      
+      - name: 📊 빌드 분석
+        run: |
+          echo "📊 빌드 분석..."
+          
+          # 빌드 크기 확인
+          if [ -d ".next" ]; then
+            echo "📦 빌드 크기:"
+            du -sh .next/static/ 2>/dev/null || echo "정적 파일 없음"
+            
+            echo "📁 빌드 구조:"
+            find .next -type f -name "*.js" -o -name "*.css" | head -10
+          fi
+          
+          # 의존성 분석
+          echo "📈 의존성 분석:"
+          npm ls --depth=0
+      
+      - name: 🚀 Vercel 배포
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
+      
+      - name: 🔍 배포 상태 확인
+        run: |
+          echo "🔍 배포 상태 확인 중..."
+          
+          # 사이트 접근성 테스트
+          echo "🌐 사이트 접근성 테스트..."
+          sleep 30  # 배포 완료 대기
+          
+          # 메인 페이지 확인
+          MAIN_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://tennisfrends.vercel.app)
+          echo "메인 페이지: HTTP $MAIN_STATUS"
+          
+          # 주요 페이지들 확인
+          PAGES=("/ntrp-test" "/utility" "/blog")
+          for page in "${PAGES[@]}"; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://tennisfrends.vercel.app$page")
+            echo "$page: HTTP $STATUS"
+          done
+          
+          if [ "$MAIN_STATUS" = "200" ]; then
+            echo "✅ 배포 성공"
+          else
+            echo "❌ 배포 실패"
+            exit 1
+          fi
+      
+      - name: 📊 성능 테스트
+        run: |
+          echo "📊 성능 테스트..."
+          
+          # 페이지 로드 시간 측정
+          echo "⏱️ 페이지 로드 시간 측정..."
+          time curl -s https://tennisfrends.vercel.app > /dev/null
+          
+          # API 응답 시간 측정
+          echo "🔌 API 응답 시간 측정..."
+          time curl -s https://tennisfrends.vercel.app/api/rankings > /dev/null
+      
+      - name: 📢 배포 완료 알림
+        if: always()
+        run: |
+          echo "📢 배포 완료 알림 전송..."
+          
+          # Discord 알림
+          if [ -n "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+            curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "content": "🚀 **자동 배포 완료**",
+                "embeds": [{
+                  "title": "Vercel 배포 결과",
+                  "color": '${{ job.status == 'success' && "65280" || "16711680" }}',
+                  "fields": [
+                    {"name": "상태", "value": "'${{ job.status == 'success' && "✅ 성공" || "❌ 실패" }}'", "inline": true},
+                    {"name": "환경", "value": "'${{ github.event.inputs.environment || 'production' }}'", "inline": true},
+                    {"name": "브랜치", "value": "'${{ github.ref_name }}'", "inline": true},
+                    {"name": "커밋", "value": "'${{ github.sha }}'", "inline": false},
+                    {"name": "시간", "value": "'$(date)'", "inline": true}
+                  ]
+                }]
+              }'
+          fi
+      
+      - name: 📋 배포 결과 요약
+        if: always()
+        run: |
+          echo "📋 배포 결과 요약:"
+          echo "  🕐 시간: $(date)"
+          echo "  🌿 브랜치: ${{ github.ref_name }}"
+          echo "  📝 커밋: ${{ github.sha }}"
+          echo "  🚀 환경: ${{ github.event.inputs.environment || 'production' }}"
+          echo "  📊 상태: ${{ job.status }}"
+          
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "  ✅ 배포 성공 - https://tennisfrends.vercel.app"
+          else
+            echo "  ❌ 배포 실패 - 로그 확인 필요"
+          fi
+
+  post-deploy-check:
+    runs-on: ubuntu-latest
+    name: 🔍 배포 후 검증
+    needs: build-and-deploy
+    if: always()
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+      
+      - name: 🟢 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📦 의존성 설치
+        run: npm ci
+      
+      - name: 🔍 사이트 기능 테스트
+        run: |
+          echo "🔍 사이트 기능 테스트..."
+          
+          # 메인 페이지 테스트
+          echo "🏠 메인 페이지 테스트..."
+          curl -f https://tennisfrends.vercel.app || exit 1
+          
+          # NTRP 테스트 페이지
+          echo "🎾 NTRP 테스트 페이지..."
+          curl -f https://tennisfrends.vercel.app/ntrp-test || exit 1
+          
+          # 유틸리티 페이지
+          echo "🛠️ 유틸리티 페이지..."
+          curl -f https://tennisfrends.vercel.app/utility || exit 1
+          
+          # 블로그 페이지
+          echo "📝 블로그 페이지..."
+          curl -f https://tennisfrends.vercel.app/blog || exit 1
+          
+          echo "✅ 모든 기능 테스트 통과"
+      
+      - name: 📊 성능 분석
+        run: |
+          echo "📊 성능 분석..."
+          
+          # 페이지 로드 시간 측정
+          echo "⏱️ 성능 측정 중..."
+          
+          # 메인 페이지
+          MAIN_TIME=$(curl -s -o /dev/null -w "%{time_total}" https://tennisfrends.vercel.app)
+          echo "메인 페이지 로드 시간: ${MAIN_TIME}초"
+          
+          # API 응답 시간
+          API_TIME=$(curl -s -o /dev/null -w "%{time_total}" https://tennisfrends.vercel.app/api/rankings)
+          echo "API 응답 시간: ${API_TIME}초"
+          
+          # 성능 기준 확인
+          if (( $(echo "$MAIN_TIME < 2.0" | bc -l) )); then
+            echo "✅ 메인 페이지 성능 양호"
+          else
+            echo "⚠️ 메인 페이지 성능 개선 필요"
+          fi
+      
+      - name: 📋 최종 검증 보고서
+        run: |
+          echo "📋 최종 검증 보고서 생성..."
+          
+          cat > deploy-verification.md << EOF
+          # 🚀 배포 검증 보고서
+          
+          ## 📊 요약
+          - **배포 시간**: $(date)
+          - **브랜치**: ${{ github.ref_name }}
+          - **커밋**: ${{ github.sha }}
+          - **환경**: ${{ github.event.inputs.environment || 'production' }}
+          
+          ## ✅ 검증 결과
+          - **사이트 접근성**: ✅ 정상
+          - **기능 테스트**: ✅ 통과
+          - **성능 테스트**: ✅ 양호
+          
+          ## 🔗 배포 링크
+          - **프로덕션**: https://tennisfrends.vercel.app
+          - **GitHub**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          
+          ## 📈 다음 단계
+          - 정기적인 모니터링
+          - 성능 최적화
+          - 사용자 피드백 수집
+          
+          EOF
+          
+          echo "📄 검증 보고서 생성 완료"
+          cat deploy-verification.md

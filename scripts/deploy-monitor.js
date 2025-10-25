@@ -31,8 +31,13 @@ class DeployMonitor {
    */
   async checkGitHubStatus() {
     try {
-      const response = await this.fetchGitHubAPI(`/repos/${CONFIG.GITHUB_REPO}/commits?per_page=5`);
-      const commits = JSON.parse(response);
+      // GitHub 토큰이 없으면 로컬 git 정보 사용
+      if (!process.env.GITHUB_TOKEN) {
+        console.log('⚠️ GitHub 토큰이 설정되지 않음. 로컬 git 정보 사용');
+        return await this.getLocalGitInfo();
+      }
+      
+      const commits = await this.fetchGitHubAPI(`/repos/${CONFIG.GITHUB_REPO}/commits?per_page=5`);
       
       console.log(`📊 최근 커밋 ${commits.length}개 확인`);
       
@@ -51,6 +56,37 @@ class DeployMonitor {
       return commits;
     } catch (error) {
       console.error('❌ GitHub 상태 확인 실패:', error.message);
+      console.log('🔄 로컬 git 정보로 대체 시도...');
+      return await this.getLocalGitInfo();
+    }
+  }
+
+  /**
+   * 로컬 git 정보 가져오기
+   */
+  async getLocalGitInfo() {
+    try {
+      const { execSync } = require('child_process');
+      const gitLog = execSync('git log --oneline -5', { encoding: 'utf8' });
+      const commits = gitLog.trim().split('\n').map(line => {
+        const [sha, ...messageParts] = line.split(' ');
+        return {
+          sha: sha,
+          message: messageParts.join(' '),
+          author: 'Local',
+          date: new Date().toISOString(),
+          url: `https://github.com/${CONFIG.GITHUB_REPO}/commit/${sha}`
+        };
+      });
+      
+      console.log(`📊 로컬 커밋 ${commits.length}개 확인`);
+      commits.forEach(commit => {
+        console.log(`  📝 ${commit.sha.substring(0, 7)}: ${commit.message}`);
+      });
+      
+      return commits;
+    } catch (error) {
+      console.error('❌ 로컬 git 정보 확인 실패:', error.message);
       return [];
     }
   }
@@ -247,7 +283,20 @@ class DeployMonitor {
       ...options.headers
     };
     
-    return this.fetchURL(url, { ...options, headers });
+    const response = await this.fetchURL(url, { ...options, headers });
+    
+    // 응답이 문자열인 경우 JSON 파싱 시도
+    if (typeof response.data === 'string') {
+      try {
+        return JSON.parse(response.data);
+      } catch (parseError) {
+        console.error('❌ JSON 파싱 실패:', parseError.message);
+        console.error('응답 데이터:', response.data.substring(0, 200) + '...');
+        throw new Error(`JSON 파싱 실패: ${parseError.message}`);
+      }
+    }
+    
+    return response.data;
   }
 
   /**
