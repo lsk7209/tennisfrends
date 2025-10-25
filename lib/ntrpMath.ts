@@ -58,12 +58,52 @@ export function mapLevelToBaseProfile(level: string) {
 }
 
 export function getPersonaFromQ13(q13: string) {
-  const personas: { [key: string]: { key: string; name: string; theme: string; slogan: string } } = {
-    "공만 넘기는 성실형": { key: "rallyer", name: "성실형", theme: "#1b5e20", slogan: "끝까지 넘기고 또 넘긴다" },
-    "수비적 생존형": { key: "defender", name: "생존형", theme: "#33691e", slogan: "하나라도 더 받는다" },
-    "빠른 공격형": { key: "attacker", name: "공격형", theme: "#bf360c", slogan: "기회를 보면 꽂는다" },
-    "전술 분석형": { key: "analyst", name: "분석형", theme: "#0d47a1", slogan: "읽고, 유도하고, 마무리" },
-    "올라운더": { key: "allround", name: "올라운더", theme: "#6d4c41", slogan: "어디서든 해답을 찾는다" }
+  const personas: { [key: string]: { key: string; name: string; theme: string; slogan: string; description: string; strengths: string[]; improvements: string[] } } = {
+    "공만 넘기는 성실형": { 
+      key: "rallyer", 
+      name: "성실형", 
+      theme: "#1b5e20", 
+      slogan: "끝까지 넘기고 또 넘긴다",
+      description: "안정적인 랠리를 통해 상대방의 실수를 유도하는 플레이 스타일입니다.",
+      strengths: ["일관성", "인내심", "기본기"],
+      improvements: ["공격성", "파워", "전술"]
+    },
+    "수비적 생존형": { 
+      key: "defender", 
+      name: "생존형", 
+      theme: "#33691e", 
+      slogan: "하나라도 더 받는다",
+      description: "상대방의 공격을 받아내고 역전의 기회를 노리는 플레이 스타일입니다.",
+      strengths: ["수비력", "집중력", "체력"],
+      improvements: ["공격성", "서브", "네트 플레이"]
+    },
+    "빠른 공격형": { 
+      key: "attacker", 
+      name: "공격형", 
+      theme: "#bf360c", 
+      slogan: "기회를 보면 꽂는다",
+      description: "빠른 공격과 위너 샷으로 경기를 주도하는 플레이 스타일입니다.",
+      strengths: ["파워", "공격성", "결정력"],
+      improvements: ["안정성", "수비력", "인내심"]
+    },
+    "전술 분석형": { 
+      key: "analyst", 
+      name: "분석형", 
+      theme: "#0d47a1", 
+      slogan: "읽고, 유도하고, 마무리",
+      description: "상대방의 패턴을 분석하고 전술적으로 경기를 운영하는 플레이 스타일입니다.",
+      strengths: ["전술", "분석력", "적응력"],
+      improvements: ["파워", "기본기", "멘탈"]
+    },
+    "올라운더": { 
+      key: "allround", 
+      name: "올라운더", 
+      theme: "#6d4c41", 
+      slogan: "어디서든 해답을 찾는다",
+      description: "모든 기술을 균형있게 갖춘 완전한 플레이 스타일입니다.",
+      strengths: ["균형", "적응력", "기본기"],
+      improvements: ["특화 기술", "파워", "전술"]
+    }
   };
 
   return personas[q13] || personas["올라운더"];
