@@ -6,7 +6,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from 'lucide-react'
-import { DayPicker, getDefaultClassNames } from 'react-day-picker'
+import { DayPicker } from 'react-day-picker'
 
 import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -23,7 +23,14 @@ function Calendar({
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
 }) {
-  const defaultClassNames = getDefaultClassNames()
+  const defaultClassNames = {
+    day: 'rdp-day',
+    day_selected: 'rdp-day_selected',
+    day_today: 'rdp-day_today',
+    day_outside: 'rdp-day_outside',
+    day_disabled: 'rdp-day_disabled',
+    day_hidden: 'rdp-day_hidden',
+  }
 
   return (
     <DayPicker
@@ -187,7 +194,14 @@ function CalendarDayButton({
     focused?: boolean
   }
 }) {
-  const defaultClassNames = getDefaultClassNames()
+  const defaultClassNames = {
+    day: 'rdp-day',
+    day_selected: 'rdp-day_selected',
+    day_today: 'rdp-day_today',
+    day_outside: 'rdp-day_outside',
+    day_disabled: 'rdp-day_disabled',
+    day_hidden: 'rdp-day_hidden',
+  }
 
   const ref = React.useRef<HTMLButtonElement>(null)
   React.useEffect(() => {
