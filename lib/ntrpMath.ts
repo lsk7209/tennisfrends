@@ -15,17 +15,43 @@ export function mapScoreToLevelBand(score: number) {
 }
 
 export function mapLevelToBaseProfile(level: string) {
-  const levelNum = parseFloat(level);
-  
-  // 레벨에 따른 기본 프로필 값 (0-100 스케일)
-  const baseProfiles: { [key: string]: { [key: string]: number } } = {
-    "1.5": { 파워: 20, 컨트롤: 30, 스핀: 25, 안정성: 35, 풋워크: 25, 멘탈: 30 },
-    "2.5": { 파워: 30, 컨트롤: 45, 스핀: 35, 안정성: 50, 풋워크: 40, 멘탈: 40 },
-    "3.0": { 파워: 45, 컨트롤: 60, 스핀: 50, 안정성: 65, 풋워크: 55, 멘탈: 50 },
-    "3.5": { 파워: 60, 컨트롤: 75, 스핀: 65, 안정성: 80, 풋워크: 70, 멘탈: 65 },
-    "4.0": { 파워: 75, 컨트롤: 85, 스핀: 80, 안정성: 90, 풋워크: 80, 멘탈: 75 },
-    "4.5": { 파워: 85, 컨트롤: 90, 스핀: 85, 안정성: 95, 풋워크: 85, 멘탈: 85 },
-    "5.0+": { 파워: 95, 컨트롤: 95, 스핀: 90, 안정성: 98, 풋워크: 90, 멘탈: 95 }
+  // 레벨에 따른 기본 프로필 값 (0-10 스케일)
+  const baseProfiles: { [key: string]: any } = {
+    "1.5": { 
+      serve: 2, forehand: 2, backhand: 1, volley: 1, overhead: 1, 
+      movement: 2, mental: 2, tactics: 1,
+      recommendedTension: "45-50 lbs"
+    },
+    "2.5": { 
+      serve: 3, forehand: 3, backhand: 2, volley: 2, overhead: 2, 
+      movement: 3, mental: 3, tactics: 2,
+      recommendedTension: "50-55 lbs"
+    },
+    "3.0": { 
+      serve: 4, forehand: 4, backhand: 3, volley: 3, overhead: 3, 
+      movement: 4, mental: 4, tactics: 3,
+      recommendedTension: "52-57 lbs"
+    },
+    "3.5": { 
+      serve: 5, forehand: 5, backhand: 4, volley: 4, overhead: 4, 
+      movement: 5, mental: 5, tactics: 4,
+      recommendedTension: "54-59 lbs"
+    },
+    "4.0": { 
+      serve: 6, forehand: 6, backhand: 5, volley: 5, overhead: 5, 
+      movement: 6, mental: 6, tactics: 5,
+      recommendedTension: "56-61 lbs"
+    },
+    "4.5": { 
+      serve: 7, forehand: 7, backhand: 6, volley: 6, overhead: 6, 
+      movement: 7, mental: 7, tactics: 6,
+      recommendedTension: "58-63 lbs"
+    },
+    "5.0+": { 
+      serve: 8, forehand: 8, backhand: 7, volley: 7, overhead: 7, 
+      movement: 8, mental: 8, tactics: 7,
+      recommendedTension: "60-65 lbs"
+    }
   };
 
   return baseProfiles[level] || baseProfiles["3.0"];

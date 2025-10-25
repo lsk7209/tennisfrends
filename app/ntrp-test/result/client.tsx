@@ -27,13 +27,13 @@ export default function NTRPResultClient() {
   const q13 = searchParams.get("q13") ? decodeURIComponent(searchParams.get("q13")!) : "올라운더";
 
   const result = useMemo(() => {
-    const level = getNTRPLevel(score);
+    const levelData = getNTRPLevel(score);
     const band = mapScoreToLevelBand(score);
-    const baseProfile = mapLevelToBaseProfile(level);
-    const persona = getPersonaFromQ13(q13, baseProfile);
+    const baseProfile = mapLevelToBaseProfile(levelData.level);
+    const persona = getPersonaFromQ13(q13);
     
     return {
-      level,
+      level: levelData.level,
       band,
       baseProfile,
       persona,
