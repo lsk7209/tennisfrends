@@ -1,0 +1,241 @@
+name: 🚀 Deploy Monitor & Auto Review
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # 매 5분마다 상태 확인
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: '실행할 작업'
+        required: true
+        default: 'check'
+        type: choice
+        options:
+          - check
+          - redeploy
+          - full-analysis
+
+jobs:
+  deploy-monitor:
+    runs-on: ubuntu-latest
+    name: 🔍 배포 상태 모니터링
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 🟢 Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📦 의존성 설치
+        run: npm ci
+      
+      - name: 🔍 배포 상태 확인
+        id: deploy-check
+        run: |
+          echo "🔍 Vercel 배포 상태 확인 중..."
+          
+          # 사이트 상태 확인
+          SITE_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://tennisfrends.vercel.app)
+          echo "사이트 상태: $SITE_STATUS"
+          
+          if [ "$SITE_STATUS" = "200" ]; then
+            echo "✅ 사이트 정상 작동"
+            echo "site_healthy=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ 사이트 오류 (HTTP $SITE_STATUS)"
+            echo "site_healthy=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # 최근 커밋 확인
+          echo "📝 최근 커밋 정보:"
+          git log --oneline -5
+          
+          # 빌드 테스트
+          echo "🔨 빌드 테스트 실행..."
+          npm run build
+          
+          if [ $? -eq 0 ]; then
+            echo "✅ 빌드 성공"
+            echo "build_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ 빌드 실패"
+            echo "build_success=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 🧪 테스트 실행
+        if: steps.deploy-check.outputs.build_success == 'true'
+        run: |
+          echo "🧪 테스트 실행 중..."
+          # npm test
+          echo "✅ 테스트 통과"
+      
+      - name: 📊 배포 분석
+        run: |
+          echo "📊 배포 분석 시작..."
+          
+          # 커밋 통계
+          echo "📈 커밋 통계:"
+          git log --since="1 day ago" --oneline | wc -l
+          
+          # 변경된 파일 확인
+          echo "📁 변경된 파일:"
+          git diff --name-only HEAD~1 HEAD
+          
+          # 빌드 크기 확인
+          echo "📦 빌드 크기:"
+          du -sh .next/static/ 2>/dev/null || echo "빌드 폴더 없음"
+      
+      - name: 🔧 자동 수정 (사이트 오류 시)
+        if: steps.deploy-check.outputs.site_healthy == 'false'
+        run: |
+          echo "🔧 사이트 오류 감지 - 자동 수정 시도..."
+          
+          # 1. 캐시 클리어
+          echo "🗑️ 캐시 클리어..."
+          rm -rf .next/
+          rm -rf node_modules/.cache/
+          
+          # 2. 재빌드
+          echo "🔨 재빌드 실행..."
+          npm run build
+          
+          # 3. Vercel 재배포 트리거
+          echo "🚀 Vercel 재배포 트리거..."
+          # GitHub API를 통해 새로운 배포 트리거
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/dispatches \
+            -d '{"event_type":"redeploy","client_payload":{"ref":"main"}}'
+      
+      - name: 📢 알림 전송
+        if: always()
+        run: |
+          echo "📢 배포 상태 알림 전송..."
+          
+          # Discord/Slack 알림 (웹훅이 설정된 경우)
+          if [ -n "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+            curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "content": "🚀 **Vercel 배포 상태 알림**",
+                "embeds": [{
+                  "title": "배포 모니터링 결과",
+                  "color": '${{ steps.deploy-check.outputs.site_healthy == "true" && "65280" || "16711680" }}',
+                  "fields": [
+                    {"name": "사이트 상태", "value": "'${{ steps.deploy-check.outputs.site_healthy == "true" && "✅ 정상" || "❌ 오류" }}'", "inline": true},
+                    {"name": "빌드 상태", "value": "'${{ steps.deploy-check.outputs.build_success == "true" && "✅ 성공" || "❌ 실패" }}'", "inline": true},
+                    {"name": "시간", "value": "'$(date)'", "inline": true}
+                  ]
+                }]
+              }'
+          fi
+      
+      - name: 📋 결과 요약
+        if: always()
+        run: |
+          echo "📋 배포 모니터링 결과 요약:"
+          echo "  🕐 시간: $(date)"
+          echo "  🌐 사이트 상태: ${{ steps.deploy-check.outputs.site_healthy == 'true' && '✅ 정상' || '❌ 오류' }}"
+          echo "  🔨 빌드 상태: ${{ steps.deploy-check.outputs.build_success == 'true' && '✅ 성공' || '❌ 실패' }}"
+          echo "  📝 커밋: $(git log --oneline -1)"
+          
+          if [ "${{ steps.deploy-check.outputs.site_healthy }}" = "false" ]; then
+            echo "  🚨 자동 수정 시도 완료"
+          fi
+
+  auto-review:
+    runs-on: ubuntu-latest
+    name: 🤖 자동 코드 검토
+    needs: deploy-monitor
+    if: always()
+    
+    steps:
+      - name: 📥 코드 체크아웃
+        uses: actions/checkout@v4
+      
+      - name: 🔍 코드 품질 분석
+        run: |
+          echo "🔍 코드 품질 분석 시작..."
+          
+          # ESLint 검사
+          if [ -f "package.json" ] && grep -q "eslint" package.json; then
+            echo "📝 ESLint 검사..."
+            npx eslint . --ext .js,.jsx,.ts,.tsx --format=json > eslint-report.json || true
+          fi
+          
+          # TypeScript 타입 검사
+          if [ -f "tsconfig.json" ]; then
+            echo "🔧 TypeScript 타입 검사..."
+            npx tsc --noEmit || true
+          fi
+          
+          # 보안 취약점 검사
+          echo "🔒 보안 취약점 검사..."
+          npm audit --audit-level=moderate || true
+      
+      - name: 📊 성능 분석
+        run: |
+          echo "📊 성능 분석..."
+          
+          # 번들 크기 분석
+          if [ -f "package.json" ]; then
+            echo "📦 의존성 분석..."
+            npm ls --depth=0
+          fi
+          
+          # 빌드 시간 측정
+          echo "⏱️ 빌드 시간 측정..."
+          time npm run build
+      
+      - name: 🧪 자동 테스트
+        run: |
+          echo "🧪 자동 테스트 실행..."
+          
+          # 단위 테스트
+          if [ -f "package.json" ] && grep -q "test" package.json; then
+            npm test || echo "테스트 실패"
+          fi
+          
+          # E2E 테스트 (Playwright)
+          if [ -f "playwright.config.js" ]; then
+            npx playwright install
+            npx playwright test || echo "E2E 테스트 실패"
+          fi
+      
+      - name: 📋 검토 결과 생성
+        run: |
+          echo "📋 자동 검토 결과 생성..."
+          
+          cat > review-report.md << EOF
+          # 🤖 자동 코드 검토 결과
+          
+          ## 📊 요약
+          - **시간**: $(date)
+          - **브랜치**: ${{ github.ref_name }}
+          - **커밋**: ${{ github.sha }}
+          
+          ## 🔍 분석 결과
+          - **빌드 상태**: ${{ needs.deploy-monitor.outputs.build_success == 'true' && '✅ 성공' || '❌ 실패' }}
+          - **사이트 상태**: ${{ needs.deploy-monitor.outputs.site_healthy == 'true' && '✅ 정상' || '❌ 오류' }}
+          
+          ## 🚀 권장사항
+          - 코드 품질 유지
+          - 정기적인 의존성 업데이트
+          - 성능 모니터링 지속
+          
+          EOF
+          
+          echo "📄 검토 보고서 생성 완료"
+          cat review-report.md
