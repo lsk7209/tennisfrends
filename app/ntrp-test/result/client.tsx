@@ -363,12 +363,12 @@ export default function NTRPResultClient() {
                     </CardHeader>
                     <CardContent>
                       <div className="grid md:grid-cols-2 gap-6">
-                        {weeklyPlan.map((day, index) => (
+                        {(weeklyPlan[result.level as keyof typeof weeklyPlan] || weeklyPlan["3.0"]).map((week, index) => (
                           <div key={index} className="space-y-2">
-                            <h4 className="font-semibold text-gray-900">{day.day}</h4>
-                            <p className="text-sm text-gray-600">{day.focus}</p>
+                            <h4 className="font-semibold text-gray-900">Week {week.week}</h4>
+                            <p className="text-sm text-gray-600">{week.focus}</p>
                             <ul className="text-sm text-gray-600 space-y-1">
-                              {day.drills.map((drill, drillIndex) => (
+                              {week.micro.map((drill, drillIndex) => (
                                 <li key={drillIndex}>• {drill}</li>
                               ))}
                             </ul>
