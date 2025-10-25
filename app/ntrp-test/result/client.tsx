@@ -326,26 +326,29 @@ export default function NTRPResultClient() {
                   <div className="grid md:grid-cols-2 gap-4">
                     {Object.entries(baseProfile).filter(([key]) => 
                       ['serve', 'forehand', 'backhand', 'volley', 'overhead', 'movement', 'mental', 'tactics'].includes(key)
-                    ).map(([skill, value]) => (
-                      <Card key={skill}>
-                        <CardContent className="p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-semibold text-gray-900 capitalize">
-                              {skill === 'serve' ? '서브' :
-                               skill === 'forehand' ? '포핸드' :
-                               skill === 'backhand' ? '백핸드' :
-                               skill === 'volley' ? '발리' :
-                               skill === 'overhead' ? '오버헤드' :
-                               skill === 'movement' ? '이동' :
-                               skill === 'mental' ? '멘탈' :
-                               skill === 'tactics' ? '전술' : skill}
-                            </h4>
-                            <Badge variant="secondary">{value}/10</Badge>
-                          </div>
-                          <Progress value={value * 10} className="h-2" />
-                        </CardContent>
-                      </Card>
-                    ))}
+                    ).map(([skill, value]) => {
+                      const numValue = Number(value) || 0;
+                      return (
+                        <Card key={skill}>
+                          <CardContent className="p-4">
+                            <div className="flex items-center justify-between mb-2">
+                              <h4 className="font-semibold text-gray-900 capitalize">
+                                {skill === 'serve' ? '서브' :
+                                 skill === 'forehand' ? '포핸드' :
+                                 skill === 'backhand' ? '백핸드' :
+                                 skill === 'volley' ? '발리' :
+                                 skill === 'overhead' ? '오버헤드' :
+                                 skill === 'movement' ? '이동' :
+                                 skill === 'mental' ? '멘탈' :
+                                 skill === 'tactics' ? '전술' : skill}
+                              </h4>
+                              <Badge variant="secondary">{numValue}/10</Badge>
+                            </div>
+                            <Progress value={numValue * 10} className="h-2" />
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
                 </TabsContent>
 
