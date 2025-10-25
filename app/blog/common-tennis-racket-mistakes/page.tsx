@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export default function CommonTennisRacketMistakesPage() {
-  const content = (
+  return (
     <div className="space-y-8">
       {/* JSON-LD 구조화 데이터 */}
       <script
@@ -544,7 +544,369 @@ export default function CommonTennisRacketMistakesPage() {
         title: "테니스 라켓 선택 시 흔한 실수 7가지",
         description: "라켓 무게, 헤드 크기, 밸런스 등 라켓 선택 시 자주 하는 실수들과 올바른 선택 방법. 초보자부터 중급자까지 실전 가이드."
       }}
-      content={content}
+      content={
+        <div className="space-y-8">
+          {/* JSON-LD 구조화 데이터 */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": "테니스 라켓 선택 시 흔한 실수 7가지",
+                "description": "라켓 무게, 헤드 크기, 밸런스 등 라켓 선택 시 자주 하는 실수들과 올바른 선택 방법. 초보자부터 중급자까지 실전 가이드.",
+                "author": {
+                  "@type": "Organization",
+                  "name": "TennisFriends"
+                },
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "TennisFriends",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://tennisfriends.kr/logo.png"
+                  }
+                },
+                "datePublished": "2025-01-13T00:00:00.000Z",
+                "dateModified": "2025-01-13T00:00:00.000Z",
+                "mainEntityOfPage": {
+                  "@type": "WebPage",
+                  "@id": "https://tennisfriends.kr/blog/common-tennis-racket-mistakes"
+                },
+                "image": "https://tennisfriends.kr/blog/common-tennis-racket-mistakes.jpg",
+                "articleSection": "equipment",
+                "keywords": ["테니스라켓", "라켓선택", "테니스장비", "라켓실수", "테니스팁"]
+              })
+            }}
+          />
+
+          {/* 목차 */}
+          <div className="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg">
+            <h3 className="text-lg font-semibold text-blue-900 mb-4">📋 목차</h3>
+            <nav className="space-y-2">
+              <a href="#mistake1" className="block text-blue-700 hover:text-blue-900 transition-colors">1. 무게만 보고 선택하기</a>
+              <a href="#mistake2" className="block text-blue-700 hover:text-blue-900 transition-colors">2. 헤드 크기 무시하기</a>
+              <a href="#mistake3" className="block text-blue-700 hover:text-blue-900 transition-colors">3. 밸런스 고려하지 않기</a>
+              <a href="#mistake4" className="block text-blue-700 hover:text-blue-900 transition-colors">4. 스트링 패턴 무시하기</a>
+              <a href="#mistake5" className="block text-blue-700 hover:text-blue-900 transition-colors">5. 브랜드만 보고 선택하기</a>
+              <a href="#mistake6" className="block text-blue-700 hover:text-blue-900 transition-colors">6. 가격만 고려하기</a>
+              <a href="#mistake7" className="block text-blue-700 hover:text-blue-900 transition-colors">7. 테스트 없이 구매하기</a>
+            </nav>
+          </div>
+
+          {/* 실수 1 */}
+          <section id="mistake1" className="space-y-6">
+            <div className="bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-red-800 mb-4">1. 무게만 보고 선택하기</h2>
+              <p className="text-red-700 mb-4">라켓 무게는 중요한 요소이지만, 이것만으로는 완벽한 선택이 아닙니다.</p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">❌ 잘못된 선택</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 무거운 라켓 = 파워만 생각</li>
+                    <li>• 가벼운 라켓 = 컨트롤만 생각</li>
+                    <li>• 체력만 고려한 선택</li>
+                    <li>• 다른 요소 무시</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">✅ 교정 방법</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 밸런스와 헤드 크기 함께 고려</li>
+                    <li>• 플레이 스타일과 매칭</li>
+                    <li>• 실제 스윙 테스트</li>
+                    <li>• 종합적 판단</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 실수 2 */}
+          <section id="mistake2" className="space-y-6">
+            <div className="bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-orange-800 mb-4">2. 헤드 크기 무시하기</h2>
+              <p className="text-orange-700 mb-4">헤드 크기는 스윙의 용이성과 파워에 직접적인 영향을 미칩니다.</p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">❌ 잘못된 선택</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 너무 작은 헤드 (90인치 이하)</li>
+                    <li>• 너무 큰 헤드 (110인치 이상)</li>
+                    <li>• 실력과 맞지 않는 크기</li>
+                    <li>• 스윙 스타일 무시</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">✅ 교정 방법</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 초보자: 100-105인치</li>
+                    <li>• 중급자: 95-100인치</li>
+                    <li>• 고급자: 90-95인치</li>
+                    <li>• 개인 스타일 고려</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 실수 3 */}
+          <section id="mistake3" className="space-y-6">
+            <div className="bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-yellow-800 mb-4">3. 밸런스 고려하지 않기</h2>
+              <p className="text-yellow-700 mb-4">라켓의 밸런스는 스윙의 느낌과 파워 전달에 큰 영향을 줍니다.</p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">❌ 잘못된 선택</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 헤드 헤비만 선호</li>
+                    <li>• 밸런스 무시</li>
+                    <li>• 스윙 스타일과 불일치</li>
+                    <li>• 피로도 고려 안함</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">✅ 교정 방법</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 헤드 라이트: 빠른 스윙</li>
+                    <li>• 이븐 밸런스: 균형잡힌 플레이</li>
+                    <li>• 헤드 헤비: 파워 중심</li>
+                    <li>• 개인 선호도 고려</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 실수 4 */}
+          <section id="mistake4" className="space-y-6">
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-green-800 mb-4">4. 스트링 패턴 무시하기</h2>
+              <p className="text-green-700 mb-4">스트링 패턴은 스핀, 파워, 컨트롤에 영향을 미치는 중요한 요소입니다.</p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">❌ 잘못된 선택</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 패턴 무시하고 선택</li>
+                    <li>• 플레이 스타일과 불일치</li>
+                    <li>• 스트링 밀도 고려 안함</li>
+                    <li>• 개인 선호도 무시</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">✅ 교정 방법</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 오픈 패턴: 스핀과 파워</li>
+                    <li>• 클로즈 패턴: 컨트롤</li>
+                    <li>• 16x19: 균형잡힌 선택</li>
+                    <li>• 개인 스타일 매칭</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 실수 5 */}
+          <section id="mistake5" className="space-y-6">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-blue-800 mb-4">5. 브랜드만 보고 선택하기</h2>
+              <p className="text-blue-700 mb-4">브랜드는 참고 요소일 뿐, 개인에게 맞는 라켓이 가장 중요합니다.</p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">❌ 잘못된 선택</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 유명 브랜드만 선호</li>
+                    <li>• 개인 스타일 무시</li>
+                    <li>• 가격 대비 성능 무시</li>
+                    <li>• 실제 테스트 없이 구매</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">✅ 교정 방법</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 개인 스타일 우선</li>
+                    <li>• 실제 스윙 테스트</li>
+                    <li>• 성능 대비 가격 고려</li>
+                    <li>• 다양한 브랜드 비교</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 실수 6 */}
+          <section id="mistake6" className="space-y-6">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-purple-800 mb-4">6. 가격만 고려하기</h2>
+              <p className="text-purple-700 mb-4">가격은 중요한 요소이지만, 가성비와 개인 적합성을 함께 고려해야 합니다.</p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">❌ 잘못된 선택</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 가장 저렴한 것만 선택</li>
+                    <li>• 가장 비싼 것만 선택</li>
+                    <li>• 가성비 무시</li>
+                    <li>• 개인 적합성 무시</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">✅ 교정 방법</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 예산 내 최적 선택</li>
+                    <li>• 가성비 고려</li>
+                    <li>• 개인 적합성 우선</li>
+                    <li>• 장기적 관점에서 선택</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 실수 7 */}
+          <section id="mistake7" className="space-y-6">
+            <div className="bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-indigo-800 mb-4">7. 테스트 없이 구매하기</h2>
+              <p className="text-indigo-700 mb-4">라켓은 개인마다 다르게 느껴지므로, 반드시 직접 테스트해봐야 합니다.</p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">❌ 잘못된 선택</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 온라인으로만 구매</li>
+                    <li>• 추천만으로 선택</li>
+                    <li>• 실제 스윙 테스트 없음</li>
+                    <li>• 개인 체감 무시</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">✅ 교정 방법</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 직접 스윙 테스트</li>
+                    <li>• 여러 라켓 비교</li>
+                    <li>• 개인 체감 우선</li>
+                    <li>• 전문가 상담</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 올바른 선택 가이드 */}
+          <section className="space-y-6">
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6">
+              <h2 className="text-2xl font-bold text-green-800 mb-4">올바른 라켓 선택 가이드</h2>
+              
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">🎯 초보자</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 헤드 크기: 100-105인치</li>
+                    <li>• 무게: 280-300g</li>
+                    <li>• 밸런스: 헤드 라이트</li>
+                    <li>• 패턴: 16x19</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">🎾 중급자</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 헤드 크기: 95-100인치</li>
+                    <li>• 무게: 300-320g</li>
+                    <li>• 밸런스: 이븐 밸런스</li>
+                    <li>• 패턴: 16x19 또는 18x20</li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">🏆 고급자</h3>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li>• 헤드 크기: 90-95인치</li>
+                    <li>• 무게: 320g 이상</li>
+                    <li>• 밸런스: 헤드 헤비</li>
+                    <li>• 패턴: 18x20</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold text-gray-900">자주 묻는 질문</h2>
+            
+            <div className="space-y-4">
+              <details className="bg-gray-50 rounded-lg p-4">
+                <summary className="font-semibold text-gray-900 cursor-pointer">어떤 라켓이 초보자에게 적합한가요?</summary>
+                <div className="mt-3 text-gray-700">
+                  <p>초보자에게는 헤드 크기 100-105인치, 무게 280-300g, 헤드 라이트 밸런스의 라켓을 추천합니다. 이는 용이한 스윙과 충분한 파워를 제공합니다.</p>
+                </div>
+              </details>
+              
+              <details className="bg-gray-50 rounded-lg p-4">
+                <summary className="font-semibold text-gray-900 cursor-pointer">라켓을 바꿔야 할 때는 언제인가요?</summary>
+                <div className="mt-3 text-gray-700">
+                  <p>실력이 향상되어 현재 라켓이 너무 가볍거나 파워가 부족하다고 느낄 때, 또는 라켓이 손상되었을 때 교체를 고려해보세요.</p>
+                </div>
+              </details>
+              
+              <details className="bg-gray-50 rounded-lg p-4">
+                <summary className="font-semibold text-gray-900 cursor-pointer">라켓 테스트는 어떻게 해야 하나요?</summary>
+                <div className="mt-3 text-gray-700">
+                  <p>테니스 샵에서 여러 라켓을 빌려서 실제 코트에서 스윙해보세요. 포핸드, 백핸드, 서브, 발리를 모두 테스트해보는 것이 좋습니다.</p>
+                </div>
+              </details>
+            </div>
+          </section>
+
+          {/* 관련 콘텐츠 */}
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold text-gray-900">🔗 함께 보면 좋은 콘텐츠</h2>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-green-800 mb-3">📊 관련 유틸리티</h3>
+                <div className="space-y-3">
+                  <a href="/utility/racket-matchmaker" className="block p-3 bg-white rounded-lg hover:shadow-md transition-shadow">
+                    <div className="font-medium text-gray-900">라켓 매칭 도우미</div>
+                    <div className="text-sm text-gray-600">나에게 맞는 최적의 라켓을 찾아보세요</div>
+                  </a>
+                  <a href="/utility/string-tension" className="block p-3 bg-white rounded-lg hover:shadow-md transition-shadow">
+                    <div className="font-medium text-gray-900">스트링 텐션 계산기</div>
+                    <div className="text-sm text-gray-600">최적의 스트링 텐션을 계산해보세요</div>
+                  </a>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-blue-800 mb-3">📝 관련 블로그 포스트</h3>
+                <div className="space-y-3">
+                  <a href="/blog/tennis-beginner-three-steps" className="block p-3 bg-white rounded-lg hover:shadow-md transition-shadow">
+                    <div className="font-medium text-gray-900">테니스 초보자 3단계 성장 로드맵</div>
+                    <div className="text-sm text-gray-600">체계적인 테니스 실력 향상 방법</div>
+                  </a>
+                  <a href="/blog/tennis-grip-guide" className="block p-3 bg-white rounded-lg hover:shadow-md transition-shadow">
+                    <div className="font-medium text-gray-900">테니스 그립 완벽 가이드</div>
+                    <div className="text-sm text-gray-600">올바른 그립 잡는 방법과 연습법</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      }
       relatedPosts={[
         {
           title: "내 손에 맞는 라켓 그립 찾는 법",

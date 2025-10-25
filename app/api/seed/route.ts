@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import atpData from "@/data/seed/atp_top50.json";
 import wtaData from "@/data/seed/wta_top50.json";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

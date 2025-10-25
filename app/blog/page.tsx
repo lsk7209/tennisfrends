@@ -1,11 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { supabase } from "@/lib/supabaseClient";
 
 interface BlogPost {
   id: string;
@@ -19,40 +15,29 @@ interface BlogPost {
   updated_at: string;
 }
 
-export default function BlogPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+async function getBlogPosts(): Promise<BlogPost[]> {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('published', true)
+      .order('created_at', { ascending: false })
+      .limit(20);
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/blog?limit=20');
-      const result = await response.json();
-      
-      if (result.error) {
-        console.error("블로그 API 에러:", result.error);
-        setError(result.error);
-        // 에러 발생 시에도 빈 배열로 설정하여 크래시 방지
-        setPosts([]);
-      } else {
-        // 클라이언트 측에서도 날짜 기준 정렬 보장
-        const sortedPosts = (result.data || []).sort((a: BlogPost, b: BlogPost) => {
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        });
-        setPosts(sortedPosts);
-      }
-    } catch (err) {
-      setError('블로그 포스트를 불러오는데 실패했습니다.');
-      console.error('Error fetching posts:', err);
-    } finally {
-      setLoading(false);
+    if (error) {
+      console.error('블로그 포스트 조회 오류:', error);
+      return [];
     }
-  };
+
+    return data || [];
+  } catch (error) {
+    console.error('블로그 포스트 조회 실패:', error);
+    return [];
+  }
+}
+
+export default async function BlogPage() {
+  const posts = await getBlogPosts();
   return (
     <div className="min-h-screen bg-[#F7F5F3]">
       {/* Page Header */}
@@ -71,33 +56,7 @@ export default function BlogPage() {
 
       {/* Blog Posts */}
       <div className="max-w-4xl mx-auto px-4 py-12">
-        {loading ? (
-          <div className="grid gap-8">
-            {[...Array(3)].map((_, i) => (
-              <Card key={i} className="p-6">
-                <div className="flex items-start gap-4">
-                  <Skeleton className="w-16 h-16 rounded-lg" />
-                  <div className="flex-1 space-y-3">
-                    <div className="flex gap-2">
-                      <Skeleton className="h-6 w-20" />
-                      <Skeleton className="h-6 w-16" />
-                    </div>
-                    <Skeleton className="h-6 w-3/4" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        ) : error ? (
-          <div className="text-center py-12">
-            <p className="text-red-600 mb-4">{error}</p>
-            <Button onClick={fetchPosts} variant="outline">
-              다시 시도
-            </Button>
-          </div>
-        ) : posts.length === 0 ? (
+        {posts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-600 mb-4">아직 게시된 블로그 포스트가 없습니다.</p>
           </div>
