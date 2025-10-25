@@ -420,27 +420,17 @@ export default function NTRPResultClient() {
                     <CardContent>
                       <div className="grid md:grid-cols-2 gap-6">
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3">라켓</h4>
-                          <div className="space-y-2">
-                            {equipment.racket.map((item, index) => (
-                              <div key={index} className="p-3 bg-gray-50 rounded-lg">
-                                <div className="font-medium text-gray-900">{item.name}</div>
-                                <div className="text-sm text-gray-600">{item.description}</div>
-                                <div className="text-xs text-gray-500 mt-1">{item.specs}</div>
-                              </div>
-                            ))}
+                          <h4 className="font-semibold text-gray-900 mb-3">라켓 프레임</h4>
+                          <div className="p-3 bg-gray-50 rounded-lg">
+                            <div className="font-medium text-gray-900">{equipment[result.level as keyof typeof equipment]?.frame || equipment["3.0"].frame}</div>
+                            <div className="text-sm text-gray-600 mt-1">{equipment[result.level as keyof typeof equipment]?.note || equipment["3.0"].note}</div>
                           </div>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3">스트링</h4>
-                          <div className="space-y-2">
-                            {equipment.string.map((item, index) => (
-                              <div key={index} className="p-3 bg-gray-50 rounded-lg">
-                                <div className="font-medium text-gray-900">{item.name}</div>
-                                <div className="text-sm text-gray-600">{item.description}</div>
-                                <div className="text-xs text-gray-500 mt-1">{item.specs}</div>
-                              </div>
-                            ))}
+                          <h4 className="font-semibold text-gray-900 mb-3">스트링 & 텐션</h4>
+                          <div className="p-3 bg-gray-50 rounded-lg">
+                            <div className="font-medium text-gray-900">{equipment[result.level as keyof typeof equipment]?.string || equipment["3.0"].string}</div>
+                            <div className="text-sm text-gray-600 mt-1">텐션: {equipment[result.level as keyof typeof equipment]?.tension || equipment["3.0"].tension}</div>
                           </div>
                         </div>
                       </div>
